@@ -6,28 +6,19 @@ import { usePathname } from "next/navigation";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
-import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useCart } from "@/components/cart/cart-provider";
 import { BrandLogo } from "@/components/ui/brand-logo";
-import { ModalSheet } from "@/components/ui/modal-sheet";
-import { ResilientImage } from "@/components/ui/resilient-image";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { MAKE_TO_ORDER_LEAD_DAYS } from "@/lib/constants";
-import { formatRupiah } from "@/lib/format";
-import type { Product } from "@/types/domain";
 
 export function StorefrontHeader() {
   const pathname = usePathname();
   const { totalItems, hydrated } = useCart();
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [query, setQuery] = useState("");
-  const [products, setProducts] = useState<Product[]>([]);
-  const [loadingProducts, setLoadingProducts] = useState(false);
 
   useEffect(() => {
     function onScroll() {
@@ -39,42 +30,8 @@ export function StorefrontHeader() {
   }, []);
 
   useEffect(() => {
-    function onKeyDown(e: KeyboardEvent) {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        setSearchOpen(true);
-      }
-    }
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
-
-  useEffect(() => {
     setMobileMenuOpen(false);
   }, [pathname]);
-
-  useEffect(() => {
-    if (!searchOpen || products.length > 0) return;
-    setLoadingProducts(true);
-    fetch("/api/products")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data.products)) {
-          setProducts(data.products);
-        }
-      })
-      .catch(() => {})
-      .finally(() => setLoadingProducts(false));
-  }, [searchOpen, products.length]);
-
-  const filtered = products.filter((p) => {
-    const q = query.trim().toLowerCase();
-    if (!q) return true;
-    return (
-      p.name.toLowerCase().includes(q) ||
-      p.categoryName.toLowerCase().includes(q)
-    );
-  });
 
   const navItems = [
     { href: "/", label: "Beranda", exact: true },
@@ -154,19 +111,6 @@ export function StorefrontHeader() {
           </div>
 
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-            <button
-              type="button"
-              onClick={() => setSearchOpen(true)}
-              aria-label="Cari paket hadiah"
-              className="touch-target inline-flex h-[var(--control-h-pill)] items-center gap-2 rounded-full bg-[var(--raised)] px-2.5 text-[length:var(--text-meta)] text-ink-10 shadow-[var(--shadow-button)] transition-colors duration-[var(--dur-hover)] hover:bg-ink-2 hover:text-ink-12 md:px-3"
-            >
-              <SearchRoundedIcon className="text-ink-10" style={{ fontSize: 15 }} aria-hidden="true" />
-              <span className="hidden md:inline">Cari hadiah</span>
-              <kbd className="hidden h-[var(--key-chip)] items-center rounded-[var(--radius-xs)] bg-ink-3 px-1.5 font-mono text-[11px] text-ink-11 md:inline-flex">
-                ⌘K
-              </kbd>
-            </button>
-
             <ThemeToggle />
 
             <Link
@@ -248,65 +192,6 @@ export function StorefrontHeader() {
           </nav>
         ) : null}
       </header>
-
-      <ModalSheet
-        open={searchOpen}
-        onClose={() => setSearchOpen(false)}
-        title="Cari paket hadiah"
-        size="form"
-      >
-        <div className="flex flex-col gap-4">
-          <input
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Ketik nama paket atau acara (mis. Ulang Tahun, Wisuda)"
-            aria-label="Cari nama paket atau kategori"
-            className="h-[var(--control-h)] w-full rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10 focus:bg-ink-4 focus:outline-none"
-          />
-
-          {loadingProducts ? (
-            <p className="py-6 text-center text-[length:var(--text-body)] text-ink-11">
-              Memuat katalog…
-            </p>
-          ) : filtered.length === 0 ? (
-            <p className="py-6 text-center text-[length:var(--text-body)] text-ink-11">
-              Tidak ada produk yang cocok dengan pencarian Anda.
-            </p>
-          ) : (
-            <ul className="divide-y-[0.5px] divide-[var(--line)] rounded-[var(--radius-container)] border-[0.5px] border-[var(--line)] bg-[var(--raised)]">
-              {filtered.slice(0, 6).map((prod) => (
-                <li key={prod.id}>
-                  <Link
-                    href={`/produk/${prod.slug}`}
-                    onClick={() => setSearchOpen(false)}
-                    className="flex items-center justify-between gap-3 px-3 py-2.5 transition-colors hover:bg-ink-2"
-                  >
-                    <div className="flex min-w-0 items-center gap-3">
-                      <ResilientImage
-                        src={prod.imageUrl}
-                        alt={prod.name}
-                        className="size-10 shrink-0 rounded-[var(--radius-sm)] border-[0.5px] border-ink-6"
-                      />
-                      <div className="min-w-0">
-                        <p className="truncate text-[length:var(--text-body)] text-ink-12">
-                          {prod.name}
-                        </p>
-                        <p className="text-[length:var(--text-meta)] text-ink-11">
-                          {prod.categoryName}
-                        </p>
-                      </div>
-                    </div>
-                    <span className="tabular-nums shrink-0 text-[length:var(--text-body)] text-ink-12">
-                      {formatRupiah(prod.price)}
-                    </span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
-      </ModalSheet>
     </>
   );
 }
