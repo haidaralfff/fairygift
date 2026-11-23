@@ -23,7 +23,7 @@ export function StorefrontFooter() {
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-ink-2 px-2.5 py-1 text-[length:var(--text-meta)] text-ink-11">
                 <Clock className="size-3.5" aria-hidden="true" />
-                <span>Dirangkai Fresh H+{MAKE_TO_ORDER_LEAD_DAYS}</span>
+                <span>Dirangkai Fresh Min. {MAKE_TO_ORDER_LEAD_DAYS} Hari</span>
               </span>
             </div>
           </div>
@@ -51,7 +51,7 @@ export function StorefrontFooter() {
               </li>
               <li>
                 <Link href="/checkout" className="transition-colors hover:text-ink-12">
-                  Checkout pesanan
+                  Selesaikan pesanan
                 </Link>
               </li>
             </ul>

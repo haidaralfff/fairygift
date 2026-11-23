@@ -30,6 +30,9 @@ function OrdersContent() {
   const searchParams = useSearchParams();
   const initialQuery = searchParams.get("q") || "";
   const initialOpenId = searchParams.get("open") || "";
+  const initialOrderStatus = searchParams.get("orderStatus") || "Semua";
+  const initialPaymentStatus = searchParams.get("paymentStatus") || "Semua";
+  const initialSort = searchParams.get("sort") === "deadline" ? "deadline" : "newest";
   const handledOpenIdRef = useRef<string | null>(null);
 
   const { user, adminFetch } = useAdminAuth();
@@ -38,9 +41,9 @@ function OrdersContent() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [statusFilter, setStatusFilter] = useState<string>("Semua");
-  const [paymentFilter, setPaymentFilter] = useState<string>("Semua");
-  const [sortBy, setSortBy] = useState<"newest" | "deadline">("newest");
+  const [statusFilter, setStatusFilter] = useState<string>(initialOrderStatus);
+  const [paymentFilter, setPaymentFilter] = useState<string>(initialPaymentStatus);
+  const [sortBy, setSortBy] = useState<"newest" | "deadline">(initialSort);
   const [query, setQuery] = useState(initialQuery);
   const [page, setPage] = useState(1);
 
@@ -57,6 +60,28 @@ function OrdersContent() {
   useEffect(() => {
     setQuery(initialQuery);
   }, [initialQuery]);
+
+  useEffect(() => {
+    if (
+      initialOrderStatus === "Semua" ||
+      ORDER_STATUS_LIST.includes(initialOrderStatus as OrderStatus)
+    ) {
+      setStatusFilter(initialOrderStatus);
+    }
+  }, [initialOrderStatus]);
+
+  useEffect(() => {
+    if (
+      initialPaymentStatus === "Semua" ||
+      PAYMENT_STATUS_LIST.includes(initialPaymentStatus as PaymentStatus)
+    ) {
+      setPaymentFilter(initialPaymentStatus);
+    }
+  }, [initialPaymentStatus]);
+
+  useEffect(() => {
+    setSortBy(initialSort);
+  }, [initialSort]);
 
   useEffect(() => {
     handledOpenIdRef.current = null;
@@ -141,7 +166,10 @@ function OrdersContent() {
           : null
       );
       window.dispatchEvent(new Event("fairygift:admin-refresh-overview"));
-      showToast(`Status pesanan diperbarui ke ${draftOrderStatus}.`, "green");
+      showToast(
+        `Status pesanan diubah menjadi ${ORDER_STATUS_META[draftOrderStatus].label}.`,
+        "green"
+      );
     } catch (err) {
       showToast(
         err instanceof Error ? err.message : "Gagal memperbarui status pesanan.",
@@ -184,7 +212,10 @@ function OrdersContent() {
       setVerifyNote("");
       openOrderDetail(updatedOrder);
       window.dispatchEvent(new Event("fairygift:admin-refresh-overview"));
-      showToast(`Status pembayaran diubah menjadi ${nextStatus}.`, "green");
+      showToast(
+        `Status pembayaran diubah menjadi ${PAYMENT_STATUS_META[nextStatus].label}.`,
+        "green"
+      );
     } catch (err) {
       showToast(
         err instanceof Error ? err.message : "Gagal memverifikasi pembayaran.",
@@ -195,12 +226,37 @@ function OrdersContent() {
     }
   }
 
+  function resetFilters() {
+    setStatusFilter("Semua");
+    setPaymentFilter("Semua");
+    setSortBy("newest");
+    setQuery("");
+  }
+
+  const hasActiveFilter =
+    statusFilter !== "Semua" ||
+    paymentFilter !== "Semua" ||
+    sortBy !== "newest" ||
+    query.trim().length > 0;
+
   const totalPages = Math.max(1, Math.ceil(orders.length / PAGE_SIZE));
   const pagedOrders = orders.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const showUnpaidWarning =
     selectedOrder &&
     selectedOrder.paymentStatus === "Pending" &&
-    (draftOrderStatus === "Processing" || draftOrderStatus === "Ready");
+    (draftOrderStatus === "Processing" ||
+      draftOrderStatus === "Ready" ||
+      draftOrderStatus === "Completed");
+
+  const receiptPath = selectedOrder?.accessToken
+    ? `/pesanan/${encodeURIComponent(selectedOrder.orderNumber)}?t=${encodeURIComponent(
+        selectedOrder.accessToken
+      )}`
+    : null;
+  const receiptFullUrl =
+    receiptPath && typeof window !== "undefined"
+      ? `${window.location.origin}${receiptPath}`
+      : receiptPath;
 
   return (
     <div className="mx-auto max-w-[1200px] p-4 md:p-6">
@@ -212,7 +268,10 @@ function OrdersContent() {
             onChange={setStatusFilter}
             options={[
               { value: "Semua", label: "Semua" },
-              ...ORDER_STATUS_LIST.map((st) => ({ value: st, label: st })),
+              ...ORDER_STATUS_LIST.map((st) => ({
+                value: st,
+                label: ORDER_STATUS_META[st].label,
+              })),
             ]}
           />
 
@@ -223,10 +282,10 @@ function OrdersContent() {
               onChange={(e) => setPaymentFilter(e.target.value)}
               className="h-[var(--control-h)] rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 text-[length:var(--text-body)] text-ink-12 focus:bg-ink-4 focus:outline-none"
             >
-              <option value="Semua">Semua pembayaran</option>
+              <option value="Semua">Semua status bayar</option>
               {PAYMENT_STATUS_LIST.map((ps) => (
                 <option key={ps} value={ps}>
-                  {ps}
+                  {PAYMENT_STATUS_META[ps].label}
                 </option>
               ))}
             </select>
@@ -255,6 +314,16 @@ function OrdersContent() {
                 className="h-[var(--control-h)] w-full rounded-[var(--radius-control)] border-0 bg-ink-3 pr-3 pl-8 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10 focus:bg-ink-4 focus:outline-none"
               />
             </div>
+
+            {hasActiveFilter ? (
+              <button
+                type="button"
+                onClick={resetFilters}
+                className="inline-flex h-[var(--control-h)] items-center rounded-[var(--radius-control)] bg-[var(--raised)] px-3 text-[length:var(--text-meta)] text-ink-11 shadow-[var(--shadow-button)] hover:text-ink-12"
+              >
+                Hapus filter
+              </button>
+            ) : null}
           </div>
         </div>
       </div>
@@ -279,8 +348,19 @@ function OrdersContent() {
             Tidak ada pesanan yang cocok.
           </p>
           <p className="mt-1 text-[length:var(--text-body)] text-ink-11">
-            Pesanan pelanggan yang masuk melalui checkout akan tampil di tabel ini.
+            {hasActiveFilter
+              ? "Coba ubah kata kunci pencarian atau hapus filter yang aktif."
+              : "Pesanan pelanggan yang masuk setelah pemesanan akan tampil di tabel ini."}
           </p>
+          {hasActiveFilter ? (
+            <button
+              type="button"
+              onClick={resetFilters}
+              className="mt-4 inline-flex h-[var(--control-h)] items-center rounded-[var(--radius-control)] bg-[var(--raised)] px-4 text-[length:var(--text-body)] text-ink-12 shadow-[var(--shadow-button)]"
+            >
+              Tampilkan semua pesanan
+            </button>
+          ) : null}
         </div>
       ) : (
         <>
@@ -296,7 +376,7 @@ function OrdersContent() {
                   <th scope="col" className="px-3.5">Total</th>
                   <th scope="col" className="px-3.5">Pembayaran</th>
                   <th scope="col" className="px-3.5">Pesanan</th>
-                  <th scope="col" className="px-3.5">Aksi</th>
+                  <th scope="col" className="px-3.5 text-right">Aksi</th>
                 </tr>
               </thead>
               <tbody className="divide-y-[0.5px] divide-[var(--line)] text-[length:var(--text-body)]">
@@ -308,11 +388,11 @@ function OrdersContent() {
                     <tr
                       key={ord.id}
                       className={`h-[var(--row-h)] ${rowBg} ${
-                        ord.orderStatus === "Cancelled" ? "opacity-50" : ""
+                        ord.orderStatus === "Cancelled" ? "opacity-55" : ""
                       }`}
                     >
                       <td
-                        className={`tabular-nums sticky left-0 z-10 px-3.5 text-ink-12 ${rowBg}`}
+                        className={`tabular-nums sticky left-0 z-10 px-3.5 font-mono text-ink-12 ${rowBg}`}
                       >
                         {ord.orderNumber}
                       </td>
@@ -325,7 +405,7 @@ function OrdersContent() {
                       <td className="tabular-nums px-3.5 text-ink-11">
                         {formatDateId(ord.customer.deliveryDate)}
                       </td>
-                      <td className="tabular-nums px-3.5 text-ink-11">
+                      <td className="tabular-nums px-3.5 text-ink-12">
                         {formatRupiah(ord.totalPrice)}
                       </td>
                       <td className="px-3.5">
@@ -338,7 +418,7 @@ function OrdersContent() {
                           ping={ordMeta.ping}
                         />
                       </td>
-                      <td className="px-3.5">
+                      <td className="px-3.5 text-right">
                         <button
                           type="button"
                           onClick={() => openOrderDetail(ord)}
@@ -401,12 +481,18 @@ function OrdersContent() {
               <button
                 type="button"
                 onClick={() => {
-                  setDraftPaymentStatus("Paid");
+                  setDraftPaymentStatus(
+                    selectedOrder.paymentStatus === "Pending"
+                      ? "Paid"
+                      : selectedOrder.paymentStatus
+                  );
                   setVerifyModalOpen(true);
                 }}
                 className="inline-flex h-[var(--control-h)] items-center rounded-[var(--radius-control)] bg-[var(--primary-bg)] px-4 text-[length:var(--text-body)] text-[var(--primary-fg)] shadow-[var(--shadow-primary)]"
               >
-                Verifikasi pembayaran
+                {selectedOrder.paymentStatus === "Pending"
+                  ? "Konfirmasi pembayaran"
+                  : "Ubah status bayar"}
               </button>
             </>
           ) : null
@@ -414,27 +500,30 @@ function OrdersContent() {
       >
         {selectedOrder ? (
           <div className="space-y-5">
-            {/* Separate Status Badges */}
-            <div className="flex flex-wrap items-center gap-2">
-              <PillBadge
-                tone={
-                  PAYMENT_STATUS_META[selectedOrder.paymentStatus].tone === "neutral"
-                    ? "neutral"
-                    : PAYMENT_STATUS_META[selectedOrder.paymentStatus].tone
-                }
-              >
-                Pembayaran: {selectedOrder.paymentStatus}
-              </PillBadge>
-              <PillBadge
-                tone={
-                  ORDER_STATUS_META[selectedOrder.orderStatus].tone === "neutral"
-                    ? "neutral"
-                    : ORDER_STATUS_META[selectedOrder.orderStatus].tone
-                }
-              >
-                Pesanan: {selectedOrder.orderStatus}
-              </PillBadge>
+            {/* Separate Status Badges + Quick Receipt Share */}
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div className="flex flex-wrap items-center gap-2">
+                <PillBadge tone={PAYMENT_STATUS_META[selectedOrder.paymentStatus].tone}>
+                  Pembayaran: {PAYMENT_STATUS_META[selectedOrder.paymentStatus].label}
+                </PillBadge>
+                <PillBadge tone={ORDER_STATUS_META[selectedOrder.orderStatus].tone}>
+                  Pesanan: {ORDER_STATUS_META[selectedOrder.orderStatus].label}
+                </PillBadge>
+              </div>
+              {receiptFullUrl ? (
+                <CopyPill
+                  text={receiptFullUrl}
+                  label="Salin tautan struk"
+                  copiedLabel="Tautan disalin"
+                />
+              ) : null}
             </div>
+
+            {selectedOrder.stockRestored ? (
+              <p className="rounded-[var(--radius-control)] bg-ink-2 px-3 py-2 text-[length:var(--text-meta)] text-ink-11">
+                Stok isi kado custom untuk pesanan ini sudah dikembalikan otomatis.
+              </p>
+            ) : null}
 
             {/* Customer & Delivery */}
             <div className="hairline-frame divide-y-[0.5px] divide-[var(--line)] rounded-[var(--radius-control)] bg-ink-2 text-[length:var(--text-body)]">
@@ -455,6 +544,8 @@ function OrdersContent() {
                   <a
                     href={`https://wa.me/${normalizeWhatsAppNumber(
                       selectedOrder.customer.whatsapp
+                    )}?text=${encodeURIComponent(
+                      `Halo ${selectedOrder.customer.buyerName}, kami dari FairyGift menginformasikan pesanan ${selectedOrder.orderNumber} (${formatRupiah(selectedOrder.totalPrice)}).`
                     )}`}
                     target="_blank"
                     rel="noopener noreferrer"
@@ -472,8 +563,8 @@ function OrdersContent() {
                 </p>
                 <p className="mt-0.5 text-ink-12">
                   {selectedOrder.customer.deliveryMethod === "delivery"
-                    ? "Pengiriman"
-                    : "Ambil sendiri"}{" "}
+                    ? "Diantar ke alamat"
+                    : "Ambil di toko"}{" "}
                   · {formatDateId(selectedOrder.customer.deliveryDate)}
                 </p>
                 {selectedOrder.customer.address ? (
@@ -489,7 +580,7 @@ function OrdersContent() {
               </div>
             </div>
 
-            {/* Items & Full Customization Snapshot */}
+            {/* Items & Full Customization Details */}
             <div className="hairline-frame divide-y-[0.5px] divide-[var(--line)] rounded-[var(--radius-control)] bg-ink-2 text-[length:var(--text-body)]">
               {selectedOrder.items.map((item, idx) => (
                 <div key={idx} className="px-3.5 py-3">
@@ -504,16 +595,30 @@ function OrdersContent() {
 
                   {item.type === "custom_gift" ? (
                     <div className="mt-2 space-y-1 text-[length:var(--text-meta)] text-ink-11">
-                      <p>
-                        Kemasan: {item.customization.packagingName} (
-                        {item.customization.selectedColor.name},{" "}
-                        {item.customization.selectedDesign}) —{" "}
-                        {formatRupiah(item.customization.packagingPrice)}
+                      <p className="flex flex-wrap items-center gap-1.5">
+                        <span>Kemasan: {item.customization.packagingName}</span>
+                        <span className="inline-flex items-center gap-1 rounded-full bg-[var(--raised)] px-2 py-0.5 text-ink-12">
+                          <span
+                            className="size-2 rounded-full border border-ink-6"
+                            style={{
+                              backgroundColor: item.customization.selectedColor.hex,
+                            }}
+                            aria-hidden="true"
+                          />
+                          {item.customization.selectedColor.name},{" "}
+                          {item.customization.selectedDesign}
+                        </span>
+                        <span>— {formatRupiah(item.customization.packagingPrice)}</span>
                       </p>
                       <p>
                         Isi:{" "}
                         {item.customization.components
-                          .map((c) => `${c.name} (${formatRupiah(c.price)})`)
+                          .map(
+                            (c) =>
+                              `${c.name} (${c.quantity}x · ${formatRupiah(
+                                c.price * c.quantity
+                              )})`
+                          )
                           .join(", ")}
                       </p>
                       <p>Desain kartu: {item.customization.cardDesignName}</p>
@@ -530,7 +635,7 @@ function OrdersContent() {
                 </div>
               ))}
               <div className="flex items-center justify-between px-3.5 py-2.5">
-                <span className="text-ink-11">Total snapshot</span>
+                <span className="text-ink-11">Total tagihan</span>
                 <span className="tabular-nums text-[length:var(--text-title)] text-ink-12">
                   {formatRupiah(selectedOrder.totalPrice)}
                 </span>
@@ -554,15 +659,15 @@ function OrdersContent() {
                 >
                   {ORDER_STATUS_LIST.map((st) => (
                     <option key={st} value={st}>
-                      {st}
+                      {ORDER_STATUS_META[st].label}
                     </option>
                   ))}
                 </select>
                 <button
                   type="button"
-                  disabled={savingStatus}
+                  disabled={savingStatus || draftOrderStatus === selectedOrder.orderStatus}
                   onClick={handleSaveOrderStatus}
-                  className="inline-flex h-[var(--control-h)] items-center rounded-[var(--radius-control)] bg-[var(--raised)] px-3.5 text-[length:var(--text-body)] text-ink-12 shadow-[var(--shadow-button)] hover:bg-ink-2 disabled:opacity-50"
+                  className="inline-flex h-[var(--control-h)] items-center rounded-[var(--radius-control)] bg-[var(--raised)] px-3.5 text-[length:var(--text-body)] text-ink-12 shadow-[var(--shadow-button)] hover:bg-ink-2 disabled:opacity-45"
                 >
                   {savingStatus ? "Menyimpan…" : "Simpan status"}
                 </button>
@@ -570,7 +675,7 @@ function OrdersContent() {
 
               {showUnpaidWarning ? (
                 <p className="rounded-[var(--radius-control)] bg-[var(--amber-3)] px-3 py-2 text-[length:var(--text-meta)] text-[var(--amber-11)]">
-                  Pembayaran masih Pending. Pastikan konfirmasi pembayaran sudah diterima sebelum memproses pesanan.
+                  Pembayaran masih menunggu konfirmasi. Pastikan dana atau bukti transfer sudah diterima sebelum menyiapkan atau menyelesaikan pesanan.
                 </p>
               ) : null}
             </div>
@@ -578,7 +683,7 @@ function OrdersContent() {
             {/* Payment Verification History */}
             <div>
               <p className="text-[length:var(--text-meta)] text-ink-11">
-                Riwayat verifikasi pembayaran
+                Riwayat status pembayaran
               </p>
               {paymentLogs.length === 0 ? (
                 <p className="mt-1 text-[length:var(--text-meta)] text-ink-10">
@@ -592,8 +697,9 @@ function OrdersContent() {
                       className="rounded-[var(--radius-control)] bg-ink-2 px-3 py-2"
                     >
                       <span className="tabular-nums text-ink-12">
-                        {log.fromStatus} → {log.toStatus} · {log.verifiedBy} ·{" "}
-                        {formatDateTimeId(log.verifiedAt)}
+                        {PAYMENT_STATUS_META[log.fromStatus]?.label || log.fromStatus} →{" "}
+                        {PAYMENT_STATUS_META[log.toStatus]?.label || log.toStatus} ·{" "}
+                        {log.verifiedBy} · {formatDateTimeId(log.verifiedAt)}
                       </span>
                       {log.note ? <p className="mt-0.5">{log.note}</p> : null}
                     </li>
@@ -609,7 +715,7 @@ function OrdersContent() {
       <ModalSheet
         open={verifyModalOpen}
         onClose={() => setVerifyModalOpen(false)}
-        title="Verifikasi pembayaran manual"
+        title="Konfirmasi status pembayaran"
         size="confirm"
         footer={
           <>
@@ -633,10 +739,12 @@ function OrdersContent() {
               {verifying
                 ? "Menyimpan…"
                 : draftPaymentStatus === "Paid"
-                  ? "Verifikasi Paid"
+                  ? "Tandai sudah dibayar"
                   : draftPaymentStatus === "Rejected"
                     ? "Tolak pembayaran"
-                    : `Simpan (${draftPaymentStatus})`}
+                    : draftPaymentStatus === "Refunded"
+                      ? "Simpan pengembalian dana"
+                      : "Kembalikan ke menunggu"}
             </button>
           </>
         }
@@ -655,10 +763,10 @@ function OrdersContent() {
               onChange={(e) => setDraftPaymentStatus(e.target.value as PaymentStatus)}
               className="mt-1.5 h-[var(--control-h)] w-full rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 text-[length:var(--text-body)] text-ink-12"
             >
-              <option value="Paid">Paid (Sudah dibayar)</option>
-              <option value="Rejected">Rejected (Ditolak / tidak valid)</option>
-              <option value="Refunded">Refunded (Dana dikembalikan)</option>
-              <option value="Pending">Pending</option>
+              <option value="Paid">Lunas (Sudah dibayar)</option>
+              <option value="Rejected">Ditolak (Bukti tidak sesuai)</option>
+              <option value="Refunded">Dana Dikembalikan</option>
+              <option value="Pending">Belum Dibayar</option>
             </select>
           </div>
 
@@ -667,14 +775,14 @@ function OrdersContent() {
               htmlFor="verify-note"
               className="block text-[length:var(--text-body)] text-ink-12"
             >
-              Catatan verifikasi <span className="text-ink-10">(opsional)</span>
+              Catatan untuk internal <span className="text-ink-10">(opsional)</span>
             </label>
             <textarea
               id="verify-note"
               rows={2}
               value={verifyNote}
               onChange={(e) => setVerifyNote(e.target.value)}
-              placeholder="Contoh: Bukti transfer BCA via WA diterima"
+              placeholder="Contoh: Transfer BCA sudah masuk sesuai nominal"
               className="mt-1.5 min-h-20 w-full rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 py-2 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10"
             />
           </div>

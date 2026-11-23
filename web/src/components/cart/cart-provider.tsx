@@ -101,7 +101,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       const newItem: CartItem = {
         cartItemId: replaceCartItemId || `cg-${Date.now()}`,
         type: "custom_gift",
-        name: `Custom Gift (${selection.packagingName})`,
+        name: `Kado Custom (${selection.packagingName})`,
         unitPrice,
         quantity,
         customization: selection,

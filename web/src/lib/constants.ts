@@ -31,15 +31,26 @@ export const ORDER_STATUS_META: Record<
   OrderStatus,
   {
     label: string;
-    tone: "amber" | "blue" | "green" | "neutral";
+    tone: "plum" | "amber" | "blue" | "green" | "red" | "neutral";
     ping?: boolean;
+    barColor: string;
   }
 > = {
-  Pending: { label: "Pending", tone: "amber" },
-  Processing: { label: "Processing", tone: "blue", ping: true },
-  Ready: { label: "Ready", tone: "green", ping: true },
-  Completed: { label: "Completed", tone: "green" },
-  Cancelled: { label: "Cancelled", tone: "neutral" },
+  Pending: { label: "Menunggu", tone: "amber", barColor: "bg-[var(--amber-9)]" },
+  Processing: {
+    label: "Disiapkan",
+    tone: "blue",
+    ping: true,
+    barColor: "bg-[var(--blue-9)]",
+  },
+  Ready: {
+    label: "Siap Kirim / Diambil",
+    tone: "plum",
+    ping: true,
+    barColor: "bg-[var(--plum-9)]",
+  },
+  Completed: { label: "Selesai", tone: "green", barColor: "bg-[var(--green-9)]" },
+  Cancelled: { label: "Dibatalkan", tone: "red", barColor: "bg-[var(--red-9)]" },
 };
 
 export const PAYMENT_STATUS_META: Record<
@@ -49,10 +60,10 @@ export const PAYMENT_STATUS_META: Record<
     tone: "amber" | "green" | "red" | "neutral";
   }
 > = {
-  Pending: { label: "Pending", tone: "amber" },
-  Paid: { label: "Paid", tone: "green" },
-  Rejected: { label: "Rejected", tone: "red" },
-  Refunded: { label: "Refunded", tone: "neutral" },
+  Pending: { label: "Belum Dibayar", tone: "amber" },
+  Paid: { label: "Lunas", tone: "green" },
+  Rejected: { label: "Ditolak", tone: "red" },
+  Refunded: { label: "Dana Dikembalikan", tone: "neutral" },
 };
 
 export const MAKE_TO_ORDER_LEAD_DAYS = 2;

@@ -7,23 +7,34 @@ export const MAX_IMAGE_SIZE_BYTES = 2 * 1024 * 1024; // 2 MB
 
 export const checkoutCustomerSchema = z
   .object({
-    buyerName: z.string().trim().min(2, "Nama pelanggan wajib diisi minimal 2 karakter."),
+    buyerName: z.string().trim().min(2, "Masukkan nama pemesan minimal 2 huruf."),
     recipientName: z.string().trim().optional().default(""),
     whatsapp: z
       .string()
       .trim()
-      .regex(/^(?:\+?62|0)8\d{7,12}$/, "Nomor WhatsApp wajib diisi. Contoh: 081234567890."),
+      .regex(
+        /^(?:\+?62|0)8\d{7,12}$/,
+        "Nomor WhatsApp belum sesuai. Gunakan nomor aktif yang diawali 08 atau 62, contoh: 081234567890."
+      ),
     deliveryMethod: z.enum(["delivery", "pickup"]),
     address: z.string().trim().optional().default(""),
-    deliveryDate: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Tanggal kirim atau ambil wajib dipilih."),
-    notes: z.string().trim().max(300, "Catatan maksimal 300 karakter.").optional().default(""),
+    deliveryDate: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/, "Pilih tanggal pengiriman atau pengambilan pesanan."),
+    notes: z
+      .string()
+      .trim()
+      .max(300, "Catatan maksimal 300 karakter agar mudah terbaca oleh tim kami.")
+      .optional()
+      .default(""),
   })
   .superRefine((data, ctx) => {
     if (data.deliveryMethod === "delivery" && data.address.trim().length < 8) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["address"],
-        message: "Alamat pengiriman wajib diisi minimal 8 karakter.",
+        message:
+          "Tuliskan alamat lengkap pengiriman minimal 8 karakter (jalan, nomor rumah, dan patokan).",
       });
     }
     const minDate = getMinDeliveryDate(MAKE_TO_ORDER_LEAD_DAYS);
@@ -31,7 +42,7 @@ export const checkoutCustomerSchema = z
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["deliveryDate"],
-        message: `Tanggal kirim atau ambil minimal H+${MAKE_TO_ORDER_LEAD_DAYS} dari hari ini.`,
+        message: `Pilih tanggal minimal ${MAKE_TO_ORDER_LEAD_DAYS} hari dari hari ini agar tim kami punya waktu merangkai kado Anda.`,
       });
     }
   });
@@ -69,28 +80,30 @@ export const customGiftCheckoutItemSchema = z.object({
 });
 
 export const checkoutPayloadSchema = z.object({
-  idempotencyKey: z.string().min(8, "Token transaksi tidak valid."),
+  idempotencyKey: z
+    .string()
+    .min(8, "Sesi pemesanan kedaluwarsa. Muat ulang halaman lalu coba kembali."),
   customer: checkoutCustomerSchema,
   items: z
     .array(z.discriminatedUnion("type", [readyMadeCheckoutItemSchema, customGiftCheckoutItemSchema]))
-    .min(1, "Keranjang tidak boleh kosong."),
+    .min(1, "Keranjang Anda masih kosong."),
 });
 
 export const productInputSchema = z.object({
-  name: z.string().trim().min(2, "Nama produk wajib diisi."),
-  categoryId: z.string().min(1, "Kategori produk wajib dipilih."),
-  price: z.number().int().min(1000, "Harga minimal Rp1.000."),
-  description: z.string().trim().min(5, "Deskripsi minimal 5 karakter."),
+  name: z.string().trim().min(2, "Nama produk wajib diisi minimal 2 huruf."),
+  categoryId: z.string().min(1, "Pilih kategori produk terlebih dahulu."),
+  price: z.number().int().min(1000, "Harga produk minimal Rp1.000."),
+  description: z.string().trim().min(5, "Tuliskan deskripsi produk minimal 5 karakter."),
   contents: z.array(z.string().trim().min(1)).optional().default([]),
-  imageUrl: z.string().min(1, "Gambar produk wajib diisi."),
+  imageUrl: z.string().min(1, "Foto produk wajib diunggah atau diisi tautannya."),
   isAvailable: z.boolean().default(true),
   isFeatured: z.boolean().optional().default(false),
 });
 
 export const packagingInputSchema = z.object({
-  name: z.string().trim().min(2, "Nama kemasan wajib diisi."),
+  name: z.string().trim().min(2, "Nama kemasan wajib diisi minimal 2 huruf."),
   description: z.string().trim().optional().default(""),
-  price: z.number().int().min(0, "Harga tidak boleh negatif."),
+  price: z.number().int().min(0, "Harga tidak boleh kurang dari Rp0."),
   colors: z
     .array(
       z.object({
@@ -98,27 +111,27 @@ export const packagingInputSchema = z.object({
         hex: z.string().trim().min(4),
       })
     )
-    .min(1, "Minimal harus ada 1 warna kemasan."),
-  designs: z.array(z.string().trim().min(1)).min(1, "Minimal 1 varian desain."),
-  imageUrl: z.string().min(1, "Gambar kemasan wajib diisi."),
+    .min(1, "Tambahkan minimal 1 pilihan warna kemasan."),
+  designs: z.array(z.string().trim().min(1)).min(1, "Tambahkan minimal 1 varian desain kemasan."),
+  imageUrl: z.string().min(1, "Foto kemasan wajib diunggah atau diisi tautannya."),
   isAvailable: z.boolean().default(true),
 });
 
 export const giftComponentInputSchema = z.object({
-  name: z.string().trim().min(2, "Nama komponen wajib diisi."),
-  category: z.string().trim().min(1, "Kategori komponen wajib diisi."),
+  name: z.string().trim().min(2, "Nama isi hadiah wajib diisi minimal 2 huruf."),
+  category: z.string().trim().min(1, "Pilih kategori isi hadiah terlebih dahulu."),
   description: z.string().trim().optional().default(""),
-  price: z.number().int().min(1000, "Harga minimal Rp1.000."),
-  stock: z.number().int().min(0, "Stok minimal 0."),
-  imageUrl: z.string().min(1, "Gambar komponen wajib diisi."),
+  price: z.number().int().min(1000, "Harga isi hadiah minimal Rp1.000."),
+  stock: z.number().int().min(0, "Jumlah stok tidak boleh kurang dari 0."),
+  imageUrl: z.string().min(1, "Foto isi hadiah wajib diunggah atau diisi tautannya."),
   isAvailable: z.boolean().default(true),
 });
 
 export const cardDesignInputSchema = z.object({
-  name: z.string().trim().min(2, "Nama desain kartu wajib diisi."),
+  name: z.string().trim().min(2, "Nama desain kartu ucapan wajib diisi minimal 2 huruf."),
   description: z.string().trim().optional().default(""),
-  price: z.number().int().min(0, "Biaya tidak boleh negatif."),
-  imageUrl: z.string().min(1, "Gambar kartu wajib diisi."),
+  price: z.number().int().min(0, "Biaya tambahan tidak boleh kurang dari Rp0."),
+  imageUrl: z.string().min(1, "Foto kartu ucapan wajib diunggah atau diisi tautannya."),
   isAvailable: z.boolean().default(true),
 });
 

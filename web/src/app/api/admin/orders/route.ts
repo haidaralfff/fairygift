@@ -10,14 +10,14 @@ import type { Order } from "@/types/domain";
 export async function GET(request: Request) {
   if (!isFirebaseAdminConfigured()) {
     return NextResponse.json(
-      { error: "Firebase Admin belum dikonfigurasi." },
+      { error: "Koneksi penyimpanan data toko belum aktif." },
       { status: 503 }
     );
   }
 
   const admin = await verifyAdminRequest(request);
   if (!admin) {
-    return NextResponse.json({ error: "Akses ditolak." }, { status: 401 });
+    return NextResponse.json({ error: "Sesi admin tidak valid. Silakan masuk kembali." }, { status: 401 });
   }
 
   const { searchParams } = new URL(request.url);

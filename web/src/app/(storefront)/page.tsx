@@ -41,7 +41,7 @@ const VALUE_PILLARS = [
   },
   {
     icon: Clock,
-    title: `Dirangkai Fresh H+${MAKE_TO_ORDER_LEAD_DAYS}`,
+    title: `Dirangkai Fresh Min. ${MAKE_TO_ORDER_LEAD_DAYS} Hari`,
     description:
       "Setiap bingkisan disiapkan khusus setelah dipesan agar seluruh isinya tampil sempurna.",
   },
@@ -77,7 +77,7 @@ const HOW_IT_WORKS = [
 const FAQ_ITEMS = [
   {
     question: "Berapa lama waktu penyiapan pesanan kado?",
-    answer: `Setiap pesanan dirangkai khusus dengan estimasi minimal H+${MAKE_TO_ORDER_LEAD_DAYS} agar seluruh bunga, kudapan, dan kemasan tertata rapi sebelum dikirim atau diambil.`,
+    answer: `Setiap pesanan dirangkai khusus minimal ${MAKE_TO_ORDER_LEAD_DAYS} hari sebelum tanggal kirim agar seluruh bunga, kudapan, dan kemasan tertata rapi sebelum dikirim atau diambil.`,
   },
   {
     question: "Apakah isi hadiah dan warna kemasan bisa dipilih sendiri?",
@@ -85,14 +85,14 @@ const FAQ_ITEMS = [
       "Tentu. Melalui layanan Rangkai Kado Custom, Anda bebas menentukan jenis kemasan, warna pita/kotak, kombinasi isi hadiah, hingga desain kartu ucapannya.",
   },
   {
-    question: "Bagaimana cara melakukan pembayaran setelah checkout?",
+    question: "Bagaimana cara melakukan pembayaran setelah memesan?",
     answer:
-      "Setelah menyelesaikan checkout, nomor pesanan Anda langsung tercatat. Anda cukup menekan tombol Konfirmasi pesanan via WhatsApp untuk menerima panduan pembayaran resmi.",
+      "Setelah menyelesaikan pemesanan, nomor pesanan Anda langsung tercatat. Anda cukup menekan tombol Konfirmasi pesanan via WhatsApp untuk menerima panduan pembayaran resmi.",
   },
   {
     question: "Bisakah hadiah dikirim langsung ke alamat penerima?",
     answer:
-      "Ya, saat checkout Anda dapat menuliskan nama serta alamat penerima secara langsung, atau memilih opsi ambil sendiri.",
+      "Ya, saat mengisi data pengiriman Anda dapat menuliskan nama serta alamat penerima secara langsung, atau memilih opsi ambil di toko.",
   },
 ];
 

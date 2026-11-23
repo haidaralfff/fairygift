@@ -142,7 +142,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
             <div className="hairline-t grid grid-cols-1 gap-2 pt-3 text-[length:var(--text-meta)] text-ink-11 sm:grid-cols-2">
               <span className="inline-flex items-center gap-1.5">
                 <Clock className="size-3.5 shrink-0 text-[var(--fg-rose)]" aria-hidden="true" />
-                <span>Disiapkan khusus min. H+{MAKE_TO_ORDER_LEAD_DAYS}</span>
+                <span>Disiapkan khusus min. {MAKE_TO_ORDER_LEAD_DAYS} hari sebelumnya</span>
               </span>
               <span className="inline-flex items-center gap-1.5">
                 <MessageCircle className="size-3.5 shrink-0 text-[var(--fg-rose)]" aria-hidden="true" />

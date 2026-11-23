@@ -222,7 +222,7 @@ export function CustomGiftBuilder({
       // Ignore
     }
     setResetModalOpen(false);
-    showToast("Pilihan custom gift dikembalikan ke awal.", "neutral");
+    showToast("Pilihan kado custom dikembalikan ke awal.", "neutral");
   }
 
   function handlePrimaryAction() {
@@ -264,8 +264,8 @@ export function CustomGiftBuilder({
     }
     showToast(
       editCartItemId
-        ? "Perubahan custom gift disimpan ke keranjang."
-        : "Custom gift ditambahkan ke keranjang.",
+        ? "Perubahan kado custom disimpan ke keranjang."
+        : "Kado custom ditambahkan ke keranjang.",
       "green"
     );
     router.push("/keranjang");
@@ -368,11 +368,11 @@ export function CustomGiftBuilder({
       {/* Header + Reset */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <div className="flex items-center gap-2.5">
+          <div className="flex flex-wrap items-center gap-2.5">
             <h1 className="text-[length:var(--text-section)] leading-[var(--leading-section)] text-ink-12">
               Rangkai kado custom
             </h1>
-            <PillBadge tone="plum">Dirangkai Khusus</PillBadge>
+            <PillBadge tone="plum">Langkah {step} dari 3</PillBadge>
           </div>
           <p className="mt-1 text-[length:var(--text-body)] text-ink-11">
             Sesuaikan kemasan, isi hadiah, dan kartu ucapan dengan estimasi harga langsung.
@@ -385,12 +385,12 @@ export function CustomGiftBuilder({
           className="inline-flex h-[var(--control-h-compact)] items-center gap-1.5 rounded-[var(--radius-control)] px-2.5 text-[length:var(--text-meta)] text-ink-10 transition-colors hover:bg-ink-2 hover:text-ink-12"
         >
           <RotateCcw className="size-3.5" aria-hidden="true" />
-          <span>Reset pilihan</span>
+          <span>Ulangi dari awal</span>
         </button>
       </div>
 
       {/* Step Markers */}
-      <nav aria-label="Tahapan custom gift" className="mt-6">
+      <nav aria-label="Tahapan merangkai kado custom" className="mt-6">
         <ol className="flex items-center gap-2 sm:gap-4">
           {stepsMeta.map((s, idx) => {
             const isCurrent = step === s.num;
@@ -662,7 +662,7 @@ export function CustomGiftBuilder({
                 {filteredComponents.length === 0 ? (
                   <div className="rounded-[var(--radius-container)] bg-ink-2 p-8 text-center">
                     <p className="text-[length:var(--text-body)] text-ink-12">
-                      Komponen tidak ditemukan.
+                      Isi hadiah tidak ditemukan.
                     </p>
                     <p className="mt-1 text-[length:var(--text-meta)] text-ink-11">
                       Coba kata kunci lain atau pilih kategori Semua.
@@ -857,7 +857,7 @@ export function CustomGiftBuilder({
         <aside className="hidden lg:col-span-4 lg:block">
           <div className="surface-raised sticky top-20 rounded-[var(--radius-feature)] border-[0.5px] border-[var(--line)] bg-[var(--raised)] p-6 shadow-[var(--shadow-card)]">
             <h2 className="text-[length:var(--text-title)] leading-[var(--leading-title)] text-ink-12">
-              Ringkasan custom gift
+              Ringkasan kado custom
             </h2>
 
             <div className="mt-4">{summaryRows}</div>
@@ -937,7 +937,7 @@ export function CustomGiftBuilder({
       <ModalSheet
         open={summarySheetOpen}
         onClose={() => setSummarySheetOpen(false)}
-        title="Rincian custom gift"
+        title="Rincian kado custom"
         size="form"
         footer={
           <button
@@ -956,7 +956,7 @@ export function CustomGiftBuilder({
       <ModalSheet
         open={resetModalOpen}
         onClose={() => setResetModalOpen(false)}
-        title="Reset semua pilihan?"
+        title="Ulangi dari awal?"
         size="confirm"
         footer={
           <>
@@ -972,13 +972,13 @@ export function CustomGiftBuilder({
               onClick={handleReset}
               className="inline-flex h-[var(--control-h)] items-center rounded-[var(--radius-control)] bg-[var(--red-9)] px-4 text-[length:var(--text-body)] text-[var(--red-contrast)]"
             >
-              Ya, reset pilihan
+              Ya, ulangi
             </button>
           </>
         }
       >
         <p className="text-[length:var(--text-body)] text-ink-11">
-          Kemasan, isi hadiah, dan teks kartu ucapan yang sedang Anda susun akan dikembalikan ke awal.
+          Kemasan, isi hadiah, dan pesan kartu ucapan yang sedang Anda susun akan dikembalikan ke awal.
         </p>
       </ModalSheet>
     </div>

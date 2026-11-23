@@ -39,7 +39,7 @@ export async function GET(
   // PRD 7.2 privacy guard: require matching accessToken
   if (!token || order.accessToken !== token) {
     return NextResponse.json(
-      { error: "Tautan konfirmasi tidak valid atau token akses tidak cocok." },
+      { error: "Tautan nota pesanan tidak valid atau sudah tidak sesuai. Pastikan Anda membuka tautan lengkap dari halaman konfirmasi." },
       { status: 403 }
     );
   }

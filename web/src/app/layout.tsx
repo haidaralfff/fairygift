@@ -13,9 +13,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "FairyGift — Custom Gift E-Commerce Platform",
+  title: "FairyGift — Kado & Hampers Custom",
   description:
-    "Platform pemesanan hadiah custom dan paket hadiah siap pesan dengan integrasi konfirmasi WhatsApp.",
+    "Butik hadiah personal dan hampers siap pesan dengan pilihan kado custom serta konfirmasi mudah lewat WhatsApp.",
 };
 
 const themeInitScript = `

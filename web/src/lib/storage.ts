@@ -25,7 +25,7 @@ export async function uploadImageToCloudinary(
 ): Promise<{ url: string; publicId: string }> {
   if (!isCloudinaryConfigured()) {
     throw new Error(
-      "Cloudinary belum dikonfigurasi. Lengkapi CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, dan CLOUDINARY_API_SECRET."
+      "Fitur unggah foto belum aktif. Hubungi pengelola toko atau gunakan tautan foto langsung."
     );
   }
 
@@ -52,7 +52,7 @@ export async function uploadImageToCloudinary(
       },
       (error, result) => {
         if (error || !result) {
-          reject(error || new Error("Gagal mengunggah gambar ke Cloudinary."));
+          reject(error || new Error("Gagal mengunggah foto. Coba lagi beberapa saat."));
           return;
         }
         resolve({

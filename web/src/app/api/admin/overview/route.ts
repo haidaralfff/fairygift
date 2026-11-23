@@ -10,14 +10,14 @@ import type { Order, OrderStatus } from "@/types/domain";
 export async function GET(request: Request) {
   if (!isFirebaseAdminConfigured()) {
     return NextResponse.json(
-      { error: "Firebase Admin belum dikonfigurasi." },
+      { error: "Koneksi penyimpanan data toko belum aktif." },
       { status: 503 }
     );
   }
 
   const admin = await verifyAdminRequest(request);
   if (!admin) {
-    return NextResponse.json({ error: "Akses ditolak." }, { status: 401 });
+    return NextResponse.json({ error: "Sesi admin tidak valid. Silakan masuk kembali." }, { status: 401 });
   }
 
   const snap = await getAdminDb()
@@ -53,6 +53,15 @@ export async function GET(request: Request) {
     }
   }
 
+  const upcomingOrders = orders
+    .filter(
+      (ord) => ord.orderStatus !== "Cancelled" && ord.orderStatus !== "Completed"
+    )
+    .sort((a, b) =>
+      (a.customer?.deliveryDate || "").localeCompare(b.customer?.deliveryDate || "")
+    )
+    .slice(0, 5);
+
   return NextResponse.json({
     metrics: {
       totalOrders: orders.length,
@@ -62,5 +71,6 @@ export async function GET(request: Request) {
     },
     statusDistribution,
     recentOrders: orders.slice(0, 6),
+    upcomingOrders,
   });
 }

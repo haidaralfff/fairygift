@@ -74,7 +74,7 @@ export default function OrderConfirmationPage() {
             {error || "Pesanan tidak ditemukan."}
           </p>
           <p className="mt-1 text-[length:var(--text-body)] text-ink-11">
-            Pastikan Anda membuka tautan lengkap dari halaman checkout.
+            Pastikan Anda membuka tautan lengkap dari halaman konfirmasi pemesanan.
           </p>
           <Link
             href="/"
@@ -93,11 +93,11 @@ export default function OrderConfirmationPage() {
     PAYMENT_STATUS_META[order.paymentStatus] ?? PAYMENT_STATUS_META.Pending;
 
   const topBadge: {
-    tone: "amber" | "blue" | "green" | "red" | "neutral";
+    tone: "plum" | "amber" | "blue" | "green" | "red" | "neutral";
     text: string;
   } =
     order.orderStatus === "Cancelled"
-      ? { tone: "neutral", text: "Pesanan dibatalkan" }
+      ? { tone: "red", text: "Pesanan dibatalkan" }
       : order.paymentStatus === "Rejected"
         ? { tone: "red", text: "Pembayaran ditolak" }
         : order.paymentStatus === "Refunded"
@@ -105,27 +105,27 @@ export default function OrderConfirmationPage() {
           : order.orderStatus === "Completed"
             ? { tone: "green", text: "Pesanan selesai" }
             : order.orderStatus === "Ready"
-              ? { tone: "green", text: "Pesanan siap diambil/dikirim" }
+              ? { tone: "plum", text: "Pesanan siap diambil/dikirim" }
               : order.orderStatus === "Processing"
-                ? { tone: "blue", text: "Pesanan sedang diproses" }
+                ? { tone: "blue", text: "Pesanan sedang disiapkan" }
                 : order.paymentStatus === "Paid"
-                  ? { tone: "green", text: "Pembayaran terverifikasi" }
-                  : { tone: "green", text: "Pesanan berhasil dibuat" };
+                  ? { tone: "green", text: "Pembayaran lunas" }
+                  : { tone: "amber", text: "Menunggu konfirmasi pembayaran" };
 
   const statusGuidance =
     order.orderStatus === "Cancelled"
-      ? "Pesanan ini telah dibatalkan. Hubungi admin melalui WhatsApp jika Anda membutuhkan bantuan atau ingin membuat pesanan baru."
+      ? "Pesanan ini telah dibatalkan. Hubungi admin melalui WhatsApp jika Anda membutuhkan bantuan atau ingin memesan ulang."
       : order.paymentStatus === "Rejected"
-        ? "Verifikasi pembayaran ditolak. Silakan hubungi admin melalui WhatsApp untuk konfirmasi ulang bukti transfer Anda."
+        ? "Pembayaran belum dapat kami terima. Silakan hubungi admin melalui WhatsApp untuk mengecek ulang bukti transfer Anda."
         : order.paymentStatus === "Refunded"
-          ? "Pembayaran untuk pesanan ini telah dikembalikan (refund). Hubungi admin jika ada pertanyaan."
+          ? "Dana pembayaran untuk pesanan ini telah dikembalikan. Hubungi admin via WhatsApp jika ada pertanyaan."
           : order.orderStatus === "Completed"
-            ? "Pesanan Anda telah selesai. Terima kasih telah mempercayai FairyGift."
+            ? "Pesanan Anda sudah selesai. Terima kasih telah mempercayai FairyGift."
             : order.orderStatus === "Ready"
               ? "Pesanan Anda sudah siap! Hubungi admin melalui WhatsApp untuk koordinasi pengambilan atau pengiriman."
               : order.paymentStatus === "Paid"
-                ? "Pembayaran Anda telah terverifikasi. Tim kami sedang menyiapkan pesanan Anda."
-                : "Pesanan Anda sudah tersimpan. Klik tombol di bawah lalu tekan Kirim di WhatsApp untuk konfirmasi dan instruksi pembayaran.";
+                ? "Pembayaran Anda sudah kami terima. Tim kami sedang menyiapkan kado Anda."
+                : "Pesanan Anda sudah tercatat. Klik tombol di bawah lalu tekan Kirim di WhatsApp agar admin dapat mengirim instruksi pembayaran.";
 
   return (
     <div className="mx-auto max-w-[500px] px-4 py-8 md:px-6 md:py-12">

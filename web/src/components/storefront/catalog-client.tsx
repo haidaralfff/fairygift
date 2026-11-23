@@ -63,7 +63,7 @@ export function CatalogClient({
           className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-4 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors hover:bg-[var(--fg-rose-hover)] active:scale-[0.98]"
         >
           <Sparkles className="size-4" aria-hidden="true" />
-          <span>Rangkai custom gift</span>
+          <span>Rangkai kado custom</span>
         </Link>
       </div>
 
@@ -140,10 +140,10 @@ export function CatalogClient({
             <Gift className="size-5" strokeWidth={1.8} aria-hidden="true" />
           </span>
           <p className="mt-3 text-[length:var(--text-title)] text-ink-12">
-            Tidak ada produk yang sesuai filter.
+            Tidak ada produk yang cocok dengan pencarian Anda.
           </p>
           <p className="mt-1 max-w-[40ch] text-[length:var(--text-body)] text-ink-11">
-            Ubah kata kunci pencarian, atur ulang filter, atau rangkai hadiah custom sesuai keinginan Anda.
+            Ubah kata kunci pencarian, tampilkan semua produk, atau rangkai kado custom sesuai keinginan Anda.
           </p>
           <div className="mt-5 flex flex-wrap justify-center gap-3">
             <button
@@ -155,14 +155,14 @@ export function CatalogClient({
               }}
               className="inline-flex h-[var(--control-h)] items-center rounded-[var(--radius-container)] bg-[var(--raised)] px-4 text-[length:var(--text-body)] text-ink-12 shadow-[var(--shadow-button)] hover:bg-ink-2"
             >
-              Reset filter
+              Tampilkan semua
             </button>
             <Link
               href="/custom-gift"
               className="inline-flex h-[var(--control-h)] items-center gap-1.5 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-4 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] hover:bg-[var(--fg-rose-hover)]"
             >
               <Sparkles className="size-4" aria-hidden="true" />
-              <span>Buat custom gift</span>
+              <span>Rangkai kado custom</span>
             </Link>
           </div>
         </div>

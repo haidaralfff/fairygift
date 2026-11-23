@@ -34,8 +34,10 @@ export default function CheckoutPage() {
   const [notes, setNotes] = useState("");
 
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<FieldName, string>>>({});
+  const [submittedWithErrors, setSubmittedWithErrors] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
+  const errorSummaryRef = useRef<HTMLDivElement | null>(null);
 
   // One stable idempotency token per checkout session
   const idempotencyKeyRef = useRef<string>("");
@@ -94,21 +96,15 @@ export default function CheckoutPage() {
         notes: flattened.notes?.[0],
       };
       setFieldErrors(nextErrors);
+      setSubmittedWithErrors(true);
 
-      const order: FieldName[] = [
-        "buyerName",
-        "whatsapp",
-        "address",
-        "deliveryDate",
-        "notes",
-      ];
-      const firstErrorField = order.find((f) => Boolean(nextErrors[f]));
-      if (firstErrorField) {
-        document.getElementById(`field-${firstErrorField}`)?.focus();
-      }
+      requestAnimationFrame(() => {
+        errorSummaryRef.current?.focus();
+      });
       return;
     }
 
+    setSubmittedWithErrors(false);
     setFieldErrors({});
     setSubmitting(true);
 
@@ -165,6 +161,17 @@ export default function CheckoutPage() {
     }
   }
 
+  const activeErrorEntries = (
+    [
+      ["buyerName", "Nama pemesan", fieldErrors.buyerName],
+      ["recipientName", "Nama penerima", fieldErrors.recipientName],
+      ["whatsapp", "Nomor WhatsApp", fieldErrors.whatsapp],
+      ["address", "Alamat pengiriman", fieldErrors.address],
+      ["deliveryDate", "Tanggal kirim/ambil", fieldErrors.deliveryDate],
+      ["notes", "Catatan tambahan", fieldErrors.notes],
+    ] as Array<[FieldName, string, string | undefined]>
+  ).filter((entry): entry is [FieldName, string, string] => Boolean(entry[2]));
+
   if (!hydrated) {
     return (
       <div className="mx-auto max-w-[800px] px-4 py-8 md:px-6">
@@ -178,10 +185,10 @@ export default function CheckoutPage() {
       <div className="mx-auto max-w-[440px] px-4 py-12 md:px-6">
         <div className="rounded-[var(--radius-container)] bg-ink-2 p-11 text-center">
           <p className="text-[length:var(--text-body)] text-ink-12">
-            Belum ada item untuk di-checkout.
+            Keranjang Anda masih kosong.
           </p>
           <p className="mt-1 text-[length:var(--text-body)] text-ink-11">
-            Tambahkan paket hadiah atau buat custom gift terlebih dahulu.
+            Pilih paket hadiah atau rangkai kado custom terlebih dahulu sebelum mengisi data pengiriman.
           </p>
           <Link
             href="/katalog"
@@ -197,10 +204,10 @@ export default function CheckoutPage() {
   return (
     <div className="mx-auto max-w-[920px] px-4 py-8 md:px-6">
       <h1 className="text-[length:var(--text-figure)] leading-[var(--leading-figure)] tracking-[-0.02em] text-ink-12">
-        Checkout pesanan
+        Data pemesanan &amp; pengiriman
       </h1>
       <p className="mt-1 text-[length:var(--text-body)] text-ink-11">
-        Lengkapi detail penerima dan jadwal pengiriman sebelum melanjutkan konfirmasi pembayaran via WhatsApp.
+        Isi data penerima dan jadwal kirim agar pesanan Anda segera kami siapkan dan konfirmasi lewat WhatsApp.
       </p>
 
       <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-12">
@@ -209,6 +216,36 @@ export default function CheckoutPage() {
           noValidate
           className="surface-panel space-y-5 rounded-[var(--radius-feature)] border-[0.5px] border-[var(--line)] bg-[var(--panel)] p-5 shadow-[var(--shadow-panel)] md:col-span-7 md:p-6"
         >
+          {submittedWithErrors && activeErrorEntries.length > 0 ? (
+            <div
+              ref={errorSummaryRef}
+              tabIndex={-1}
+              role="alert"
+              aria-labelledby="checkout-error-summary-title"
+              className="rounded-[var(--radius-control)] bg-[var(--red-3)] p-3.5 text-[length:var(--text-body)] text-[var(--red-11)] focus:outline-none focus:ring-2 focus:ring-[var(--red-9)]"
+            >
+              <p id="checkout-error-summary-title">
+                Mohon periksa kembali {activeErrorEntries.length} data yang belum lengkap:
+              </p>
+              <ul className="mt-1.5 space-y-1.5 text-[length:var(--text-meta)]">
+                {activeErrorEntries.map(([field, label, message]) => (
+                  <li key={field} className="flex items-start gap-2">
+                    <span aria-hidden="true" className="shrink-0">
+                      •
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => document.getElementById(`field-${field}`)?.focus()}
+                      className="text-left underline underline-offset-2 hover:text-ink-12"
+                    >
+                      {label}: {message}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+
           {serverError ? (
             <div
               role="alert"
@@ -218,10 +255,10 @@ export default function CheckoutPage() {
             </div>
           ) : null}
 
-          {/* 1. Nama pelanggan */}
+          {/* 1. Nama pemesan */}
           <div className="flex flex-col gap-1.5">
             <label htmlFor="field-buyerName" className="text-[length:var(--text-body)] text-ink-11">
-              Nama pelanggan
+              Nama pemesan
             </label>
             <input
               id="field-buyerName"
@@ -258,7 +295,7 @@ export default function CheckoutPage() {
               readOnly={submitting}
               value={recipientName}
               onChange={(e) => setRecipientName(e.target.value)}
-              placeholder="Isi jika berbeda dengan nama pemesan"
+              placeholder="Isi jika kado dikirim untuk orang lain"
               className="h-[var(--control-h)] rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10 focus:bg-ink-4 focus:outline-none"
             />
           </div>
@@ -276,7 +313,9 @@ export default function CheckoutPage() {
               required
               aria-required="true"
               aria-invalid={Boolean(fieldErrors.whatsapp)}
-              aria-describedby={fieldErrors.whatsapp ? "err-whatsapp" : undefined}
+              aria-describedby={
+                fieldErrors.whatsapp ? "hint-whatsapp err-whatsapp" : "hint-whatsapp"
+              }
               readOnly={submitting}
               value={whatsapp}
               onChange={(e) => setWhatsapp(e.target.value)}
@@ -286,6 +325,9 @@ export default function CheckoutPage() {
                 fieldErrors.whatsapp ? "shadow-[0_0_0_1px_var(--red-11)]" : ""
               }`}
             />
+            <p id="hint-whatsapp" className="text-[length:var(--text-meta)] text-ink-10">
+              Digunakan admin untuk mengirim info pembayaran dan kabar pengiriman.
+            </p>
             {fieldErrors.whatsapp ? (
               <p id="err-whatsapp" role="alert" className="text-[length:var(--text-meta)] text-[var(--red-11)]">
                 {fieldErrors.whatsapp}
@@ -296,11 +338,11 @@ export default function CheckoutPage() {
           {/* 4. Metode penerimaan */}
           <div className="flex flex-col gap-2">
             <span className="text-[length:var(--text-body)] text-ink-11">
-              Metode penerimaan
+              Cara terima pesanan
             </span>
             <div>
               <SegmentedToggle
-                ariaLabel="Metode penerimaan"
+                ariaLabel="Cara terima pesanan"
                 value={deliveryMethod}
                 onChange={(val) => {
                   setDeliveryMethod(val);
@@ -309,8 +351,8 @@ export default function CheckoutPage() {
                   }
                 }}
                 options={[
-                  { value: "delivery", label: "Pengiriman" },
-                  { value: "pickup", label: "Ambil sendiri" },
+                  { value: "delivery", label: "Diantar ke alamat" },
+                  { value: "pickup", label: "Ambil di toko" },
                 ]}
               />
             </div>
@@ -341,7 +383,7 @@ export default function CheckoutPage() {
                     value={address}
                     onChange={(e) => setAddress(e.target.value)}
                     onBlur={() => validateSingleField("address")}
-                    placeholder="Jalan, nomor rumah, kecamatan, kota, dan patokan"
+                    placeholder="Jalan, nomor rumah, kecamatan, kota, dan patokan agar kurir mudah menemukan"
                     className={`min-h-21 rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 py-2 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10 focus:bg-ink-4 focus:outline-none [overflow-wrap:break-word] ${
                       fieldErrors.address ? "shadow-[0_0_0_1px_var(--red-11)]" : ""
                     }`}
@@ -359,7 +401,7 @@ export default function CheckoutPage() {
           {/* 6. Tanggal kirim/ambil */}
           <div className="flex flex-col gap-1.5">
             <label htmlFor="field-deliveryDate" className="text-[length:var(--text-body)] text-ink-11">
-              Tanggal pengiriman atau pengambilan
+              Tanggal kirim atau ambil
             </label>
             <input
               id="field-deliveryDate"
@@ -368,7 +410,11 @@ export default function CheckoutPage() {
               required
               aria-required="true"
               aria-invalid={Boolean(fieldErrors.deliveryDate)}
-              aria-describedby={fieldErrors.deliveryDate ? "err-deliveryDate" : undefined}
+              aria-describedby={
+                fieldErrors.deliveryDate
+                  ? "hint-deliveryDate err-deliveryDate"
+                  : "hint-deliveryDate"
+              }
               readOnly={submitting}
               value={deliveryDate}
               onChange={(e) => setDeliveryDate(e.target.value)}
@@ -377,8 +423,8 @@ export default function CheckoutPage() {
                 fieldErrors.deliveryDate ? "shadow-[0_0_0_1px_var(--red-11)]" : ""
               }`}
             />
-            <p className="text-[length:var(--text-meta)] text-ink-10">
-              Jadwal minimal H+{MAKE_TO_ORDER_LEAD_DAYS} agar tim kami dapat merangkai pesanan Anda dengan rapi.
+            <p id="hint-deliveryDate" className="text-[length:var(--text-meta)] text-ink-10">
+              Pilih tanggal minimal {MAKE_TO_ORDER_LEAD_DAYS} hari dari hari ini agar tim kami dapat merangkai kado Anda dengan rapi.
             </p>
             {fieldErrors.deliveryDate ? (
               <p id="err-deliveryDate" role="alert" className="text-[length:var(--text-meta)] text-[var(--red-11)]">
@@ -398,7 +444,7 @@ export default function CheckoutPage() {
               readOnly={submitting}
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Permintaan jam kirim atau catatan khusus"
+              placeholder="Permintaan jam kirim atau catatan khusus untuk kurir"
               className="min-h-18 rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 py-2 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10 focus:bg-ink-4 focus:outline-none [overflow-wrap:break-word]"
             />
           </div>
@@ -408,7 +454,7 @@ export default function CheckoutPage() {
             disabled={submitting}
             className="inline-flex h-11 w-full items-center justify-center rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-4 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors duration-[var(--dur-hover)] hover:bg-[var(--fg-rose-hover)] active:scale-[0.98] disabled:opacity-60"
           >
-            {submitting ? "Membuat pesanan…" : "Konfirmasi pesanan"}
+            {submitting ? "Menyimpan pesanan…" : "Buat pesanan sekarang"}
           </button>
         </form>
 
@@ -450,7 +496,7 @@ export default function CheckoutPage() {
             </div>
 
             <p className="mt-3 rounded-[var(--radius-control)] bg-[var(--fg-rose-soft)] px-3 py-2 text-[length:var(--text-meta)] text-[var(--fg-rose-text)]">
-              Setelah konfirmasi, Anda langsung menerima ringkasan pesanan beserta tombol kirim pesan ke WhatsApp FairyGift.
+              Setelah membuat pesanan, Anda langsung menerima nomor pesanan beserta tombol kirim ke WhatsApp FairyGift.
             </p>
           </div>
         </aside>

@@ -17,14 +17,14 @@ export async function GET(
 ) {
   if (!isFirebaseAdminConfigured()) {
     return NextResponse.json(
-      { error: "Firebase Admin belum dikonfigurasi." },
+      { error: "Koneksi penyimpanan data toko belum aktif." },
       { status: 503 }
     );
   }
 
   const admin = await verifyAdminRequest(request);
   if (!admin) {
-    return NextResponse.json({ error: "Akses ditolak." }, { status: 401 });
+    return NextResponse.json({ error: "Sesi admin tidak valid. Silakan masuk kembali." }, { status: 401 });
   }
 
   const { id } = await context.params;
@@ -55,14 +55,14 @@ export async function PATCH(
 ) {
   if (!isFirebaseAdminConfigured()) {
     return NextResponse.json(
-      { error: "Firebase Admin belum dikonfigurasi." },
+      { error: "Koneksi penyimpanan data toko belum aktif." },
       { status: 503 }
     );
   }
 
   const admin = await verifyAdminRequest(request);
   if (!admin) {
-    return NextResponse.json({ error: "Akses ditolak." }, { status: 401 });
+    return NextResponse.json({ error: "Sesi admin tidak valid. Silakan masuk kembali." }, { status: 401 });
   }
 
   const { id } = await context.params;
@@ -70,7 +70,10 @@ export async function PATCH(
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Payload tidak valid." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Data perubahan belum terbaca. Muat ulang halaman lalu coba lagi." },
+      { status: 400 }
+    );
   }
 
   const hasOrderStatus = "orderStatus" in body;
@@ -87,7 +90,7 @@ export async function PATCH(
     : null;
   if (parsedOrderStatus && !parsedOrderStatus.success) {
     return NextResponse.json(
-      { error: "Status pesanan tidak valid." },
+      { error: "Pilihan status pesanan tidak sesuai." },
       { status: 400 }
     );
   }
@@ -97,7 +100,7 @@ export async function PATCH(
     : null;
   if (parsedPaymentStatus && !parsedPaymentStatus.success) {
     return NextResponse.json(
-      { error: "Status pembayaran tidak valid." },
+      { error: "Pilihan status pembayaran tidak sesuai." },
       { status: 400 }
     );
   }
@@ -165,14 +168,14 @@ export async function PATCH(
             const snap = componentSnaps.get(compId);
             if (!snap?.exists) {
               throw new Error(
-                `Komponen hadiah (${compId}) tidak ditemukan untuk mengaktifkan kembali pesanan.`
+                "Sebagian isi kado pada pesanan ini sudah dihapus dari katalog sehingga pesanan belum dapat diaktifkan kembali."
               );
             }
             const data = snap.data()!;
             const currentStock = Number(data.stock || 0);
             if (!data.isAvailable || currentStock < neededQty) {
               throw new Error(
-                `Stok "${String(data.name || compId)}" tidak mencukupi untuk mengaktifkan kembali pesanan (tersedia ${currentStock}, butuh ${neededQty}).`
+                `Stok "${String(data.name || "isi kado")}" tinggal ${currentStock} buah (dibutuhkan ${neededQty}) sehingga pesanan belum bisa diaktifkan kembali.`
               );
             }
           }

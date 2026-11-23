@@ -91,7 +91,7 @@ export default function KeranjangPage() {
               href="/custom-gift"
               className="inline-flex h-11 items-center rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-4 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] hover:bg-[var(--fg-rose-hover)]"
             >
-              Buat custom gift
+              Rangkai kado custom
             </Link>
           </div>
         </div>
@@ -119,7 +119,7 @@ export default function KeranjangPage() {
                       <div className="min-w-0">
                         {item.type === "custom_gift" ? (
                           <div className="mb-1">
-                            <PillBadge tone="plum">Custom Gift</PillBadge>
+                            <PillBadge tone="plum">Kado Custom</PillBadge>
                           </div>
                         ) : null}
 
@@ -213,7 +213,7 @@ export default function KeranjangPage() {
 
             {hasIssues ? (
               <p className="mt-2 text-[length:var(--text-meta)] text-[var(--red-11)]">
-                Perbaiki atau hapus item yang stoknya bermasalah sebelum melanjutkan ke checkout.
+                Sesuaikan atau hapus hadiah yang stoknya sedang kosong sebelum lanjut ke data pengiriman.
               </p>
             ) : null}
 
@@ -231,14 +231,14 @@ export default function KeranjangPage() {
                   disabled
                   className="inline-flex h-11 items-center justify-center rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-5 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] opacity-45"
                 >
-                  {validating ? "Memeriksa stok…" : "Lanjut ke checkout"}
+                  {validating ? "Mengecek ketersediaan…" : "Lanjut isi data kirim"}
                 </button>
               ) : (
                 <Link
                   href="/checkout"
                   className="inline-flex h-11 items-center justify-center rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-5 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors duration-[var(--dur-hover)] hover:bg-[var(--fg-rose-hover)] active:scale-[0.98]"
                 >
-                  Lanjut ke checkout
+                  Lanjut isi data kirim
                 </Link>
               )}
             </div>

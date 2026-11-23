@@ -81,7 +81,7 @@ export function StorefrontHeader() {
   const navItems = [
     { href: "/", label: "Beranda", exact: true },
     { href: "/katalog", label: "Katalog", exact: false },
-    { href: "/custom-gift", label: "Custom Gift", exact: false },
+    { href: "/custom-gift", label: "Kado Custom", exact: false },
   ];
 
   const activeItemsCount = hydrated ? totalItems : 0;
@@ -98,7 +98,7 @@ export function StorefrontHeader() {
             </span>
             <span className="hidden items-center gap-1.5 sm:inline-flex">
               <Clock className="size-3 shrink-0" aria-hidden="true" />
-              <span>Dirangkai Fresh Min. H+{MAKE_TO_ORDER_LEAD_DAYS}</span>
+              <span>Dirangkai Fresh · Min. {MAKE_TO_ORDER_LEAD_DAYS} Hari Sebelum Kirim</span>
             </span>
             <span className="hidden items-center gap-1.5 md:inline-flex">
               <MessageCircle className="size-3 shrink-0" aria-hidden="true" />
@@ -262,7 +262,7 @@ export function StorefrontHeader() {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Ketik nama paket atau kategori (mis. Birthday, Graduation)"
+            placeholder="Ketik nama paket atau acara (mis. Ulang Tahun, Wisuda)"
             aria-label="Cari nama paket atau kategori"
             className="h-[var(--control-h)] w-full rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10 focus:bg-ink-4 focus:outline-none"
           />

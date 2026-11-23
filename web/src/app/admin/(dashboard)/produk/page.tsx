@@ -1,9 +1,11 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Pencil, Plus, Search, Trash2, Upload } from "lucide-react";
+import Link from "next/link";
+import { ExternalLink, Pencil, Plus, Search, Trash2, Upload } from "lucide-react";
 import { useAdminAuth } from "@/components/admin/admin-auth-provider";
 import { ModalSheet } from "@/components/ui/modal-sheet";
+import { PillBadge } from "@/components/ui/pill-badge";
 import { ResilientImage } from "@/components/ui/resilient-image";
 import { TactileSwitch } from "@/components/ui/tactile-switch";
 import { useToast } from "@/components/ui/toast";
@@ -46,6 +48,9 @@ export default function AdminProductsPage() {
   const [serverNote, setServerNote] = useState<string | null>(null);
   const [query, setQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
+  const [statusFilter, setStatusFilter] = useState<
+    "all" | "available" | "inactive" | "featured"
+  >("all");
 
   // Add / Edit Modal state
   const [formOpen, setFormOpen] = useState(false);
@@ -98,6 +103,9 @@ export default function AdminProductsPage() {
       if (categoryFilter !== "all" && p.categoryId !== categoryFilter) {
         return false;
       }
+      if (statusFilter === "available" && !p.isAvailable) return false;
+      if (statusFilter === "inactive" && p.isAvailable) return false;
+      if (statusFilter === "featured" && !p.isFeatured) return false;
       if (!needle) return true;
       return (
         p.name.toLowerCase().includes(needle) ||
@@ -105,7 +113,7 @@ export default function AdminProductsPage() {
         p.description.toLowerCase().includes(needle)
       );
     });
-  }, [products, query, categoryFilter]);
+  }, [products, query, categoryFilter, statusFilter]);
 
   function openCreateModal() {
     const defaultCat = categories[0]?.id || DEMO_CATEGORIES[0]?.id || "cat-box-gift";
@@ -198,7 +206,7 @@ export default function AdminProductsPage() {
       return;
     }
     if (!form.imageUrl.trim()) {
-      setFormError("Gambar produk wajib diunggah atau diisi URL.");
+      setFormError("Foto produk wajib diunggah atau diisi tautan gambarnya.");
       return;
     }
 
@@ -318,7 +326,7 @@ export default function AdminProductsPage() {
       {/* Toolbar & Primary Action */}
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-1 flex-wrap items-center gap-2.5">
-          <div className="relative min-w-[220px] flex-1 sm:max-w-[300px]">
+          <div className="relative min-w-[200px] flex-1 sm:max-w-[280px]">
             <Search
               className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-ink-9"
               aria-hidden="true"
@@ -329,7 +337,7 @@ export default function AdminProductsPage() {
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Cari nama atau deskripsi produk…"
               aria-label="Cari produk"
-              className="h-[var(--control-h)] w-full rounded-[var(--radius-control)] border-0 bg-ink-3 pr-3 pl-9 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10"
+              className="h-[var(--control-h)] w-full rounded-[var(--radius-control)] border-0 bg-ink-3 pr-3 pl-9 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10 focus:bg-ink-4 focus:outline-none"
             />
           </div>
 
@@ -337,7 +345,7 @@ export default function AdminProductsPage() {
             value={categoryFilter}
             onChange={(e) => setCategoryFilter(e.target.value)}
             aria-label="Filter kategori produk"
-            className="h-[var(--control-h)] rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 text-[length:var(--text-field)] text-ink-12"
+            className="h-[var(--control-h)] rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 text-[length:var(--text-field)] text-ink-12 focus:bg-ink-4 focus:outline-none"
           >
             <option value="all">Semua kategori</option>
             {categories.map((cat) => (
@@ -345,6 +353,22 @@ export default function AdminProductsPage() {
                 {cat.name}
               </option>
             ))}
+          </select>
+
+          <select
+            value={statusFilter}
+            onChange={(e) =>
+              setStatusFilter(
+                e.target.value as "all" | "available" | "inactive" | "featured"
+              )
+            }
+            aria-label="Filter status produk"
+            className="h-[var(--control-h)] rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 text-[length:var(--text-field)] text-ink-12 focus:bg-ink-4 focus:outline-none"
+          >
+            <option value="all">Semua status</option>
+            <option value="available">Tersedia</option>
+            <option value="inactive">Nonaktif</option>
+            <option value="featured">Unggulan</option>
           </select>
         </div>
 
@@ -361,7 +385,7 @@ export default function AdminProductsPage() {
 
       {!configured ? (
         <div className="mt-4 rounded-[var(--radius-container)] bg-[var(--amber-3)] p-4 text-[length:var(--text-body)] text-[var(--amber-11)]">
-          Konfigurasi Firebase belum diisi pada `.env.local`. Lengkapi kredensial Firebase Admin dan Client terlebih dahulu untuk mengelola katalog produk.
+          Mode uji coba aktif. Sambungkan layanan database terlebih dahulu untuk menyimpan dan mengubah katalog produk.
         </div>
       ) : null}
 
@@ -383,13 +407,13 @@ export default function AdminProductsPage() {
           </p>
           <p className="mt-1 text-[length:var(--text-body)] text-ink-11">
             {products.length === 0
-              ? "Tambahkan produk baru atau jalankan seed awal untuk mengisi katalog."
-              : "Coba ubah kata kunci atau filter kategori."}
+              ? "Klik tombol \"Tambah produk\" di kanan atas untuk mulai menambahkan produk ke toko."
+              : "Coba ubah kata kunci atau pilih kategori lain."}
           </p>
         </div>
       ) : (
         <div className="no-scrollbar mt-4 overflow-x-auto rounded-[var(--radius-container)] border-[0.5px] border-[var(--line)] shadow-[var(--shadow-table)]">
-          <table className="w-full min-w-[740px] border-collapse text-left">
+          <table className="w-full min-w-[760px] border-collapse text-left">
             <thead>
               <tr className="hairline-b h-[var(--row-h)] bg-ink-2 text-[length:var(--text-meta)] text-ink-12">
                 <th scope="col" className="px-3.5">Produk</th>
@@ -415,7 +439,14 @@ export default function AdminProductsPage() {
                         className="size-8 shrink-0 rounded-[var(--radius-control)]"
                       />
                       <div className="min-w-0">
-                        <p className="max-w-[30ch] truncate text-ink-12">{product.name}</p>
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <p className="max-w-[26ch] truncate text-ink-12">
+                            {product.name}
+                          </p>
+                          {product.isFeatured ? (
+                            <PillBadge tone="plum">Unggulan</PillBadge>
+                          ) : null}
+                        </div>
                         <p className="max-w-[36ch] truncate text-[length:var(--text-meta)] text-ink-10">
                           {product.description}
                         </p>
@@ -441,6 +472,17 @@ export default function AdminProductsPage() {
                   </td>
                   <td className="px-3.5">
                     <div className="flex items-center justify-end gap-1.5">
+                      {product.slug ? (
+                        <Link
+                          href={`/produk/${encodeURIComponent(product.slug)}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          aria-label={`Lihat ${product.name} di toko`}
+                          className="touch-target inline-flex size-8 items-center justify-center rounded-[var(--radius-control)] bg-[var(--raised)] text-ink-10 shadow-[var(--shadow-button)] hover:bg-ink-3 hover:text-ink-12"
+                        >
+                          <ExternalLink className="size-3.5" aria-hidden="true" />
+                        </Link>
+                      ) : null}
                       <button
                         type="button"
                         onClick={() => openEditModal(product)}
@@ -594,7 +636,7 @@ export default function AdminProductsPage() {
               type="text"
               value={form.imageUrl}
               onChange={(e) => updateField("imageUrl", e.target.value)}
-              placeholder="https://res.cloudinary.com/... atau /images/catalog/box-gift.svg"
+              placeholder="Tempel tautan foto produk (contoh: /images/catalog/box-gift.svg)"
               aria-label="Tautan gambar produk"
               className="mt-2 h-[var(--control-h)] w-full rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10"
             />

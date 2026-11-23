@@ -5,14 +5,14 @@ import { uploadImageToCloudinary, validateImageFile } from "@/lib/storage";
 export async function POST(request: Request) {
   if (!isFirebaseAdminConfigured()) {
     return NextResponse.json(
-      { error: "Konfigurasi server Firebase Admin belum lengkap." },
+      { error: "Koneksi penyimpanan data toko belum aktif." },
       { status: 503 }
     );
   }
 
   const admin = await verifyAdminRequest(request);
   if (!admin) {
-    return NextResponse.json({ error: "Akses ditolak. Khusus admin." }, { status: 401 });
+    return NextResponse.json({ error: "Sesi admin tidak valid. Silakan masuk kembali." }, { status: 401 });
   }
 
   try {
@@ -21,7 +21,7 @@ export async function POST(request: Request) {
     const folder = String(formData.get("folder") || "fairygift/catalog");
 
     if (!(file instanceof File)) {
-      return NextResponse.json({ error: "File gambar wajib dilampirkan." }, { status: 400 });
+      return NextResponse.json({ error: "Pilih file foto terlebih dahulu." }, { status: 400 });
     }
 
     const validationError = validateImageFile(file);

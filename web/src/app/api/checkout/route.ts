@@ -60,14 +60,17 @@ export async function POST(request: Request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Payload JSON tidak valid." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Data pesanan belum terbaca dengan benar. Muat ulang halaman lalu coba lagi." },
+      { status: 400 }
+    );
   }
 
   const parsed = checkoutPayloadSchema.safeParse(body);
   if (!parsed.success) {
     return NextResponse.json(
       {
-        error: "Periksa kembali data pesanan Anda.",
+        error: "Beberapa data pemesanan masih perlu diperbaiki. Periksa kolom yang ditandai.",
         issues: parsed.error.flatten().fieldErrors,
       },
       { status: 400 }
@@ -85,7 +88,7 @@ export async function POST(request: Request) {
   if (!isFirebaseAdminConfigured()) {
     if (process.env.NODE_ENV === "production") {
       return NextResponse.json(
-        { error: "Konfigurasi Firebase Admin belum lengkap di server." },
+        { error: "Sistem pemesanan sedang dalam pemeliharaan. Silakan hubungi kami via WhatsApp." },
         { status: 503 }
       );
     }
@@ -183,7 +186,7 @@ export async function POST(request: Request) {
           totalPrice += subtotal;
           resolvedItems.push({
             type: "custom_gift",
-            name: `Custom Gift (${pack.name})`,
+            name: `Kado Custom (${pack.name})`,
             unitPrice,
             quantity: item.quantity,
             subtotal,
@@ -282,12 +285,14 @@ export async function POST(request: Request) {
       for (const [compId, neededQty] of componentUsage.entries()) {
         const snap = componentSnaps.get(compId);
         if (!snap?.exists) {
-          throw new Error(`Komponen hadiah (${compId}) tidak ditemukan.`);
+          throw new Error(
+            "Salah satu pilihan isi kado sudah tidak tersedia. Mohon periksa kembali keranjang Anda."
+          );
         }
         const data = snap.data()!;
         if (!data.isAvailable || Number(data.stock || 0) < neededQty) {
           throw new Error(
-            `Stok "${data.name}" tidak mencukupi (tersedia ${Number(data.stock || 0)}).`
+            `Maaf, stok "${data.name}" tinggal ${Number(data.stock || 0)} buah. Sesuaikan jumlah di keranjang untuk melanjutkan.`
           );
         }
       }
@@ -298,7 +303,7 @@ export async function POST(request: Request) {
             db.collection(COLLECTIONS.products).doc(item.productId)
           );
           if (!prodSnap.exists || !prodSnap.data()?.isAvailable) {
-            throw new Error("Salah satu produk di keranjang sudah tidak tersedia.");
+            throw new Error("Salah satu paket kado di keranjang Anda baru saja habis.");
           }
           const prod = prodSnap.data()!;
           const unitPrice = Number(prod.price);
@@ -321,10 +326,10 @@ export async function POST(request: Request) {
           ]);
 
           if (!packSnap.exists || !packSnap.data()?.isAvailable) {
-            throw new Error("Kemasan yang dipilih sudah tidak tersedia.");
+            throw new Error("Kemasan yang dipilih sedang tidak tersedia.");
           }
           if (!cardSnap.exists || !cardSnap.data()?.isAvailable) {
-            throw new Error("Desain kartu ucapan sudah tidak tersedia.");
+            throw new Error("Desain kartu ucapan yang dipilih sedang tidak tersedia.");
           }
 
           const pack = packSnap.data()!;
@@ -356,7 +361,7 @@ export async function POST(request: Request) {
 
           resolvedItems.push({
             type: "custom_gift",
-            name: `Custom Gift (${String(pack.name)})`,
+            name: `Kado Custom (${String(pack.name)})`,
             unitPrice,
             quantity: item.quantity,
             subtotal,

@@ -13,14 +13,14 @@ export async function PATCH(
 ) {
   if (!isFirebaseAdminConfigured()) {
     return NextResponse.json(
-      { error: "Firebase Admin belum dikonfigurasi." },
+      { error: "Koneksi penyimpanan data toko belum aktif." },
       { status: 503 }
     );
   }
 
   const admin = await verifyAdminRequest(request);
   if (!admin) {
-    return NextResponse.json({ error: "Akses ditolak." }, { status: 401 });
+    return NextResponse.json({ error: "Sesi admin tidak valid. Silakan masuk kembali." }, { status: 401 });
   }
 
   const { id } = await context.params;
@@ -28,7 +28,10 @@ export async function PATCH(
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Payload tidak valid." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Data perubahan belum terbaca. Muat ulang halaman lalu coba lagi." },
+      { status: 400 }
+    );
   }
 
   const db = getAdminDb();
@@ -56,7 +59,7 @@ export async function PATCH(
   if (!parsed.success) {
     return NextResponse.json(
       {
-        error: "Periksa data produk.",
+        error: "Periksa kembali rincian produk yang diisi.",
         issues: parsed.error.flatten().fieldErrors,
       },
       { status: 400 }
@@ -89,14 +92,14 @@ export async function DELETE(
 ) {
   if (!isFirebaseAdminConfigured()) {
     return NextResponse.json(
-      { error: "Firebase Admin belum dikonfigurasi." },
+      { error: "Koneksi penyimpanan data toko belum aktif." },
       { status: 503 }
     );
   }
 
   const admin = await verifyAdminRequest(request);
   if (!admin) {
-    return NextResponse.json({ error: "Akses ditolak." }, { status: 401 });
+    return NextResponse.json({ error: "Sesi admin tidak valid. Silakan masuk kembali." }, { status: 401 });
   }
 
   const { id } = await context.params;

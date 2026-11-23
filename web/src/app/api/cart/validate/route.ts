@@ -7,7 +7,10 @@ export async function POST(request: Request) {
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Payload tidak valid." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Data keranjang belum terbaca. Muat ulang halaman lalu coba lagi." },
+      { status: 400 }
+    );
   }
 
   const items = Array.isArray(body.items) ? body.items : [];
@@ -28,19 +31,19 @@ export async function POST(request: Request) {
       const prod = productMap.get(item.productId);
       if (!prod || !prod.isAvailable) {
         issues[item.cartItemId] =
-          "Produk ini baru saja habis atau dinonaktifkan. Hapus item untuk melanjutkan.";
+          "Maaf, paket kado ini baru saja habis atau sedang tidak tersedia. Hapus item ini untuk melanjutkan.";
       }
     } else {
       const pack = packagingMap.get(item.customization.packagingId);
       const card = cardMap.get(item.customization.cardDesignId);
       if (!pack || !pack.isAvailable) {
         issues[item.cartItemId] =
-          "Kemasan pada custom gift ini tidak tersedia. Ubah atau hapus item.";
+          "Kemasan pada kado custom ini sedang tidak tersedia. Silakan ubah pilihan kemasan atau hapus item ini.";
         continue;
       }
       if (!card || !card.isAvailable) {
         issues[item.cartItemId] =
-          "Desain kartu pada custom gift ini tidak tersedia. Ubah atau hapus item.";
+          "Desain kartu ucapan pada kado custom ini sedang tidak tersedia. Silakan ubah pilihan atau hapus item ini.";
         continue;
       }
 
@@ -51,7 +54,7 @@ export async function POST(request: Request) {
 
       if (unavailableComp) {
         issues[item.cartItemId] =
-          `Komponen "${unavailableComp.name}" baru saja habis atau stok tidak mencukupi. Ubah atau hapus item untuk melanjutkan.`;
+          `Maaf, stok "${unavailableComp.name}" baru saja habis atau kurang dari jumlah pesanan. Ubah isi kado atau hapus item ini untuk melanjutkan.`;
       }
     }
   }

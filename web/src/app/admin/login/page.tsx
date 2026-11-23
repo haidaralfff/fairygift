@@ -30,7 +30,7 @@ export default function AdminLoginPage() {
     setError(null);
 
     if (!isFirebaseClientConfigured()) {
-      setError("Firebase Client belum dikonfigurasi di .env.local.");
+      setError("Sistem masuk admin belum terhubung ke database toko. Hubungi pengelola teknis untuk mengaktifkan akun.");
       return;
     }
 
@@ -39,7 +39,7 @@ export default function AdminLoginPage() {
       await signInWithEmailAndPassword(getClientAuth(), email.trim(), password);
       router.push("/admin");
     } catch {
-      setError("Email atau kata sandi tidak sesuai.");
+      setError("Email atau kata sandi salah. Periksa kembali lalu coba masuk lagi.");
     } finally {
       setIsSubmitting(false);
     }
@@ -135,7 +135,7 @@ export default function AdminLoginPage() {
           </Link>
           {!isFirebaseClientConfigured() ? (
             <Link href="/admin" className="text-ink-10 hover:text-ink-12">
-              Buka preview shell
+              Buka mode pratinjau
             </Link>
           ) : null}
         </div>

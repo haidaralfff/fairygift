@@ -77,7 +77,7 @@ export function buildWhatsAppOrderMessage(
     const greetingLine = c.greetingMessage
       ? `\n   Kartu Ucapan (${c.cardDesignName}): "${c.greetingMessage}"`
       : `\n   Kartu Ucapan: ${c.cardDesignName} (tanpa pesan)`;
-    return `${idx + 1}. Custom Gift (${item.quantity}x) - ${formatRupiah(item.subtotal)}\n   Kemasan: ${c.packagingName} (${c.selectedColor.name}, ${c.selectedDesign})\n   Isi: ${componentNames}${greetingLine}`;
+    return `${idx + 1}. Kado Custom (${item.quantity}x) - ${formatRupiah(item.subtotal)}\n   Kemasan: ${c.packagingName} (${c.selectedColor.name}, ${c.selectedDesign})\n   Isi: ${componentNames}${greetingLine}`;
   });
 
   const deliveryLabel =

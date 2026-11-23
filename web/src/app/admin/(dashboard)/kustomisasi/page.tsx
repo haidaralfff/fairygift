@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import { Pencil, Plus, Trash2, Upload, X } from "lucide-react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Pencil, Plus, Search, Trash2, Upload, X } from "lucide-react";
 import { useAdminAuth } from "@/components/admin/admin-auth-provider";
 import { ModalSheet } from "@/components/ui/modal-sheet";
 import { ResilientImage } from "@/components/ui/resilient-image";
@@ -61,6 +61,8 @@ export default function AdminCustomizationsPage() {
   const { showToast } = useToast();
 
   const [tab, setTab] = useState<TabResource>("packagings");
+  const [query, setQuery] = useState("");
+  const [componentCategory, setComponentCategory] = useState<string>("Semua");
   const [packagings, setPackagings] = useState<Packaging[]>([]);
   const [giftComponents, setGiftComponents] = useState<GiftComponent[]>([]);
   const [cardDesigns, setCardDesigns] = useState<CardDesign[]>([]);
@@ -111,6 +113,40 @@ export default function AdminCustomizationsPage() {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  const needle = query.trim().toLowerCase();
+
+  const filteredPackagings = useMemo(() => {
+    if (!needle) return packagings;
+    return packagings.filter(
+      (p) =>
+        p.name.toLowerCase().includes(needle) ||
+        (p.description || "").toLowerCase().includes(needle)
+    );
+  }, [packagings, needle]);
+
+  const filteredComponents = useMemo(() => {
+    return giftComponents.filter((c) => {
+      if (componentCategory !== "Semua" && c.category !== componentCategory) {
+        return false;
+      }
+      if (!needle) return true;
+      return (
+        c.name.toLowerCase().includes(needle) ||
+        c.category.toLowerCase().includes(needle) ||
+        (c.description || "").toLowerCase().includes(needle)
+      );
+    });
+  }, [giftComponents, componentCategory, needle]);
+
+  const filteredCards = useMemo(() => {
+    if (!needle) return cardDesigns;
+    return cardDesigns.filter(
+      (c) =>
+        c.name.toLowerCase().includes(needle) ||
+        (c.description || "").toLowerCase().includes(needle)
+    );
+  }, [cardDesigns, needle]);
 
   function openCreateModal() {
     setFormResource(tab);
@@ -261,7 +297,7 @@ export default function AdminCustomizationsPage() {
       return;
     }
     if (!form.imageUrl.trim()) {
-      setFormError("Gambar wajib diunggah atau diisi URL.");
+      setFormError("Foto wajib diunggah atau diisi tautan gambarnya.");
       return;
     }
 
@@ -294,7 +330,7 @@ export default function AdminCustomizationsPage() {
       };
     } else if (formResource === "giftComponents") {
       if (numericPrice < 1000) {
-        setFormError("Harga komponen minimal Rp1.000.");
+        setFormError("Harga isi kado minimal Rp1.000.");
         return;
       }
       const numericStock = Number(form.stock.replace(/[^\d]/g, ""));
@@ -335,7 +371,7 @@ export default function AdminCustomizationsPage() {
       });
       const json = await res.json().catch(() => ({}));
       if (!res.ok) {
-        throw new Error(json.error || "Gagal menyimpan data kustomisasi.");
+        throw new Error(json.error || "Gagal menyimpan pilihan kado custom.");
       }
 
       if (json.item) {
@@ -363,7 +399,7 @@ export default function AdminCustomizationsPage() {
       }
 
       showToast(
-        editingId ? "Perubahan kustomisasi disimpan." : "Item kustomisasi ditambahkan.",
+        editingId ? "Perubahan berhasil disimpan." : "Pilihan baru berhasil ditambahkan.",
         "green"
       );
       setFormOpen(false);
@@ -446,7 +482,7 @@ export default function AdminCustomizationsPage() {
       showToast(`${deleteTarget.name} berhasil dihapus.`, "green");
       setDeleteTarget(null);
     } catch {
-      showToast("Gagal menghapus item kustomisasi.", "red");
+      showToast("Gagal menghapus pilihan.", "red");
     } finally {
       setDeleting(false);
     }
@@ -456,50 +492,90 @@ export default function AdminCustomizationsPage() {
     tab === "packagings"
       ? "Tambah kemasan"
       : tab === "giftComponents"
-        ? "Tambah komponen"
+        ? "Tambah isi kado"
         : "Tambah kartu";
 
   const modalTitle = editingId
     ? formResource === "packagings"
       ? "Ubah kemasan"
       : formResource === "giftComponents"
-        ? "Ubah komponen isi hadiah"
+        ? "Ubah pilihan isi kado"
         : "Ubah desain kartu ucapan"
     : formResource === "packagings"
       ? "Tambah kemasan baru"
       : formResource === "giftComponents"
-        ? "Tambah komponen isi hadiah"
+        ? "Tambah pilihan isi kado"
         : "Tambah desain kartu ucapan";
 
   return (
     <div className="mx-auto max-w-[1200px] p-4 md:p-6">
-      {/* Header Segmented Control + Primary Button */}
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <SegmentedToggle
-          ariaLabel="Jenis opsi kustomisasi"
-          value={tab}
-          onChange={setTab}
-          options={[
-            { value: "packagings", label: "Kemasan", count: packagings.length },
-            { value: "giftComponents", label: "Isi Hadiah", count: giftComponents.length },
-            { value: "cardDesigns", label: "Kartu Ucapan", count: cardDesigns.length },
-          ]}
-        />
+      {/* Header Segmented Control + Search + Primary Button */}
+      <div className="flex flex-col gap-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <SegmentedToggle
+            ariaLabel="Jenis pilihan kado custom"
+            value={tab}
+            onChange={setTab}
+            options={[
+              { value: "packagings", label: "Kemasan", count: packagings.length },
+              { value: "giftComponents", label: "Isi Hadiah", count: giftComponents.length },
+              { value: "cardDesigns", label: "Kartu Ucapan", count: cardDesigns.length },
+            ]}
+          />
 
-        <button
-          type="button"
-          onClick={openCreateModal}
-          disabled={!configured || !user}
-          className="touch-target inline-flex h-[var(--control-h)] items-center gap-2 rounded-[var(--radius-control)] bg-[var(--primary-bg)] px-4 text-[length:var(--text-body)] text-[var(--primary-fg)] shadow-[var(--shadow-primary)] transition-colors hover:bg-[var(--primary-hover)] disabled:cursor-not-allowed disabled:opacity-50"
-        >
-          <Plus className="size-4" aria-hidden="true" />
-          {addButtonLabel}
-        </button>
+          <button
+            type="button"
+            onClick={openCreateModal}
+            disabled={!configured || !user}
+            className="touch-target inline-flex h-[var(--control-h)] items-center gap-2 rounded-[var(--radius-control)] bg-[var(--primary-bg)] px-4 text-[length:var(--text-body)] text-[var(--primary-fg)] shadow-[var(--shadow-primary)] transition-colors hover:bg-[var(--primary-hover)] disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            <Plus className="size-4" aria-hidden="true" />
+            {addButtonLabel}
+          </button>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2.5">
+          <div className="relative min-w-[200px] flex-1 sm:max-w-[280px]">
+            <Search
+              className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-ink-9"
+              aria-hidden="true"
+            />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder={
+                tab === "packagings"
+                  ? "Cari kemasan…"
+                  : tab === "giftComponents"
+                    ? "Cari pilihan isi kado…"
+                    : "Cari desain kartu…"
+              }
+              aria-label="Cari pilihan kado custom"
+              className="h-[var(--control-h)] w-full rounded-[var(--radius-control)] border-0 bg-ink-3 pr-3 pl-9 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10 focus:bg-ink-4 focus:outline-none"
+            />
+          </div>
+
+          {tab === "giftComponents" ? (
+            <select
+              value={componentCategory}
+              onChange={(e) => setComponentCategory(e.target.value)}
+              aria-label="Filter kategori isi kado"
+              className="h-[var(--control-h)] rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 text-[length:var(--text-field)] text-ink-12 focus:bg-ink-4 focus:outline-none"
+            >
+              {COMPONENT_CATEGORIES.map((cat) => (
+                <option key={cat} value={cat}>
+                  {cat === "Semua" ? "Semua kategori" : cat}
+                </option>
+              ))}
+            </select>
+          ) : null}
+        </div>
       </div>
 
       {!configured ? (
         <div className="mt-4 rounded-[var(--radius-container)] bg-[var(--amber-3)] p-4 text-[length:var(--text-body)] text-[var(--amber-11)]">
-          Konfigurasi Firebase belum diisi pada `.env.local`. Lengkapi kredensial Firebase Admin dan Client untuk mengelola opsi Custom Gift.
+          Mode uji coba aktif. Sambungkan layanan database terlebih dahulu untuk mengelola pilihan kado custom.
         </div>
       ) : null}
 
@@ -512,10 +588,18 @@ export default function AdminCustomizationsPage() {
       {loading ? (
         <div className="mt-4 h-64 animate-pulse rounded-[var(--radius-container)] bg-ink-3" />
       ) : tab === "packagings" ? (
-        packagings.length === 0 ? (
+        filteredPackagings.length === 0 ? (
           <EmptyBox
-            title="Belum ada pilihan kemasan."
-            description="Tambahkan kemasan seperti Box Eksklusif atau Bouquet Wrapping untuk Custom Gift Builder."
+            title={
+              packagings.length === 0
+                ? "Belum ada pilihan kemasan."
+                : "Tidak ada kemasan yang cocok."
+            }
+            description={
+              packagings.length === 0
+                ? "Tambahkan kemasan seperti Box Eksklusif atau Bouquet Wrapping untuk halaman rangkai kado custom."
+                : "Coba ubah kata kunci pencarian."
+            }
           />
         ) : (
           <div className="no-scrollbar mt-4 overflow-x-auto rounded-[var(--radius-container)] border-[0.5px] border-[var(--line)] shadow-[var(--shadow-table)]">
@@ -531,7 +615,7 @@ export default function AdminCustomizationsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y-[0.5px] divide-[var(--line)] text-[length:var(--text-body)]">
-                {packagings.map((item, idx) => (
+                {filteredPackagings.map((item, idx) => (
                   <tr
                     key={item.id}
                     className={`min-h-[var(--row-h)] ${
@@ -579,14 +663,19 @@ export default function AdminCustomizationsPage() {
                       {formatRupiah(item.price)}
                     </td>
                     <td className="px-3.5">
-                      <TactileSwitch
-                        checked={item.isAvailable}
-                        disabled={togglingKey === `packagings:${item.id}`}
-                        onCheckedChange={(next) =>
-                          handleToggle("packagings", item.id, item.name, item.isAvailable, next)
-                        }
-                        ariaLabel={`Aktifkan kemasan ${item.name}`}
-                      />
+                      <div className="flex items-center gap-2.5">
+                        <TactileSwitch
+                          checked={item.isAvailable}
+                          disabled={togglingKey === `packagings:${item.id}`}
+                          onCheckedChange={(next) =>
+                            handleToggle("packagings", item.id, item.name, item.isAvailable, next)
+                          }
+                          ariaLabel={`Aktifkan kemasan ${item.name}`}
+                        />
+                        <span className="text-[length:var(--text-meta)] text-ink-11">
+                          {item.isAvailable ? "Tersedia" : "Nonaktif"}
+                        </span>
+                      </div>
                     </td>
                     <td className="px-3.5">
                       <RowActions
@@ -608,17 +697,25 @@ export default function AdminCustomizationsPage() {
           </div>
         )
       ) : tab === "giftComponents" ? (
-        giftComponents.length === 0 ? (
+        filteredComponents.length === 0 ? (
           <EmptyBox
-            title="Belum ada komponen isi hadiah."
-            description="Tambahkan item seperti bunga, cokelat, boneka, atau parfum untuk dirangkai pelanggan."
+            title={
+              giftComponents.length === 0
+                ? "Belum ada pilihan isi kado."
+                : "Tidak ada isi kado yang cocok."
+            }
+            description={
+              giftComponents.length === 0
+                ? "Tambahkan pilihan isi seperti bunga, cokelat, boneka, atau parfum untuk dirangkai pelanggan."
+                : "Coba ubah kata kunci atau pilih kategori lain."
+            }
           />
         ) : (
           <div className="no-scrollbar mt-4 overflow-x-auto rounded-[var(--radius-container)] border-[0.5px] border-[var(--line)] shadow-[var(--shadow-table)]">
-            <table className="w-full min-w-[760px] border-collapse text-left">
+            <table className="w-full min-w-[780px] border-collapse text-left">
               <thead>
                 <tr className="hairline-b h-[var(--row-h)] bg-ink-2 text-[length:var(--text-meta)] text-ink-12">
-                  <th scope="col" className="px-3.5">Komponen</th>
+                  <th scope="col" className="px-3.5">Isi kado</th>
                   <th scope="col" className="px-3.5">Kategori</th>
                   <th scope="col" className="px-3.5">Harga</th>
                   <th scope="col" className="px-3.5">Stok</th>
@@ -627,7 +724,7 @@ export default function AdminCustomizationsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y-[0.5px] divide-[var(--line)] text-[length:var(--text-body)]">
-                {giftComponents.map((item, idx) => (
+                {filteredComponents.map((item, idx) => (
                   <tr
                     key={item.id}
                     className={`min-h-[var(--row-h)] ${
@@ -658,24 +755,35 @@ export default function AdminCustomizationsPage() {
                     <td className="tabular-nums px-3.5">
                       <StatusDot
                         tone={item.stock === 0 ? "red" : item.stock <= 5 ? "amber" : "green"}
-                        label={`${item.stock} unit`}
+                        label={
+                          item.stock === 0
+                            ? "Habis (0 unit)"
+                            : item.stock <= 5
+                              ? `${item.stock} unit (Menipis)`
+                              : `${item.stock} unit`
+                        }
                       />
                     </td>
                     <td className="px-3.5">
-                      <TactileSwitch
-                        checked={item.isAvailable}
-                        disabled={togglingKey === `giftComponents:${item.id}`}
-                        onCheckedChange={(next) =>
-                          handleToggle(
-                            "giftComponents",
-                            item.id,
-                            item.name,
-                            item.isAvailable,
-                            next
-                          )
-                        }
-                        ariaLabel={`Aktifkan komponen ${item.name}`}
-                      />
+                      <div className="flex items-center gap-2.5">
+                        <TactileSwitch
+                          checked={item.isAvailable}
+                          disabled={togglingKey === `giftComponents:${item.id}`}
+                          onCheckedChange={(next) =>
+                            handleToggle(
+                              "giftComponents",
+                              item.id,
+                              item.name,
+                              item.isAvailable,
+                              next
+                            )
+                          }
+                          ariaLabel={`Aktifkan pilihan ${item.name}`}
+                        />
+                        <span className="text-[length:var(--text-meta)] text-ink-11">
+                          {item.isAvailable ? "Tersedia" : "Nonaktif"}
+                        </span>
+                      </div>
                     </td>
                     <td className="px-3.5">
                       <RowActions
@@ -696,10 +804,18 @@ export default function AdminCustomizationsPage() {
             </table>
           </div>
         )
-      ) : cardDesigns.length === 0 ? (
+      ) : filteredCards.length === 0 ? (
         <EmptyBox
-          title="Belum ada desain kartu ucapan."
-          description="Tambahkan pilihan kartu ucapan gratis atau premium untuk langkah akhir Custom Gift Builder."
+          title={
+            cardDesigns.length === 0
+              ? "Belum ada desain kartu ucapan."
+              : "Tidak ada desain kartu yang cocok."
+          }
+          description={
+            cardDesigns.length === 0
+              ? "Tambahkan pilihan kartu ucapan gratis atau berbayar untuk langkah akhir rangkai kado custom."
+              : "Coba ubah kata kunci pencarian."
+          }
         />
       ) : (
         <div className="no-scrollbar mt-4 overflow-x-auto rounded-[var(--radius-container)] border-[0.5px] border-[var(--line)] shadow-[var(--shadow-table)]">
@@ -713,7 +829,7 @@ export default function AdminCustomizationsPage() {
               </tr>
             </thead>
             <tbody className="divide-y-[0.5px] divide-[var(--line)] text-[length:var(--text-body)]">
-              {cardDesigns.map((item, idx) => (
+              {filteredCards.map((item, idx) => (
                 <tr
                   key={item.id}
                   className={`min-h-[var(--row-h)] ${
@@ -741,14 +857,19 @@ export default function AdminCustomizationsPage() {
                     {item.price === 0 ? "Gratis" : formatRupiah(item.price)}
                   </td>
                   <td className="px-3.5">
-                    <TactileSwitch
-                      checked={item.isAvailable}
-                      disabled={togglingKey === `cardDesigns:${item.id}`}
-                      onCheckedChange={(next) =>
-                        handleToggle("cardDesigns", item.id, item.name, item.isAvailable, next)
-                      }
-                      ariaLabel={`Aktifkan kartu ${item.name}`}
-                    />
+                    <div className="flex items-center gap-2.5">
+                      <TactileSwitch
+                        checked={item.isAvailable}
+                        disabled={togglingKey === `cardDesigns:${item.id}`}
+                        onCheckedChange={(next) =>
+                          handleToggle("cardDesigns", item.id, item.name, item.isAvailable, next)
+                        }
+                        ariaLabel={`Aktifkan kartu ${item.name}`}
+                      />
+                      <span className="text-[length:var(--text-meta)] text-ink-11">
+                        {item.isAvailable ? "Tersedia" : "Nonaktif"}
+                      </span>
+                    </div>
                   </td>
                   <td className="px-3.5">
                     <RowActions
@@ -876,7 +997,7 @@ export default function AdminCustomizationsPage() {
                 htmlFor="cust-category"
                 className="block text-[length:var(--text-body)] text-ink-12"
               >
-                Kategori komponen
+                Kategori isi kado
               </label>
               <select
                 id="cust-category"
@@ -933,7 +1054,7 @@ export default function AdminCustomizationsPage() {
                         value={col.hex}
                         onChange={(e) => updateColorRow(idx, { hex: e.target.value })}
                         placeholder="#F5F0E6"
-                        aria-label={`Kode hex warna ${idx + 1}`}
+                        aria-label={`Kode warna ${idx + 1}`}
                         className="font-mono h-[var(--control-h)] w-24 rounded-[var(--radius-control)] border-0 bg-ink-3 px-2.5 text-[length:var(--text-meta)] text-ink-12"
                       />
                       <button
@@ -1035,7 +1156,7 @@ export default function AdminCustomizationsPage() {
               type="text"
               value={form.imageUrl}
               onChange={(e) => updateField("imageUrl", e.target.value)}
-              placeholder="https://res.cloudinary.com/... atau /images/catalog/card-design.svg"
+              placeholder="Tempel tautan foto (contoh: /images/catalog/card-design.svg)"
               aria-label="Tautan gambar"
               className="mt-2 h-[var(--control-h)] w-full rounded-[var(--radius-control)] border-0 bg-ink-3 px-3 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10"
             />
@@ -1061,16 +1182,16 @@ export default function AdminCustomizationsPage() {
           <div className="flex items-center justify-between gap-3 rounded-[var(--radius-control)] bg-ink-2 p-3">
             <div>
               <p className="text-[length:var(--text-body)] text-ink-12">
-                Tersedia di Custom Gift Builder
+                Tampilkan di halaman Rangkai Kado Custom
               </p>
               <p className="text-[length:var(--text-meta)] text-ink-10">
-                Item nonaktif tidak akan ditampilkan ke pelanggan.
+                Pilihan nonaktif disembunyikan sementara dari pelanggan.
               </p>
             </div>
             <TactileSwitch
               checked={form.isAvailable}
               onCheckedChange={(v) => updateField("isAvailable", v)}
-              ariaLabel="Tersedia di Custom Gift Builder"
+              ariaLabel="Tampilkan di halaman Rangkai Kado Custom"
             />
           </div>
         </form>
@@ -1080,7 +1201,7 @@ export default function AdminCustomizationsPage() {
       <ModalSheet
         open={Boolean(deleteTarget)}
         onClose={() => setDeleteTarget(null)}
-        title="Hapus item kustomisasi?"
+        title="Hapus pilihan ini?"
         size="confirm"
         footer={
           <>
@@ -1103,7 +1224,7 @@ export default function AdminCustomizationsPage() {
         }
       >
         <p className="text-[length:var(--text-body)] text-ink-11">
-          Item <span className="text-ink-12">{deleteTarget?.name}</span> akan dihapus permanen. Pesanan lama yang pernah memilih item ini tetap aman karena tersimpan sebagai snapshot.
+          Pilihan <span className="text-ink-12">{deleteTarget?.name}</span> akan dihapus dari daftar. Pesanan pelanggan yang sudah masuk sebelumnya tetap aman dan tidak berubah.
         </p>
       </ModalSheet>
     </div>

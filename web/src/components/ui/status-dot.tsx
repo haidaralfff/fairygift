@@ -1,11 +1,14 @@
+export type StatusTone = "plum" | "amber" | "blue" | "green" | "red" | "neutral";
+
 interface StatusDotProps {
-  tone: "amber" | "blue" | "green" | "red" | "neutral";
+  tone: StatusTone;
   label: string;
   ping?: boolean;
   muted?: boolean;
 }
 
-const TONE_COLOR: Record<StatusDotProps["tone"], string> = {
+const TONE_COLOR: Record<StatusTone, string> = {
+  plum: "bg-[var(--plum-9)]",
   amber: "bg-[var(--amber-9)]",
   blue: "bg-[var(--blue-9)]",
   green: "bg-[var(--green-9)]",

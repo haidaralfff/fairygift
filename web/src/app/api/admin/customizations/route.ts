@@ -24,14 +24,14 @@ function isValidResource(value: string): value is CustomizationResource {
 export async function GET(request: Request) {
   if (!isFirebaseAdminConfigured()) {
     return NextResponse.json(
-      { error: "Firebase Admin belum dikonfigurasi." },
+      { error: "Koneksi penyimpanan data toko belum aktif." },
       { status: 503 }
     );
   }
 
   const admin = await verifyAdminRequest(request);
   if (!admin) {
-    return NextResponse.json({ error: "Akses ditolak." }, { status: 401 });
+    return NextResponse.json({ error: "Sesi admin tidak valid. Silakan masuk kembali." }, { status: 401 });
   }
 
   const db = getAdminDb();
@@ -51,25 +51,28 @@ export async function GET(request: Request) {
 export async function POST(request: Request) {
   if (!isFirebaseAdminConfigured()) {
     return NextResponse.json(
-      { error: "Firebase Admin belum dikonfigurasi." },
+      { error: "Koneksi penyimpanan data toko belum aktif." },
       { status: 503 }
     );
   }
 
   const admin = await verifyAdminRequest(request);
   if (!admin) {
-    return NextResponse.json({ error: "Akses ditolak." }, { status: 401 });
+    return NextResponse.json({ error: "Sesi admin tidak valid. Silakan masuk kembali." }, { status: 401 });
   }
 
   let body: { resource?: string; data?: unknown };
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Payload tidak valid." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Data yang dikirim belum terbaca. Muat ulang halaman lalu coba lagi." },
+      { status: 400 }
+    );
   }
 
   if (!body.resource || !isValidResource(body.resource)) {
-    return NextResponse.json({ error: "Jenis kustomisasi tidak valid." }, { status: 400 });
+    return NextResponse.json({ error: "Jenis item tidak sesuai." }, { status: 400 });
   }
 
   const schema =
@@ -83,7 +86,7 @@ export async function POST(request: Request) {
   if (!parsed.success) {
     return NextResponse.json(
       {
-        error: "Periksa data kustomisasi.",
+        error: "Periksa kembali rincian item yang diisi.",
         issues: parsed.error.flatten().fieldErrors,
       },
       { status: 400 }
@@ -100,31 +103,34 @@ export async function POST(request: Request) {
 export async function PATCH(request: Request) {
   if (!isFirebaseAdminConfigured()) {
     return NextResponse.json(
-      { error: "Firebase Admin belum dikonfigurasi." },
+      { error: "Koneksi penyimpanan data toko belum aktif." },
       { status: 503 }
     );
   }
 
   const admin = await verifyAdminRequest(request);
   if (!admin) {
-    return NextResponse.json({ error: "Akses ditolak." }, { status: 401 });
+    return NextResponse.json({ error: "Sesi admin tidak valid. Silakan masuk kembali." }, { status: 401 });
   }
 
   let body: { resource?: string; id?: string; data?: Record<string, unknown> };
   try {
     body = await request.json();
   } catch {
-    return NextResponse.json({ error: "Payload tidak valid." }, { status: 400 });
+    return NextResponse.json(
+      { error: "Data perubahan belum terbaca. Muat ulang halaman lalu coba lagi." },
+      { status: 400 }
+    );
   }
 
   if (!body.resource || !isValidResource(body.resource) || !body.id || !body.data) {
-    return NextResponse.json({ error: "Parameter pembaruan tidak lengkap." }, { status: 400 });
+    return NextResponse.json({ error: "Data perubahan belum lengkap." }, { status: 400 });
   }
 
   const ref = getAdminDb().collection(body.resource).doc(body.id);
   const snap = await ref.get();
   if (!snap.exists) {
-    return NextResponse.json({ error: "Data tidak ditemukan." }, { status: 404 });
+    return NextResponse.json({ error: "Item tidak ditemukan." }, { status: 404 });
   }
 
   if (
@@ -146,7 +152,7 @@ export async function PATCH(request: Request) {
   if (!parsed.success) {
     return NextResponse.json(
       {
-        error: "Periksa data kustomisasi.",
+        error: "Periksa kembali rincian item yang diisi.",
         issues: parsed.error.flatten().fieldErrors,
       },
       { status: 400 }
@@ -160,14 +166,14 @@ export async function PATCH(request: Request) {
 export async function DELETE(request: Request) {
   if (!isFirebaseAdminConfigured()) {
     return NextResponse.json(
-      { error: "Firebase Admin belum dikonfigurasi." },
+      { error: "Koneksi penyimpanan data toko belum aktif." },
       { status: 503 }
     );
   }
 
   const admin = await verifyAdminRequest(request);
   if (!admin) {
-    return NextResponse.json({ error: "Akses ditolak." }, { status: 401 });
+    return NextResponse.json({ error: "Sesi admin tidak valid. Silakan masuk kembali." }, { status: 401 });
   }
 
   const { searchParams } = new URL(request.url);
@@ -175,7 +181,7 @@ export async function DELETE(request: Request) {
   const id = searchParams.get("id") || "";
 
   if (!isValidResource(resource) || !id) {
-    return NextResponse.json({ error: "Parameter hapus tidak valid." }, { status: 400 });
+    return NextResponse.json({ error: "Item yang ingin dihapus tidak ditemukan." }, { status: 400 });
   }
 
   await getAdminDb().collection(resource).doc(id).delete();
