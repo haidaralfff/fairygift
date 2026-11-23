@@ -1,0 +1,64 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+
+    // Katalog publik dapat dibaca siapa saja; penulisan hanya lewat server/admin
+    match /categories/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /products/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /packagings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /giftComponents/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /cardDesigns/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // Data sensitif (pesanan, pembayaran, counter, idempotency, user admin)
+    // Dikunci di client: seluruh baca/tulis sensitif diproses lewat Next.js Server + Firebase Admin SDK
+    match /orders/{orderId} {
+      allow read, write: if isAdmin();
+
+      match /paymentLogs/{logId} {
+        allow read, write: if isAdmin();
+      }
+    }
+
+    match /counters/{docId} {
+      allow read, write: if false;
+    }
+
+    match /idempotencyKeys/{docId} {
+      allow read, write: if false;
+    }
+
+    match /users/{uid} {
+      allow read: if isSignedIn() && request.auth.uid == uid;
+      allow write: if false;
+    }
+  }
+}

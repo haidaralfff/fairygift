@@ -1,0 +1,33 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+/* ==========================================================================
+   FairyGift Tactile Utility Helpers
+   ========================================================================== */
+.hairline-b {
+  border-bottom: 0.5px solid var(--line);
+}
+
+.hairline-t {
+  border-top: 0.5px solid var(--line);
+}
+
+.hairline-frame {
+  border: 0.5px solid var(--ink-6);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 200;
+  padding: 8px 14px;
+  border-radius: var(--radius-control);
+  background: var(--primary-bg);
+  color: var(--primary-fg);
+  font-size: var(--text-body);
+}
+
+.skip-link:focus {
+  left: 12px;
+}

@@ -1,0 +1,475 @@
+/* ==========================================================================
+   FairyGift Tactile Design System — Tokens & Surface Rules
+   Neutral: Radix Sand | Sans: Inter (500) | Base: 13px desktop / 15px phone
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+  /* 1. Neutral Scale (Radix Sand - Light). Fixed handles; never remapped. */
+  --root-ink-1: #fdfdfc;
+  --root-ink-2: #f9f9f8;
+  --root-ink-3: #f1f0ef;
+  --root-ink-4: #e9e8e6;
+  --root-ink-5: #e2e1de;
+  --root-ink-6: #dad9d6;
+  --root-ink-7: #cfceca;
+  --root-ink-8: #bcbbb5;
+  --root-ink-9: #8d8d86;
+  --root-ink-10: #6d6c66; /* Tuned >= 4.6:1 on ink-3 well & >= 5.2:1 on white for WCAG AA placeholders/meta */
+  --root-ink-11: #63635e;
+  --root-ink-12: #21201c;
+  --ink-a3: #20100010;
+  --ink-a4: #1f150019;
+
+  /* Working neutral steps: components read these; surfaces remap 1-7 in light. */
+  --ink-1: var(--root-ink-1);
+  --ink-2: var(--root-ink-2);
+  --ink-3: var(--root-ink-3);
+  --ink-4: var(--root-ink-4);
+  --ink-5: var(--root-ink-5);
+  --ink-6: var(--root-ink-6);
+  --ink-7: var(--root-ink-7);
+  --ink-8: var(--root-ink-8);
+  --ink-9: var(--root-ink-9);
+  --ink-10: var(--root-ink-10);
+  --ink-11: var(--root-ink-11);
+  --ink-12: var(--root-ink-12);
+
+  /* 2. Surfaces */
+  --surface-top: #ffffff;
+  --ground: var(--root-ink-2);
+  --panel: var(--surface-top);
+  --raised: var(--surface-top);
+  --overlay: var(--surface-top);
+  --line: var(--ink-6);
+  --hairline: 0.5px;
+  --focus-ring: var(--ink-10);
+
+  /* 3. Primary Action (signature black in light; near-white in dark) */
+  --primary-bg: var(--ink-12);
+  --primary-fg: var(--ink-1);
+  --primary-hover: color-mix(in oklab, var(--primary-bg) 93%, var(--primary-fg));
+
+  /* 4. Semantic & Brand Identity Hues (Light) */
+  /* Brand Identity (Plum: Custom Gift tag, category identity, accent charts) */
+  --plum-3: #f9eaf8; --plum-4: #f3d9f1; --plum-6: #dfbadb;
+  --plum-9: #ab4aba; --plum-10: #a144af; --plum-11: #953ea3; --plum-contrast: #ffffff;
+
+  /* Success / Paid / Ready / Completed */
+  --green-3: #e6f6eb; --green-4: #d6f1df; --green-6: #adddc0;
+  --green-9: #30a46c; --green-10: #2b9a66; --green-11: #218358; --green-contrast: #ffffff;
+
+  /* Danger / Rejected / Destructive / Field Error */
+  --red-3: #feebec; --red-4: #ffdbdc; --red-6: #f4a9aa;
+  --red-9: #e5484d; --red-10: #dc3e42; --red-11: #ce2c31; --red-contrast: #ffffff;
+
+  /* Warning / Pending */
+  --amber-3: #fff7c2; --amber-4: #ffee9c; --amber-6: #f3d673;
+  --amber-9: #ffc53d; --amber-10: #ffba18; --amber-11: #ab6400; --amber-contrast: #21201c;
+
+  /* Info / Processing */
+  --blue-3: #e6f4fe; --blue-4: #d5efff; --blue-6: #acd8fc;
+  --blue-9: #0090ff; --blue-10: #0588f0; --blue-11: #0d74ce; --blue-contrast: #ffffff;
+
+  /* Alias for brand accent role */
+  --accent-3: var(--plum-3); --accent-4: var(--plum-4); --accent-6: var(--plum-6);
+  --accent-9: var(--plum-9); --accent-10: var(--plum-10); --accent-11: var(--plum-11);
+  --accent-contrast: var(--plum-contrast);
+
+  /* 5. Shadows (Light shadows use --shadow-ink, never pure black) */
+  --shadow-ink: 33 32 28;
+  --shadow-button: 0 1px 2px 0 rgb(var(--shadow-ink) / .12), 0 0 0 1px rgb(var(--shadow-ink) / .08);
+  --shadow-primary: 0 0 0 1px var(--ink-1);
+  --shadow-toggle: var(--shadow-button);
+  --shadow-card: 0 0 0 1px rgb(var(--shadow-ink) / .07), 0 1px 2px 0 rgb(var(--shadow-ink) / .12),
+                 0 3px 4px -2px rgb(var(--shadow-ink) / .08);
+  --shadow-table: 0 1px 2px 0 rgb(var(--shadow-ink) / .12);
+  --shadow-panel: 0 0 0 0.5px var(--ink-a4), 0 1px 2px 0 rgb(var(--shadow-ink) / .015),
+                  0 3px 4px -2px rgb(var(--shadow-ink) / .025);
+  --shadow-menu: 0 0 0 1px rgb(var(--shadow-ink) / .08), 0 1px 2px 0 rgb(var(--shadow-ink) / .12),
+                 0 4px 8px -4px rgb(var(--shadow-ink) / .16);
+  --shadow-popover: var(--shadow-menu);
+  --shadow-modal: 0 0 0 1px rgb(var(--shadow-ink) / .07), 0 1px 2px 0 rgb(var(--shadow-ink) / .14),
+                  0 6px 8px -4px rgb(var(--shadow-ink) / .14);
+  --shadow-badge: 0 1px 2px 0 color-mix(in srgb, currentColor 16%, transparent),
+                  0 0 0 1px color-mix(in srgb, currentColor 14%, transparent);
+  --backdrop: rgb(0 0 0 / .3);
+
+  /* 6. Radii (set --radius-control; the ladder follows) */
+  --radius-control: 6px;
+  --radius-xs: calc(var(--radius-control) / 2);        /* 3px: key chips */
+  --radius-sm: calc(var(--radius-control) - 2px);      /* 4px: checkbox marks */
+  --radius-container: calc(var(--radius-control) + 2px); /* 8px: cards, tables, modals */
+  --radius-feature: calc(var(--radius-container) * 1.5); /* 12px: notices, hero cards */
+  --radius-sheet: 14px;                                /* fixed: phone bottom sheet */
+
+  /* 7. Control & Row Heights */
+  --control-h: 36px;
+  --control-h-compact: 32px;
+  --control-h-pill: 28px;
+  --control-h-inline: 24px;
+  --control-h-icon: 22px;
+  --badge-h: 20px;
+  --key-chip: 18px;
+  --row-h: 38px;
+
+  /* 8. Typography */
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --font-weight-ui: 500;
+  --text-meta: 12px;    --leading-meta: 16px;
+  --text-body: 13px;    --leading-body: 20px;
+  --text-title: 16px;   --leading-title: 24px;
+  --text-section: 20px; --leading-section: 28px;
+  --text-figure: 24px;  --leading-figure: 32px;
+  --text-display: 32px; --leading-display: 40px;
+  --text-field: var(--text-body);
+  --tracking-label: -0.01em;
+  --tracking-display: -0.02em;
+  font-size-adjust: 0.546;
+
+  /* 9. Durations & Z-index */
+  --dur-hover: 150ms;
+  --dur-swap: 200ms;
+  --dur-modal: 240ms;
+  --dur-move: 300ms;
+  --z-mobile-menu: 40;
+  --z-portal: 50;
+  --z-media: 95;
+  --z-modal: 100;
+  --z-modal-popover: 110;
+  --z-toast: 120;
+}
+
+/* Phone & Touch overrides (values only, never layout fork in dark) */
+@media screen and (width < 48rem) {
+  :root {
+    --control-h: 44px;
+    --row-h: 44px;
+    --text-body: 15px;
+    --leading-body: 24px;
+    --text-meta: 15px;
+    --leading-meta: 20px;
+  }
+}
+
+@media (pointer: coarse) {
+  :root {
+    --text-field: 16px; /* Prevents iOS auto-zoom on focus */
+  }
+  .touch-target {
+    position: relative;
+  }
+  .touch-target::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: max(100%, 44px);
+    height: max(100%, 44px);
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* ==========================================================================
+   Dark Theme Tokens (colour & shadow only; sizes/spacing never change)
+   ========================================================================== */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --root-ink-1: #111110;
+  --root-ink-2: #191918;
+  --root-ink-3: #222221;
+  --root-ink-4: #2a2a28;
+  --root-ink-5: #31312e;
+  --root-ink-6: #3b3a37;
+  --root-ink-7: #494844;
+  --root-ink-8: #62605b;
+  --root-ink-9: #6f6d66;
+  --root-ink-10: #8f8d85; /* Tuned >= 4.8:1 on dark ink-3 well for WCAG AA placeholders/meta */
+  --root-ink-11: #b5b3ad;
+  --root-ink-12: #eeeeec;
+  --ink-a3: #f6f6f513;
+  --ink-a4: #fefef31b;
+
+  --ground: #080807;
+  --panel: var(--root-ink-1);
+  --raised: var(--root-ink-2);
+  --overlay: var(--root-ink-2);
+  --line: var(--ink-5);
+
+  /* Dark hues */
+  --plum-3: #351a35; --plum-4: #441c44; --plum-6: #632f62;
+  --plum-9: #ab4aba; --plum-10: #b658c4; --plum-11: #e796f3;
+
+  --green-3: #132d21; --green-4: #113b29; --green-6: #20573e;
+  --green-9: #30a46c; --green-10: #33b074; --green-11: #3dd68c;
+
+  --red-3: #3b1219; --red-4: #500f1c; --red-6: #72232d;
+  --red-9: #e5484d; --red-10: #ec5d5e; --red-11: #ff9592;
+
+  --amber-3: #302008; --amber-4: #3f2700; --amber-6: #5c3d05;
+  --amber-9: #ffc53d; --amber-10: #ffd60a; --amber-11: #ffca16;
+
+  --blue-3: #0d2847; --blue-4: #003362; --blue-6: #104d87;
+  --blue-9: #0090ff; --blue-10: #3b9eff; --blue-11: #70b8ff;
+
+  /* One solid 0.5px outline + tight black drop. No lit top edge. */
+  --shadow-button: 0 0 0 0.5px var(--ink-6), 0 1px 2px 0 rgb(0 0 0 / .5);
+  --shadow-primary: 0 0 0 0.5px var(--primary-bg), 0 1px 2px 0 rgb(0 0 0 / .5);
+  --shadow-card: 0 0 0 0.5px var(--ink-6), 0 1px 2px 0 rgb(0 0 0 / .5), 0 3px 4px -2px rgb(0 0 0 / .4);
+  --shadow-table: 0 1px 2px 0 rgb(0 0 0 / .5);
+  --shadow-panel: 0 0 0 0.5px var(--ink-a3), 0 1px 2px 0 rgb(0 0 0 / .5), 0 3px 4px -2px rgb(0 0 0 / .4);
+  --shadow-menu: 0 0 0 0.5px var(--ink-7), 0 1px 2px 0 rgb(0 0 0 / .5), 0 4px 8px -4px rgb(0 0 0 / .5);
+  --shadow-modal: 0 0 0 0.5px var(--ink-7), 0 1px 2px 0 rgb(0 0 0 / .5), 0 6px 8px -4px rgb(0 0 0 / .5);
+  --shadow-badge: 0 0 0 0.5px color-mix(in srgb, currentColor 34%, #000), 0 1px 2px 0 rgb(0 0 0 / .5);
+  --backdrop: rgb(0 0 0 / .9);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --root-ink-1: #111110;
+    --root-ink-2: #191918;
+    --root-ink-3: #222221;
+    --root-ink-4: #2a2a28;
+    --root-ink-5: #31312e;
+    --root-ink-6: #3b3a37;
+    --root-ink-7: #494844;
+    --root-ink-8: #62605b;
+    --root-ink-9: #6f6d66;
+    --root-ink-10: #8f8d85;
+    --root-ink-11: #b5b3ad;
+    --root-ink-12: #eeeeec;
+    --ink-a3: #f6f6f513;
+    --ink-a4: #fefef31b;
+
+    --ground: #080807;
+    --panel: var(--root-ink-1);
+    --raised: var(--root-ink-2);
+    --overlay: var(--root-ink-2);
+    --line: var(--ink-5);
+
+    --plum-3: #351a35; --plum-4: #441c44; --plum-6: #632f62;
+    --plum-9: #ab4aba; --plum-10: #b658c4; --plum-11: #e796f3;
+
+    --green-3: #132d21; --green-4: #113b29; --green-6: #20573e;
+    --green-9: #30a46c; --green-10: #33b074; --green-11: #3dd68c;
+
+    --red-3: #3b1219; --red-4: #500f1c; --red-6: #72232d;
+    --red-9: #e5484d; --red-10: #ec5d5e; --red-11: #ff9592;
+
+    --amber-3: #302008; --amber-4: #3f2700; --amber-6: #5c3d05;
+    --amber-9: #ffc53d; --amber-10: #ffd60a; --amber-11: #ffca16;
+
+    --blue-3: #0d2847; --blue-4: #003362; --blue-6: #104d87;
+    --blue-9: #0090ff; --blue-10: #3b9eff; --blue-11: #70b8ff;
+
+    --shadow-button: 0 0 0 0.5px var(--ink-6), 0 1px 2px 0 rgb(0 0 0 / .5);
+    --shadow-primary: 0 0 0 0.5px var(--primary-bg), 0 1px 2px 0 rgb(0 0 0 / .5);
+    --shadow-card: 0 0 0 0.5px var(--ink-6), 0 1px 2px 0 rgb(0 0 0 / .5), 0 3px 4px -2px rgb(0 0 0 / .4);
+    --shadow-table: 0 1px 2px 0 rgb(0 0 0 / .5);
+    --shadow-panel: 0 0 0 0.5px var(--ink-a3), 0 1px 2px 0 rgb(0 0 0 / .5), 0 3px 4px -2px rgb(0 0 0 / .4);
+    --shadow-menu: 0 0 0 0.5px var(--ink-7), 0 1px 2px 0 rgb(0 0 0 / .5), 0 4px 8px -4px rgb(0 0 0 / .5);
+    --shadow-modal: 0 0 0 0.5px var(--ink-7), 0 1px 2px 0 rgb(0 0 0 / .5), 0 6px 8px -4px rgb(0 0 0 / .5);
+    --shadow-badge: 0 0 0 0.5px color-mix(in srgb, currentColor 34%, #000), 0 1px 2px 0 rgb(0 0 0 / .5);
+    --backdrop: rgb(0 0 0 / .9);
+  }
+}
+
+/* ==========================================================================
+   Surface Step-Shift & Tactile Redeclarations
+   ========================================================================== */
+:root[data-theme="light"] :is(.surface-rail, .surface-panel, .surface-overlay, .surface-raised) {
+  --line: var(--ink-6);
+  --shadow-primary: 0 0 0 1px var(--ink-1);
+}
+
+:root[data-theme="light"] .surface-rail {
+  --ink-1: var(--root-ink-2); --ink-2: var(--root-ink-3); --ink-3: var(--root-ink-4);
+  --ink-4: var(--root-ink-5); --ink-5: var(--root-ink-6); --ink-6: var(--root-ink-7);
+  --ink-7: var(--root-ink-8);
+}
+
+:root[data-theme="light"] .surface-panel {
+  --ink-1: var(--surface-top);
+}
+
+:root[data-theme="light"] .surface-overlay {
+  --ink-1: var(--surface-top); --ink-2: var(--surface-top); --ink-3: var(--root-ink-3);
+  --ink-4: var(--root-ink-4); --ink-5: var(--root-ink-5); --ink-6: var(--root-ink-6);
+  --ink-7: var(--root-ink-7);
+}
+
+:root[data-theme="light"] .surface-raised {
+  --ink-1: var(--root-ink-1); --ink-2: var(--root-ink-2); --ink-3: var(--root-ink-3);
+  --ink-4: var(--root-ink-4); --ink-5: var(--root-ink-5); --ink-6: var(--root-ink-6);
+  --ink-7: var(--root-ink-7);
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) :is(.surface-rail, .surface-panel, .surface-overlay, .surface-raised) {
+    --line: var(--ink-6);
+    --shadow-primary: 0 0 0 1px var(--ink-1);
+  }
+  :root:not([data-theme="dark"]) .surface-rail {
+    --ink-1: var(--root-ink-2); --ink-2: var(--root-ink-3); --ink-3: var(--root-ink-4);
+    --ink-4: var(--root-ink-5); --ink-5: var(--root-ink-6); --ink-6: var(--root-ink-7);
+    --ink-7: var(--root-ink-8);
+  }
+  :root:not([data-theme="dark"]) .surface-panel {
+    --ink-1: var(--surface-top);
+  }
+  :root:not([data-theme="dark"]) .surface-overlay {
+    --ink-1: var(--surface-top); --ink-2: var(--surface-top); --ink-3: var(--root-ink-3);
+    --ink-4: var(--root-ink-4); --ink-5: var(--root-ink-5); --ink-6: var(--root-ink-6);
+    --ink-7: var(--root-ink-7);
+  }
+  :root:not([data-theme="dark"]) .surface-raised {
+    --ink-1: var(--root-ink-1); --ink-2: var(--root-ink-2); --ink-3: var(--root-ink-3);
+    --ink-4: var(--root-ink-4); --ink-5: var(--root-ink-5); --ink-6: var(--root-ink-6);
+    --ink-7: var(--root-ink-7);
+  }
+}
+
+:root[data-theme="dark"] :is(.surface-rail, .surface-panel) {
+  --shadow-button: 0 0 0 0.5px var(--root-ink-6), 0 1px 2px 0 rgb(0 0 0 / .5);
+  --shadow-toggle: var(--shadow-button);
+}
+
+:root[data-theme="dark"] :is(.surface-raised, .surface-overlay) {
+  --shadow-button: 0 0 0 0.5px var(--root-ink-7), 0 1px 2px 0 rgb(0 0 0 / .5);
+  --shadow-toggle: var(--shadow-button);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) :is(.surface-rail, .surface-panel) {
+    --shadow-button: 0 0 0 0.5px var(--root-ink-6), 0 1px 2px 0 rgb(0 0 0 / .5);
+    --shadow-toggle: var(--shadow-button);
+  }
+  :root:not([data-theme="light"]) :is(.surface-raised, .surface-overlay) {
+    --shadow-button: 0 0 0 0.5px var(--root-ink-7), 0 1px 2px 0 rgb(0 0 0 / .5);
+    --shadow-toggle: var(--shadow-button);
+  }
+}
+
+/* ==========================================================================
+   Tailwind v4 Mapping & Variants
+   ========================================================================== */
+@custom-variant hover {
+  @media (hover: hover) and (pointer: fine) {
+    &:hover { @slot; }
+  }
+}
+
+@theme {
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-move: cubic-bezier(.22, 1, .36, 1);
+  --ease-drawer: cubic-bezier(.32, .72, 0, 1);
+  --ease-in-out: cubic-bezier(.77, 0, .175, 1);
+}
+
+@theme inline {
+  --color-ink-1: var(--ink-1);   --color-ink-2: var(--ink-2);   --color-ink-3: var(--ink-3);
+  --color-ink-4: var(--ink-4);   --color-ink-5: var(--ink-5);   --color-ink-6: var(--ink-6);
+  --color-ink-7: var(--ink-7);   --color-ink-8: var(--ink-8);   --color-ink-9: var(--ink-9);
+  --color-ink-10: var(--ink-10); --color-ink-11: var(--ink-11); --color-ink-12: var(--ink-12);
+  --color-line: var(--line);
+  --color-focus-ring: var(--focus-ring);
+  --color-ground: var(--ground);
+  --color-panel: var(--panel);
+  --color-raised: var(--raised);
+  --color-overlay: var(--overlay);
+  --color-primary: var(--primary-bg);
+  --color-primary-foreground: var(--primary-fg);
+  --radius-button: var(--radius-control);
+  --text-xs: var(--text-meta);     --text-xs--line-height: var(--leading-meta);
+  --text-sm: var(--text-body);     --text-sm--line-height: var(--leading-body);
+  --text-base: var(--text-title);  --text-base--line-height: var(--leading-title);
+  --text-xl: var(--text-section);  --text-xl--line-height: var(--leading-section);
+  --text-2xl: var(--text-figure);  --text-2xl--line-height: var(--leading-figure);
+  --text-3xl: var(--text-display); --text-3xl--line-height: var(--leading-display);
+  --font-weight-normal: var(--font-weight-ui);
+  --font-weight-medium: var(--font-weight-ui);
+  --font-weight-semibold: var(--font-weight-ui);
+  --breakpoint-md: 48rem;
+}
+
+/* ==========================================================================
+   Browser Surfaces, Accessibility, & Reduced Motion
+   ========================================================================== */
+html, body {
+  background-color: var(--ground);
+  color: var(--ink-12);
+  font-family: var(--font-sans);
+  font-weight: var(--font-weight-ui);
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background-color: var(--plum-3);
+  color: var(--ink-12);
+}
+
+input, textarea, select {
+  caret-color: var(--ink-12);
+}
+
+:is(button, a, summary, [role="button"], [role="radio"], [role="checkbox"], [role="switch"]):focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+:is(input, textarea, select):focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+/* Desktop custom scrollbar (hidden on phone/coarse) */
+@media (hover: hover) and (pointer: fine) {
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: var(--root-ink-6);
+    border-radius: 999px;
+    border: 1px solid var(--root-ink-2);
+  }
+  :root[data-theme="dark"] ::-webkit-scrollbar-thumb {
+    background-color: var(--root-ink-3);
+    border-color: var(--root-ink-1);
+  }
+}
+
+@media screen and (width < 48rem) {
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .mobile-stack:not(:root)         { flex-direction: column;         align-items: stretch; }
+  .mobile-stack-reverse:not(:root) { flex-direction: column-reverse; align-items: stretch; }
+  :is(.mobile-stack, .mobile-stack-reverse) > * { width: 100%; justify-content: center; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-hover: 150ms;
+    --dur-swap: 150ms;
+    --dur-modal: 150ms;
+    --dur-move: 0ms;
+  }
+  .animate-ping {
+    animation: none !important;
+  }
+}
+

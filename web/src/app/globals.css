@@ -1,0 +1,132 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+.hairline-b {
+  border-bottom: 0.5px solid var(--line);
+}
+
+.hairline-t {
+  border-top: 0.5px solid var(--line);
+}
+
+.hairline-frame {
+  border: 0.5px solid var(--ink-6);
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 8px;
+  z-index: 200;
+  padding: 8px 14px;
+  border-radius: var(--radius-control);
+  background: var(--primary-bg);
+  color: var(--primary-fg);
+  font-size: var(--text-body);
+}
+
+.skip-link:focus {
+  left: 12px;
+}
+
+.edge-fade-x {
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 12px,
+    black calc(100% - 20px),
+    transparent
+  );
+}
+
+/* ==========================================================================
+   Scoped Storefront Marketing Tokens (harmonized with FairyGift Rose & Plum)
+   Does not affect /admin/* routes.
+   ========================================================================== */
+.storefront-theme {
+  --fg-rose: #be3d62;
+  --fg-rose-hover: #a93255;
+  --fg-rose-fg: #ffffff;
+  --fg-rose-soft: #fdf2f6;
+  --fg-rose-tint: #fce8ef;
+  --fg-rose-border: #f3c8d7;
+  --fg-rose-text: #9e294e;
+  --fg-hero-glow: radial-gradient(
+      620px 340px at 88% 12%,
+      rgb(213 79 117 / 0.11),
+      transparent 70%
+    ),
+    radial-gradient(
+      520px 300px at 14% 90%,
+      rgb(171 74 186 / 0.08),
+      transparent 72%
+    );
+  --fg-cta-glow: 0 8px 20px -6px rgb(190 61 98 / 0.34), 0 0 0 1px rgb(190 61 98 / 0.16);
+}
+
+:root[data-theme="dark"] .storefront-theme {
+  --fg-rose: #f08ca9;
+  --fg-rose-hover: #f59eb8;
+  --fg-rose-fg: #111110;
+  --fg-rose-soft: #2a141d;
+  --fg-rose-tint: #361925;
+  --fg-rose-border: #59283a;
+  --fg-rose-text: #ff9ebc;
+  --fg-hero-glow: radial-gradient(
+      620px 340px at 88% 12%,
+      rgb(240 140 169 / 0.13),
+      transparent 70%
+    ),
+    radial-gradient(
+      520px 300px at 14% 90%,
+      rgb(182 88 196 / 0.1),
+      transparent 72%
+    );
+  --fg-cta-glow: 0 8px 20px -6px rgb(240 140 169 / 0.25), 0 0 0 0.5px rgb(240 140 169 / 0.35);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .storefront-theme {
+    --fg-rose: #f08ca9;
+    --fg-rose-hover: #f59eb8;
+    --fg-rose-fg: #111110;
+    --fg-rose-soft: #2a141d;
+    --fg-rose-tint: #361925;
+    --fg-rose-border: #59283a;
+    --fg-rose-text: #ff9ebc;
+    --fg-hero-glow: radial-gradient(
+        620px 340px at 88% 12%,
+        rgb(240 140 169 / 0.13),
+        transparent 70%
+      ),
+      radial-gradient(
+        520px 300px at 14% 90%,
+        rgb(182 88 196 / 0.1),
+        transparent 72%
+      );
+    --fg-cta-glow: 0 8px 20px -6px rgb(240 140 169 / 0.25), 0 0 0 0.5px rgb(240 140 169 / 0.35);
+  }
+}
+
+.fg-hero-surface {
+  background-color: var(--panel);
+  background-image: var(--fg-hero-glow);
+}
+
+.storefront-theme ::selection {
+  background: var(--fg-rose-tint);
+  color: var(--fg-rose-text);
+}
+
+.storefront-theme :is(a, button, summary, input, textarea, select):focus-visible {
+  outline: 2px solid var(--fg-rose);
+  outline-offset: 2px;
+}
+
+.fg-faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.fg-faq-item[open] .fg-faq-chevron {
+  transform: rotate(180deg);
+}
