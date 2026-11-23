@@ -1,41 +1,164 @@
-# FairyGift — Platform E-Commerce Hadiah Kustom
+# FairyGift — Kado & Hampers Custom
 
-Platform web e-commerce untuk **FairyGift** (katalog hadiah siap pesan, **Custom Gift Builder** 3 langkah dengan kalkulasi harga real-time, **Guest Checkout + WhatsApp**, dan **Admin Dashboard** untuk pengelolaan pesanan, verifikasi pembayaran manual, produk, serta komponen kustomisasi).
+Platform web e-commerce untuk **FairyGift** yang menyediakan katalog hadiah siap pesan, perangkai **Kado Custom** 3 langkah dengan estimasi harga langsung, pemesanan tamu terintegrasi **WhatsApp**, serta **Dashboard Admin** untuk mengelola pesanan, verifikasi pembayaran manual, produk, kemasan, dan isi kado.
 
-## Arsitektur Gratis untuk Deploy Online
+---
 
-- **Frontend & API Server**: Next.js 15 App Router + TypeScript + Tailwind CSS v4 — **Vercel Hobby** (Gratis)
-- **Database & Autentikasi Admin**: **Firebase Spark** (Cloud Firestore + Firebase Auth Email/Password, tanpa kartu kredit)
-- **Penyimpanan Gambar Produk**: **Cloudinary Free Tier** (25 GB bandwidth/bulan, validasi `JPG/PNG/WebP` maksimal `2 MB`)
+## Fitur Utama
+
+### Storefront Pembeli
+- **Beranda & Katalog (`/`, `/katalog`)**: Etalase paket hadiah dengan filter kategori, pencarian cepat (`Ctrl/⌘ + K`), dan pengurutan harga.
+- **Detail Produk (`/produk/[slug]`)**: Informasi detail paket hadiah beserta ketersediaan stok langsung.
+- **Rangkai Kado Custom (`/custom-gift`)**: Alur bertahap (**Langkah 1–3**) untuk memilih **Kemasan** (beserta pilihan warna dan varian desain), **Isi Hadiah**, dan **Kartu Ucapan** dengan ringkasan harga real-time.
+- **Keranjang & Pemesanan (`/keranjang`, `/checkout`)**:
+  - Validasi ketersediaan produk/komponen sebelum checkout.
+  - Form **Data pemesanan & pengiriman** dengan validasi aksesibel (ringkasan error fokus otomatis di atas form, pesan error per kolom, serta panduan format WhatsApp dan jadwal kirim minimal 2 hari).
+  - Proteksi *idempotency key* untuk mencegah pesanan ganda saat klik berulang.
+- **Struk & Konfirmasi WhatsApp (`/pesanan/[orderNumber]`)**: Halaman ringkasan transaksi lengkap dengan tautan langsung untuk konfirmasi pembayaran ke WhatsApp admin.
+- **Tema Terang & Gelap**: Mendukung pergantian tema di storefront maupun admin.
+
+### Dashboard Admin (`/admin`)
+- **Workspace Sidebar & Top Bar**:
+  - Sidebar terkelompok (**Ringkasan**, **Operasional**, **Katalog**) dengan indikator antrean pembayaran tertunda.
+  - Utilitas cepat **Lihat Toko**, pengalih **Mode Gelap / Terang**, serta menu akun di bagian bawah sidebar (info akun + tombol **Keluar dari Admin**).
+  - Pencarian cepat pesanan/pelanggan (`Ctrl/⌘ + K`) dan indikator status koneksi toko (**Toko Aktif** / **Mode Uji Coba**) berada di top bar utama.
+- **Beranda Admin (`/admin`)**: Metrik ringkasan, jadwal kirim terdekat, distribusi status pesanan, dan daftar pesanan terbaru.
+- **Pesanan (`/admin/pesanan`)**: Filter status pesanan & status pembayaran, pencarian nomor pesanan/nama/WhatsApp, panel detail pesanan lengkap (termasuk tautan struk & tombol chat WhatsApp), serta pembaruan status pesanan.
+- **Pembayaran (`/admin/pembayaran`)**: Antrean verifikasi pembayaran manual beserta modal konfirmasi dan riwayat log perubahan status pembayaran.
+- **Produk (`/admin/produk`)**: Tambah, edit, ubah ketersediaan, dan hapus produk siap pesan beserta unggah gambar ke Cloudinary.
+- **Kemasan & Isi Kado (`/admin/kustomisasi`)**: Pengelolaan tab **Kemasan** (warna, varian desain, harga), **Isi Hadiah**, dan **Kartu Ucapan**.
+
+---
+
+## Stack Teknologi
+
+- **Frontend & API Server**: Next.js 15 (App Router) + React 19 + TypeScript + Tailwind CSS v4
+- **Validasi & UI**: Zod, Lucide Icons, Motion
+- **Database & Autentikasi Admin**: Firebase Spark (Cloud Firestore + Firebase Auth Email/Password)
+- **Penyimpanan Gambar**: Cloudinary Free Tier (`JPG`/`PNG`/`WebP`, maksimal `2 MB`)
+- **Hosting**: Vercel Hobby
+
+---
+
+## Pemetaan Status Pesanan & Pembayaran
+
+Nilai kode internal di Firestore/API tetap dipertahankan untuk kompatibilitas data, sementara seluruh tampilan UI menampilkan label berbahasa Indonesia yang ramah pengguna:
+
+| Jenis | Kode Internal (DB/API) | Label Tampilan UI |
+| --- | --- | --- |
+| **Status Pesanan** | `Pending` | Menunggu |
+| | `Processing` | Disiapkan |
+| | `Ready` | Siap Kirim / Diambil |
+| | `Completed` | Selesai |
+| | `Cancelled` | Dibatalkan |
+| **Status Pembayaran** | `Pending` | Belum Dibayar |
+| | `Paid` | Lunas |
+| | `Rejected` | Ditolak |
+| | `Refunded` | Dana Dikembalikan |
+
+---
+
+## Struktur Rute & API
+
+### Halaman Web
+- **Storefront**:
+  - `/` — Beranda toko
+  - `/katalog` — Katalog produk
+  - `/produk/[slug]` — Detail produk siap pesan
+  - `/custom-gift` — Perangkai Kado Custom (3 langkah)
+  - `/keranjang` — Keranjang belanja
+  - `/checkout` — Data pemesanan & pengiriman
+  - `/pesanan/[orderNumber]` — Struk pesanan & kirim konfirmasi WhatsApp
+- **Admin**:
+  - `/admin/login` — Halaman masuk admin
+  - `/admin` — Beranda Admin (ringkasan operasional)
+  - `/admin/pesanan` — Daftar & detail pesanan
+  - `/admin/pembayaran` — Verifikasi pembayaran manual
+  - `/admin/produk` — Kelola produk
+  - `/admin/kustomisasi` — Kelola kemasan, isi hadiah, dan kartu ucapan
+
+### API Endpoints
+- **Publik**:
+  - `GET /api/health` — Cek status layanan & integrasi Firebase/Cloudinary
+  - `GET /api/products` — Ambil daftar produk & komponen kustomisasi
+  - `POST /api/cart/validate` — Validasi stok, harga, dan ketersediaan item keranjang
+  - `POST /api/checkout` — Buat pesanan baru (dengan *idempotency key*)
+  - `GET /api/orders/[orderNumber]` — Ambil detail struk pesanan
+  - `POST /api/seed` — Seed data katalog awal (memerlukan header `x-seed-secret`)
+- **Admin** *(memerlukan Bearer Token Firebase Auth dengan role `admin`)*:
+  - `GET /api/admin/overview` — Metrik operasional & jadwal kirim terdekat
+  - `GET /api/admin/orders` — Daftar pesanan dengan filter & pencarian
+  - `GET / PATCH /api/admin/orders/[id]` — Detail pesanan, ubah status pesanan, atau konfirmasi status pembayaran + log riwayat
+  - `GET / POST /api/admin/products` & `PATCH / DELETE /api/admin/products/[id]` — Kelola produk
+  - `GET / POST / PATCH / DELETE /api/admin/customizations` — Kelola kemasan, isi hadiah, dan kartu ucapan
+  - `POST /api/admin/upload` — Unggah gambar produk/kustomisasi ke Cloudinary
+
+---
 
 ## Menjalankan di Lokal
 
-1. Masuk ke folder `web/` lalu salin file environment:
+1. Masuk ke folder `web/` dan salin template environment:
 
 ```bash
+cd web
 cp .env.example .env
 ```
 
-2. Jalankan server pengembangan:
+2. Pasang dependensi dan jalankan server pengembangan:
 
 ```bash
 npm install
 npm run dev
 ```
 
-Buka `http://localhost:3000`.
+3. Buka `http://localhost:3000`.
 
-> **Catatan Mode Demo Lokal**: Tanpa mengisi kredensial Firebase di `.env`, Storefront (Beranda, Katalog, Detail Produk, Custom Gift Builder, Keranjang, Checkout, dan Halaman Sukses Pesanan) tetap bisa diuji langsung menggunakan data demo dan penyimpanan transaksi lokal (`dev-order-store`). Untuk mengaktifkan **Admin Dashboard** dan persistensi database **Firestore**, lengkapi langkah setup Firebase dan Cloudinary di bawah.
+> **Catatan Mode Uji Coba Lokal**: Jika kredensial Firebase belum diisi di `.env`, storefront dan dashboard admin tetap bisa dijalankan dalam **Mode Uji Coba / Pratinjau** menggunakan data demo dan penyimpanan sementara di memori/lokal (`dev-order-store`). Agar perubahan admin tersimpan permanen ke database dan foto dapat diunggah, lengkapi integrasi Firebase & Cloudinary.
+
+### Daftar Perintah `npm`
+
+| Perintah | Fungsi |
+| --- | --- |
+| `npm run dev` | Menjalankan server pengembangan Next.js (`--turbopack`) |
+| `npm run build` | Membangun aplikasi production (`next build`) |
+| `npm run start` | Menjalankan hasil build production |
+| `npm run lint` | Menjalankan pemeriksaan ESLint |
+| `npm run typecheck` | Memeriksa tipe TypeScript (`tsc --noEmit`) |
+| `npm run setup` | Menjalankan wizard setup `.env`, akun admin awal, & seed Firestore |
+| `npm run setup:check` | Mengecek status koneksi Firebase Client, Firebase Admin, dan Cloudinary |
 
 ---
 
-## Setup Firebase Spark (Gratis)
+## Variabel Environment (`.env`)
 
-1. Buka [Firebase Console](https://console.firebase.google.com/) dan buat project baru (Spark Plan).
-2. Aktifkan **Authentication** -> Sign-in method -> **Email/Password**.
-3. Buat akun admin di tab **Authentication -> Users** (misal `admin@fairygift.id`), lalu salin **User UID**-nya.
-4. Aktifkan **Cloud Firestore** (pilih region terdekat seperti `asia-southeast2` Jakarta).
-5. Buat dokumen di Firestore pada koleksi `users` dengan Document ID = **User UID** tadi:
+| Variabel | Keterangan |
+| --- | --- |
+| `NEXT_PUBLIC_WHATSAPP_ADMIN_NUMBER` | Nomor WhatsApp admin format internasional tanpa `+` (contoh: `6281234567890`) |
+| `NEXT_PUBLIC_APP_URL` | URL utama aplikasi (lokal: `http://localhost:3000`, produksi: `https://faiirygift.vercel.app`) |
+| `NEXT_PUBLIC_FIREBASE_API_KEY` | Web API Key dari Firebase Project Settings |
+| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | Auth Domain Firebase (contoh: `project-id.firebaseapp.com`) |
+| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | ID Project Firebase |
+| `NEXT_PUBLIC_FIREBASE_APP_ID` | App ID Web Firebase |
+| `FIREBASE_PROJECT_ID` | ID Project untuk Firebase Admin SDK |
+| `FIREBASE_CLIENT_EMAIL` | Email Service Account Firebase Admin |
+| `FIREBASE_PRIVATE_KEY` | Private Key Service Account (gunakan `\n` untuk baris baru) |
+| `CLOUDINARY_CLOUD_NAME` | Nama cloud Cloudinary |
+| `CLOUDINARY_API_KEY` | API Key Cloudinary |
+| `CLOUDINARY_API_SECRET` | API Secret Cloudinary |
+| `SEED_SECRET` | Rahasia header `x-seed-secret` untuk endpoint `/api/seed` |
+
+---
+
+## Setup Firebase & Cloudinary
+
+### 1. Firebase Spark (Auth & Firestore)
+1. Buka [Firebase Console](https://console.firebase.google.com/) dan buat project baru.
+2. Aktifkan **Authentication -> Sign-in method -> Email/Password**.
+3. Tambahkan domain deploy Anda di **Authentication -> Settings -> Authorized domains** agar login `/admin/login` berjalan di production:
+   - `faiirygift.vercel.app` (atau domain produksi Vercel Anda)
+   - `localhost` (sudah tersedia secara default)
+4. Aktifkan **Cloud Firestore** (pilih region terdekat, misalnya `asia-southeast2` Jakarta), lalu terapkan aturan dari `firestore.rules` dan indeks dari `firestore.indexes.json`.
+5. Buat akun admin di **Authentication -> Users**, lalu buat dokumen pada koleksi `users` dengan Document ID = **User UID** admin tersebut:
 
 ```json
 {
@@ -47,59 +170,33 @@ Buka `http://localhost:3000`.
 }
 ```
 
-6. Salin aturan keamanan dari `firestore.rules` ke tab **Firestore -> Rules** (atau deploy via `firebase deploy --only firestore` menggunakan `firebase.json` yang sudah tersedia) dan indeks dari `firestore.indexes.json`.
-7. Ambil kunci **Web App** (Project Settings -> Your apps) dan **Service Account** JSON (Project Settings -> Service accounts -> Generate new private key).
-8. Jalankan wizard integrasi otomatis agar tidak salah format `FIREBASE_PRIVATE_KEY`, sekaligus membuat akun Admin pertama & seed data katalog:
+6. Atau gunakan wizard otomatis setelah mengisi kunci Web App & Service Account:
 
 ```bash
 npm run setup
-```
-
-Atau cek status koneksi integrasi kapan saja:
-
-```bash
 npm run setup:check
 ```
 
-## Setup Cloudinary (Gratis)
+### 2. Cloudinary
+1. Buat akun gratis di [Cloudinary](https://cloudinary.com/).
+2. Salin `Cloud Name`, `API Key`, dan `API Secret` dari dashboard Cloudinary ke `.env`.
 
-1. Daftar akun gratis di [Cloudinary](https://cloudinary.com/).
-2. Dari Dashboard Cloudinary, salin `Cloud Name`, `API Key`, dan `API Secret` ke `.env`:
-   - `CLOUDINARY_CLOUD_NAME`
-   - `CLOUDINARY_API_KEY`
-   - `CLOUDINARY_API_SECRET`
-
-## Seed Katalog Awal ke Firestore
-
-Setelah `.env` terisi dan server berjalan (`npm run dev`), jalankan permintaan `POST` ke `/api/seed` untuk mengisi kategori, produk siap pesan, kemasan, komponen isi hadiah, dan kartu ucapan awal:
+### 3. Seed Katalog Awal ke Firestore
+Setelah `.env` terisi dan server berjalan (`npm run dev`), jalankan:
 
 ```bash
 curl -X POST http://localhost:3000/api/seed \
   -H "x-seed-secret: fairygift-dev-seed"
 ```
 
-Ganti `fairygift-dev-seed` jika Anda mengubah nilai `SEED_SECRET` di `.env`.
+Ganti `fairygift-dev-seed` jika nilai `SEED_SECRET` di `.env` diubah.
 
-## Deploy Online ke Vercel (Gratis)
+---
 
-1. Push folder `web/` ke repositori GitHub Anda (atau atur **Root Directory** Vercel ke `web`).
-2. Import repositori di [Vercel](https://vercel.com/).
-3. Masukkan seluruh environment variables dari `.env.example` ke **Project Settings -> Environment Variables** di Vercel (`NEXT_PUBLIC_APP_URL` diisi domain produksi Vercel Anda, misalnya `https://fairygift.vercel.app`).
-4. Klik **Deploy**.
+## Deploy ke Vercel
 
-## Struktur Rute Utama
-
-- **Storefront**:
-  - `/` — Beranda toko
-  - `/katalog` — Katalog produk dengan filter kategori, pencarian, dan pengurutan
-  - `/produk/[slug]` — Detail produk siap pesan
-  - `/custom-gift` — Custom Gift Builder 3 langkah (Kemasan, Isi Hadiah, Kartu Ucapan)
-  - `/keranjang` — Keranjang belanja dengan validasi stok/ketersediaan terbaru
-  - `/checkout` — Checkout tamu dengan idempotency token
-  - `/pesanan/[orderNumber]` — Halaman ringkasan pesanan dan tombol kirim konfirmasi WhatsApp
-- **Admin Dashboard** (`/admin/login`):
-  - `/admin` — Overview metrik & pesanan terbaru
-  - `/admin/pesanan` — Manajemen pesanan, panel detail, dan pembaruan `orderStatus`
-  - `/admin/pembayaran` — Verifikasi pembayaran manual & log riwayat verifikasi
-  - `/admin/produk` — CRUD produk siap pesan + upload gambar Cloudinary
-  - `/admin/kustomisasi` — CRUD Kemasan, Isi Hadiah, dan Kartu Ucapan
+1. Push kode ke repositori GitHub dan import ke [Vercel](https://vercel.com/).
+2. Atur **Root Directory** project Vercel ke `web`.
+3. Masukkan seluruh environment variables dari `.env.example` ke **Project Settings -> Environment Variables** di Vercel, dengan `NEXT_PUBLIC_APP_URL` mengarah ke domain produksi Anda (contoh: `https://faiirygift.vercel.app`).
+4. Pastikan domain produksi Vercel sudah ditambahkan di **Firebase Console -> Authentication -> Settings -> Authorized domains**.
+5. Deploy — setiap push ke branch `main` akan otomatis memicu build & deployment terbaru di Vercel.
