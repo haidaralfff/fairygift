@@ -1,6 +1,7 @@
 "use client";
 
-import { Minus, Plus } from "lucide-react";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import RemoveRoundedIcon from "@mui/icons-material/RemoveRounded";
 
 interface QuantityStepperProps {
   value: number;
@@ -35,7 +36,7 @@ export function QuantityStepper({
         aria-label="Kurangi jumlah"
         className="touch-target inline-flex size-[var(--control-h-icon)] items-center justify-center rounded-[var(--radius-sm)] text-ink-11 transition-colors duration-[var(--dur-hover)] hover:bg-ink-3 hover:text-ink-12 active:scale-[0.92] disabled:cursor-not-allowed disabled:opacity-40"
       >
-        <Minus className="size-3.5" strokeWidth={2.3} aria-hidden="true" />
+        <RemoveRoundedIcon style={{ fontSize: 16 }} aria-hidden="true" />
       </button>
 
       <span className="tabular-nums min-w-7 text-center text-[length:var(--text-body)] text-ink-12">
@@ -49,7 +50,7 @@ export function QuantityStepper({
         aria-label="Tambah jumlah"
         className="touch-target inline-flex size-[var(--control-h-icon)] items-center justify-center rounded-[var(--radius-sm)] text-ink-11 transition-colors duration-[var(--dur-hover)] hover:bg-ink-3 hover:text-ink-12 active:scale-[0.92] disabled:cursor-not-allowed disabled:opacity-40"
       >
-        <Plus className="size-3.5" strokeWidth={2.3} aria-hidden="true" />
+        <AddRoundedIcon style={{ fontSize: 16 }} aria-hidden="true" />
       </button>
     </div>
   );

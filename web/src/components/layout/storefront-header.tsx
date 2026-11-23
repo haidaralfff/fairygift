@@ -3,15 +3,13 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import {
-  Clock,
-  Menu,
-  MessageCircle,
-  Search,
-  ShoppingBag,
-  Sparkles,
-  X,
-} from "lucide-react";
+import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useCart } from "@/components/cart/cart-provider";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { ModalSheet } from "@/components/ui/modal-sheet";
@@ -93,15 +91,15 @@ export function StorefrontHeader() {
         <div className="mx-auto flex max-w-[1200px] items-center justify-center gap-x-5 gap-y-1 px-4 py-1.5 text-[11px] leading-tight sm:text-[length:var(--text-meta)] md:justify-between md:px-6">
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
             <span className="inline-flex items-center gap-1.5">
-              <Sparkles className="size-3 shrink-0" aria-hidden="true" />
+              <AutoAwesomeOutlinedIcon className="shrink-0" style={{ fontSize: 13 }} aria-hidden="true" />
               <span>Rangkai Kado Custom · Estimasi Harga Langsung</span>
             </span>
             <span className="hidden items-center gap-1.5 sm:inline-flex">
-              <Clock className="size-3 shrink-0" aria-hidden="true" />
+              <AccessTimeOutlinedIcon className="shrink-0" style={{ fontSize: 13 }} aria-hidden="true" />
               <span>Dirangkai Fresh · Min. {MAKE_TO_ORDER_LEAD_DAYS} Hari Sebelum Kirim</span>
             </span>
             <span className="hidden items-center gap-1.5 md:inline-flex">
-              <MessageCircle className="size-3 shrink-0" aria-hidden="true" />
+              <ChatOutlinedIcon className="shrink-0" style={{ fontSize: 13 }} aria-hidden="true" />
               <span>Konsultasi &amp; Konfirmasi Cepat via WhatsApp</span>
             </span>
           </div>
@@ -162,7 +160,7 @@ export function StorefrontHeader() {
               aria-label="Cari paket hadiah"
               className="touch-target inline-flex h-[var(--control-h-pill)] items-center gap-2 rounded-full bg-[var(--raised)] px-2.5 text-[length:var(--text-meta)] text-ink-10 shadow-[var(--shadow-button)] transition-colors duration-[var(--dur-hover)] hover:bg-ink-2 hover:text-ink-12 md:px-3"
             >
-              <Search className="size-3.5 text-ink-10" strokeWidth={2.2} aria-hidden="true" />
+              <SearchRoundedIcon className="text-ink-10" style={{ fontSize: 15 }} aria-hidden="true" />
               <span className="hidden md:inline">Cari hadiah</span>
               <kbd className="hidden h-[var(--key-chip)] items-center rounded-[var(--radius-xs)] bg-ink-3 px-1.5 font-mono text-[11px] text-ink-11 md:inline-flex">
                 ⌘K
@@ -180,7 +178,7 @@ export function StorefrontHeader() {
                   : "bg-[var(--raised)] text-ink-12 shadow-[var(--shadow-toggle)] hover:bg-ink-3"
               }`}
             >
-              <ShoppingBag className="size-3.5 shrink-0" strokeWidth={2.2} aria-hidden="true" />
+              <ShoppingBagOutlinedIcon className="shrink-0" style={{ fontSize: 15 }} aria-hidden="true" />
               <span className="hidden sm:inline">Keranjang</span>
               <span className="tabular-nums">· {activeItemsCount}</span>
             </Link>
@@ -190,7 +188,7 @@ export function StorefrontHeader() {
                 href="/custom-gift"
                 className="hidden h-[var(--control-h-pill)] items-center gap-1.5 whitespace-nowrap rounded-full bg-[var(--fg-rose)] px-3.5 text-[length:var(--text-meta)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors duration-[var(--dur-hover)] hover:bg-[var(--fg-rose-hover)] active:scale-[0.97] lg:inline-flex"
               >
-                <Sparkles className="size-3.5" aria-hidden="true" />
+                <AutoAwesomeOutlinedIcon style={{ fontSize: 15 }} aria-hidden="true" />
                 <span>Rangkai Hadiah</span>
               </Link>
             ) : null}
@@ -203,9 +201,9 @@ export function StorefrontHeader() {
               className="touch-target inline-flex h-[var(--control-h-pill)] w-9 items-center justify-center rounded-full bg-[var(--raised)] text-ink-12 shadow-[var(--shadow-button)] transition-colors hover:bg-ink-2 md:hidden"
             >
               {mobileMenuOpen ? (
-                <X className="size-4" aria-hidden="true" />
+                <CloseRoundedIcon style={{ fontSize: 18 }} aria-hidden="true" />
               ) : (
-                <Menu className="size-4" aria-hidden="true" />
+                <MenuRoundedIcon style={{ fontSize: 18 }} aria-hidden="true" />
               )}
             </button>
           </div>
@@ -242,7 +240,7 @@ export function StorefrontHeader() {
                   onClick={() => setMobileMenuOpen(false)}
                   className="mt-1 inline-flex h-10 items-center justify-center gap-1.5 rounded-[var(--radius-control)] bg-[var(--fg-rose)] px-3.5 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)]"
                 >
-                  <Sparkles className="size-3.5" aria-hidden="true" />
+                  <AutoAwesomeOutlinedIcon style={{ fontSize: 15 }} aria-hidden="true" />
                   <span>Rangkai Hadiah</span>
                 </Link>
               ) : null}

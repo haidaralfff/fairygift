@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
-import { MessageCircle } from "lucide-react";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import { CopyPill } from "@/components/ui/copy-pill";
 import { PillBadge } from "@/components/ui/pill-badge";
 import { StatusDot } from "@/components/ui/status-dot";
@@ -238,7 +238,7 @@ export default function OrderConfirmationPage() {
           rel="noopener noreferrer"
           className="mt-4 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-4 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors duration-[var(--dur-hover)] hover:bg-[var(--fg-rose-hover)] active:scale-[0.98]"
         >
-          <MessageCircle className="size-4" aria-hidden="true" />
+          <ChatOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" />
           <span>
             {order.paymentStatus === "Pending" && order.orderStatus !== "Cancelled"
               ? "Konfirmasi pesanan via WhatsApp"

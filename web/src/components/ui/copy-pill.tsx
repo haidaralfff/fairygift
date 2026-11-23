@@ -1,7 +1,8 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { Check, Copy } from "lucide-react";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
 
 interface CopyPillProps {
   text: string;
@@ -43,13 +44,13 @@ export function CopyPill({
       className="touch-target inline-flex h-[var(--control-h-pill)] items-center gap-1.5 rounded-full bg-[var(--raised)] px-3 text-[length:var(--text-meta)] text-ink-12 shadow-[var(--shadow-toggle)] transition-colors duration-[var(--dur-hover)] ease-[var(--ease-out)] hover:bg-ink-3 active:scale-[0.97]"
     >
       {copied ? (
-        <Check
-          className="size-3.5 text-[var(--green-11)] transition-transform duration-200 scale-110"
-          strokeWidth={2.5}
+        <CheckRoundedIcon
+          style={{ fontSize: 15 }}
+          className="text-[var(--green-11)] transition-transform duration-200 scale-110"
           aria-hidden="true"
         />
       ) : (
-        <Copy className="size-3.5 text-ink-10" strokeWidth={2.2} aria-hidden="true" />
+        <ContentCopyOutlinedIcon style={{ fontSize: 14 }} className="text-ink-10" aria-hidden="true" />
       )}
       <span>{failed ? "Gagal menyalin" : copied ? copiedLabel : label}</span>
     </button>

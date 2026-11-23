@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowUpRight } from "lucide-react";
+import NorthEastRoundedIcon from "@mui/icons-material/NorthEastRounded";
 import { PillBadge } from "@/components/ui/pill-badge";
 import { ResilientImage } from "@/components/ui/resilient-image";
 import { StatusDot } from "@/components/ui/status-dot";
@@ -62,7 +62,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
 
           <span className="inline-flex h-[var(--control-h-pill)] items-center gap-1 rounded-full bg-[var(--fg-rose-soft)] px-2.5 text-[length:var(--text-meta)] text-[var(--fg-rose-text)] transition-colors group-hover:bg-[var(--fg-rose)] group-hover:text-[var(--fg-rose-fg)]">
             <span>Detail</span>
-            <ArrowUpRight className="size-3.5" aria-hidden="true" />
+            <NorthEastRoundedIcon style={{ fontSize: 14 }} aria-hidden="true" />
           </span>
         </div>
       </div>

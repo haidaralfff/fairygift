@@ -1,5 +1,8 @@
 import Link from "next/link";
-import { Clock, Gift, MessageCircle, ShieldCheck } from "lucide-react";
+import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
+import CardGiftcardOutlinedIcon from "@mui/icons-material/CardGiftcardOutlined";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { MAKE_TO_ORDER_LEAD_DAYS } from "@/lib/constants";
 
@@ -18,11 +21,11 @@ export function StorefrontFooter() {
             </p>
             <div className="flex flex-wrap items-center gap-2 pt-1">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-[var(--fg-rose-soft)] px-2.5 py-1 text-[length:var(--text-meta)] text-[var(--fg-rose-text)]">
-                <Gift className="size-3.5" aria-hidden="true" />
+                <CardGiftcardOutlinedIcon style={{ fontSize: 15 }} aria-hidden="true" />
                 <span>Pilihan Kemasan Eksklusif</span>
               </span>
               <span className="inline-flex items-center gap-1.5 rounded-full bg-ink-2 px-2.5 py-1 text-[length:var(--text-meta)] text-ink-11">
-                <Clock className="size-3.5" aria-hidden="true" />
+                <AccessTimeOutlinedIcon style={{ fontSize: 15 }} aria-hidden="true" />
                 <span>Dirangkai Fresh Min. {MAKE_TO_ORDER_LEAD_DAYS} Hari</span>
               </span>
             </div>
@@ -64,11 +67,11 @@ export function StorefrontFooter() {
             </p>
             <ul className="space-y-2.5 text-[length:var(--text-body)] text-ink-11">
               <li className="flex items-start gap-2.5">
-                <ShieldCheck className="mt-0.5 size-4 shrink-0 text-[var(--fg-rose)]" aria-hidden="true" />
+                <VerifiedUserOutlinedIcon className="mt-0.5 shrink-0 text-[var(--fg-rose)]" style={{ fontSize: 17 }} aria-hidden="true" />
                 <span>Setiap pesanan tercatat rapi dengan bukti transaksi resmi untuk Anda.</span>
               </li>
               <li className="flex items-start gap-2.5">
-                <MessageCircle className="mt-0.5 size-4 shrink-0 text-[var(--fg-rose)]" aria-hidden="true" />
+                <ChatOutlinedIcon className="mt-0.5 shrink-0 text-[var(--fg-rose)]" style={{ fontSize: 17 }} aria-hidden="true" />
                 <span>Konsultasi pesanan dan konfirmasi pembayaran cepat melalui WhatsApp.</span>
               </li>
             </ul>

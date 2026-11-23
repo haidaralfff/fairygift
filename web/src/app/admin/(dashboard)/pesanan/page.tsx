@@ -2,7 +2,8 @@
 
 import { Suspense, useCallback, useEffect, useRef, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { MessageCircle, Search } from "lucide-react";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
 import { useAdminAuth } from "@/components/admin/admin-auth-provider";
 import { CopyPill } from "@/components/ui/copy-pill";
 import { ModalSheet } from "@/components/ui/modal-sheet";
@@ -301,8 +302,9 @@ function OrdersContent() {
             </select>
 
             <div className="relative flex-1 sm:w-56 sm:flex-none">
-              <Search
-                className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-ink-10"
+              <SearchRoundedIcon
+                style={{ fontSize: 15 }}
+                className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-10"
                 aria-hidden="true"
               />
               <input
@@ -551,7 +553,7 @@ function OrdersContent() {
                     rel="noopener noreferrer"
                     className="inline-flex h-[var(--control-h-pill)] items-center gap-1 rounded-full bg-[var(--raised)] px-2.5 text-[length:var(--text-meta)] text-ink-12 shadow-[var(--shadow-toggle)] hover:bg-ink-3"
                   >
-                    <MessageCircle className="size-3.5" aria-hidden="true" />
+                    <ChatOutlinedIcon style={{ fontSize: 14 }} aria-hidden="true" />
                     <span>Chat WhatsApp</span>
                   </a>
                 </div>

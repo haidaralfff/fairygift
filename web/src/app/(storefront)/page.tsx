@@ -1,19 +1,17 @@
 import Link from "next/link";
-import {
-  ArrowRight,
-  Award,
-  Cake,
-  Calculator,
-  CheckCircle2,
-  ChevronDown,
-  Clock,
-  Gift,
-  Heart,
-  MessageCircle,
-  PackageCheck,
-  Palette,
-  Sparkles,
-} from "lucide-react";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import WorkspacePremiumOutlinedIcon from "@mui/icons-material/WorkspacePremiumOutlined";
+import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
+import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
+import CardGiftcardOutlinedIcon from "@mui/icons-material/CardGiftcardOutlined";
+import FavoriteBorderRoundedIcon from "@mui/icons-material/FavoriteBorderRounded";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import InventoryOutlinedIcon from "@mui/icons-material/InventoryOutlined";
+import PaletteOutlinedIcon from "@mui/icons-material/PaletteOutlined";
+import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
 import { ProductCard } from "@/components/storefront/product-card";
 import { ResilientImage } from "@/components/ui/resilient-image";
 import { MAKE_TO_ORDER_LEAD_DAYS } from "@/lib/constants";
@@ -28,25 +26,25 @@ export const dynamic = "force-dynamic";
 
 const VALUE_PILLARS = [
   {
-    icon: Palette,
+    icon: PaletteOutlinedIcon,
     title: "Kemasan Pilihan",
     description:
       "Hardbox satin, kraft box hangat, hingga buket floral dengan warna sesuai selera penerima.",
   },
   {
-    icon: Calculator,
+    icon: CalculateOutlinedIcon,
     title: "Harga Transparan",
     description:
       "Total biaya kemasan, isi hadiah, dan kartu ucapan tampil jelas tanpa biaya tersembunyi.",
   },
   {
-    icon: Clock,
+    icon: AccessTimeOutlinedIcon,
     title: `Dirangkai Fresh Min. ${MAKE_TO_ORDER_LEAD_DAYS} Hari`,
     description:
       "Setiap bingkisan disiapkan khusus setelah dipesan agar seluruh isinya tampil sempurna.",
   },
   {
-    icon: MessageCircle,
+    icon: ChatOutlinedIcon,
     title: "Layanan WhatsApp",
     description:
       "Pesanan terhubung langsung ke tim kami di WhatsApp untuk panduan bayar dan jadwal kirim.",
@@ -98,11 +96,11 @@ const FAQ_ITEMS = [
 
 function getCategoryIcon(slug: string) {
   const s = slug.toLowerCase();
-  if (s.includes("birthday")) return Cake;
-  if (s.includes("graduation")) return Award;
-  if (s.includes("anniversary")) return Heart;
-  if (s.includes("aesthetic")) return Palette;
-  return Gift;
+  if (s.includes("birthday")) return CakeOutlinedIcon;
+  if (s.includes("graduation")) return WorkspacePremiumOutlinedIcon;
+  if (s.includes("anniversary")) return FavoriteBorderRoundedIcon;
+  if (s.includes("aesthetic")) return PaletteOutlinedIcon;
+  return CardGiftcardOutlinedIcon;
 }
 
 export default async function HomePage() {
@@ -166,7 +164,7 @@ export default async function HomePage() {
                 href="/custom-gift"
                 className="inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-5 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors duration-[var(--dur-hover)] hover:bg-[var(--fg-rose-hover)] active:scale-[0.98]"
               >
-                <Sparkles className="size-4" strokeWidth={2} aria-hidden="true" />
+                <AutoAwesomeOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" />
                 <span>Rangkai kado custom</span>
               </Link>
 
@@ -175,28 +173,31 @@ export default async function HomePage() {
                 className="inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--raised)] px-5 text-[length:var(--text-body)] text-ink-12 shadow-[var(--shadow-button)] transition-colors duration-[var(--dur-hover)] hover:bg-ink-2 active:scale-[0.98]"
               >
                 <span>Jelajahi katalog</span>
-                <ArrowRight className="size-4 text-ink-10" aria-hidden="true" />
+                <ArrowForwardRoundedIcon className="text-ink-10" style={{ fontSize: 17 }} aria-hidden="true" />
               </Link>
             </div>
 
             <ul className="hairline-t mt-8 flex flex-wrap items-center gap-x-6 gap-y-2.5 pt-5 text-[length:var(--text-meta)] text-ink-11">
               <li className="inline-flex items-center gap-1.5">
-                <CheckCircle2
-                  className="size-4 shrink-0 text-[var(--green-11)]"
+                <CheckCircleOutlineRoundedIcon
+                  className="shrink-0 text-[var(--green-11)]"
+                  style={{ fontSize: 17 }}
                   aria-hidden="true"
                 />
                 <span>Harga jelas sejak awal</span>
               </li>
               <li className="inline-flex items-center gap-1.5">
-                <CheckCircle2
-                  className="size-4 shrink-0 text-[var(--green-11)]"
+                <CheckCircleOutlineRoundedIcon
+                  className="shrink-0 text-[var(--green-11)]"
+                  style={{ fontSize: 17 }}
                   aria-hidden="true"
                 />
                 <span>Kartu ucapan personal</span>
               </li>
               <li className="inline-flex items-center gap-1.5">
-                <CheckCircle2
-                  className="size-4 shrink-0 text-[var(--green-11)]"
+                <CheckCircleOutlineRoundedIcon
+                  className="shrink-0 text-[var(--green-11)]"
+                  style={{ fontSize: 17 }}
                   aria-hidden="true"
                 />
                 <span>Bisa kirim atau ambil sendiri</span>
@@ -214,8 +215,9 @@ export default async function HomePage() {
                 className="size-full"
               />
               <div className="absolute top-3.5 left-3.5 inline-flex items-center gap-1.5 rounded-full bg-[color-mix(in_oklab,var(--panel)_92%,transparent)] px-3 py-1 text-[length:var(--text-meta)] text-ink-12 shadow-[var(--shadow-button)] backdrop-blur-sm">
-                <PackageCheck
-                  className="size-3.5 text-[var(--fg-rose)]"
+                <InventoryOutlinedIcon
+                  className="text-[var(--fg-rose)]"
+                  style={{ fontSize: 15 }}
                   aria-hidden="true"
                 />
                 <span className="tabular-nums">
@@ -238,8 +240,9 @@ export default async function HomePage() {
                     {builderCatalog.components.length} pilihan isi
                   </p>
                 </div>
-                <ArrowRight
-                  className="mt-1 size-4 shrink-0 text-[var(--fg-rose-text)] transition-transform group-hover:translate-x-0.5"
+                <ArrowForwardRoundedIcon
+                  className="mt-1 shrink-0 text-[var(--fg-rose-text)] transition-transform group-hover:translate-x-0.5"
+                  style={{ fontSize: 17 }}
                   aria-hidden="true"
                 />
               </Link>
@@ -276,7 +279,7 @@ export default async function HomePage() {
               return (
                 <div key={pillar.title} className="flex flex-col items-start">
                   <span className="inline-flex size-9 items-center justify-center rounded-full bg-[var(--fg-rose-soft)] text-[var(--fg-rose-text)]">
-                    <Icon className="size-4.5" strokeWidth={1.9} aria-hidden="true" />
+                    <Icon style={{ fontSize: 18 }} aria-hidden="true" />
                   </span>
                   <h2 className="mt-3.5 text-[length:var(--text-title)] leading-[var(--leading-title)] text-ink-12">
                     {pillar.title}
@@ -312,7 +315,7 @@ export default async function HomePage() {
               className="mt-3.5 inline-flex items-center gap-1.5 text-[length:var(--text-body)] text-[var(--fg-rose-text)] transition-colors hover:text-[var(--fg-rose)]"
             >
               <span>Lihat semua kategori</span>
-              <ArrowRight className="size-4" aria-hidden="true" />
+              <ArrowForwardRoundedIcon style={{ fontSize: 17 }} aria-hidden="true" />
             </Link>
           </div>
 
@@ -327,7 +330,7 @@ export default async function HomePage() {
                     className="group inline-flex items-center gap-2.5 rounded-full border-[0.5px] border-[var(--line)] bg-[var(--raised)] py-1.5 pr-3.5 pl-1.5 shadow-[var(--shadow-button)] transition-[border-color,background-color,transform] duration-150 hover:-translate-y-0.5 hover:border-[var(--fg-rose-border)] hover:bg-[var(--fg-rose-soft)] motion-reduce:hover:translate-y-0"
                   >
                     <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-[var(--fg-rose-soft)] text-[var(--fg-rose-text)] transition-colors group-hover:bg-[var(--fg-rose)] group-hover:text-[var(--fg-rose-fg)]">
-                      <Icon className="size-4" strokeWidth={1.9} aria-hidden="true" />
+                      <Icon style={{ fontSize: 17 }} aria-hidden="true" />
                     </span>
                     <span className="text-[length:var(--text-body)] text-ink-12 transition-colors group-hover:text-[var(--fg-rose-text)]">
                       {cat.name}
@@ -366,7 +369,7 @@ export default async function HomePage() {
             className="inline-flex h-[var(--control-h-compact)] items-center gap-1.5 rounded-full bg-[var(--raised)] px-3.5 text-[length:var(--text-meta)] text-ink-12 shadow-[var(--shadow-button)] transition-colors hover:bg-ink-2"
           >
             <span>Lihat semua paket</span>
-            <ArrowRight className="size-3.5 text-ink-10" aria-hidden="true" />
+            <ArrowForwardRoundedIcon className="text-ink-10" style={{ fontSize: 15 }} aria-hidden="true" />
           </Link>
         </div>
 
@@ -434,7 +437,7 @@ export default async function HomePage() {
                 href="/custom-gift"
                 className="inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-5 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors hover:bg-[var(--fg-rose-hover)] active:scale-[0.98]"
               >
-                <Sparkles className="size-4" aria-hidden="true" />
+                <AutoAwesomeOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" />
                 <span>Mulai rangkai hadiah</span>
               </Link>
 
@@ -522,8 +525,9 @@ export default async function HomePage() {
               <details key={faq.question} className="fg-faq-item group">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[length:var(--text-body)] text-ink-12 transition-colors hover:text-[var(--fg-rose-text)]">
                   <span>{faq.question}</span>
-                  <ChevronDown
-                    className="fg-faq-chevron size-4 shrink-0 text-ink-10 transition-transform duration-200"
+                  <KeyboardArrowDownRoundedIcon
+                    className="fg-faq-chevron shrink-0 text-ink-10 transition-transform duration-200"
+                    style={{ fontSize: 18 }}
                     aria-hidden="true"
                   />
                 </summary>
@@ -552,7 +556,7 @@ export default async function HomePage() {
               href="/custom-gift"
               className="inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-5 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors hover:bg-[var(--fg-rose-hover)] active:scale-[0.98]"
             >
-              <Sparkles className="size-4" aria-hidden="true" />
+              <AutoAwesomeOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" />
               <span>Rangkai kado sekarang</span>
             </Link>
 

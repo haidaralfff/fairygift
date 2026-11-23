@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Gift } from "lucide-react";
+import CardGiftcardOutlinedIcon from "@mui/icons-material/CardGiftcardOutlined";
 
 interface ResilientImageProps {
   src?: string | null;
@@ -29,7 +29,7 @@ export function ResilientImage({
         aria-label={alt}
         className={`flex items-center justify-center bg-ink-2 text-ink-9 ${className}`}
       >
-        <Gift className="size-5" strokeWidth={1.8} aria-hidden="true" />
+        <CardGiftcardOutlinedIcon style={{ fontSize: 20 }} aria-hidden="true" />
       </div>
     );
   }

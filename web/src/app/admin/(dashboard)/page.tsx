@@ -2,7 +2,8 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowRight, CalendarClock } from "lucide-react";
+import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
+import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlined";
 import { useAdminAuth } from "@/components/admin/admin-auth-provider";
 import { StatusDot } from "@/components/ui/status-dot";
 import {
@@ -92,8 +93,9 @@ export default function AdminOverviewPage() {
               <p className="tabular-nums text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-ink-12">
                 {loading ? <span className="text-ink-10">-</span> : metrics.totalOrders}
               </p>
-              <ArrowRight
-                className="size-4 text-ink-8 transition-transform group-hover:translate-x-0.5 group-hover:text-ink-12"
+              <ArrowForwardRoundedIcon
+                style={{ fontSize: 16 }}
+                className="text-ink-8 transition-transform group-hover:translate-x-0.5 group-hover:text-ink-12"
                 aria-hidden="true"
               />
             </div>
@@ -110,8 +112,9 @@ export default function AdminOverviewPage() {
               <p className="tabular-nums text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-ink-12">
                 {loading ? <span className="text-ink-10">-</span> : metrics.pendingPayments}
               </p>
-              <ArrowRight
-                className="size-4 text-ink-8 transition-transform group-hover:translate-x-0.5 group-hover:text-ink-12"
+              <ArrowForwardRoundedIcon
+                style={{ fontSize: 16 }}
+                className="text-ink-8 transition-transform group-hover:translate-x-0.5 group-hover:text-ink-12"
                 aria-hidden="true"
               />
             </div>
@@ -132,8 +135,9 @@ export default function AdminOverviewPage() {
               <p className="tabular-nums text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-ink-12">
                 {loading ? <span className="text-ink-10">-</span> : metrics.processingOrders}
               </p>
-              <ArrowRight
-                className="size-4 text-ink-8 transition-transform group-hover:translate-x-0.5 group-hover:text-ink-12"
+              <ArrowForwardRoundedIcon
+                style={{ fontSize: 16 }}
+                className="text-ink-8 transition-transform group-hover:translate-x-0.5 group-hover:text-ink-12"
                 aria-hidden="true"
               />
             </div>
@@ -159,8 +163,9 @@ export default function AdminOverviewPage() {
                   formatRupiah(metrics.verifiedRevenue)
                 )}
               </p>
-              <ArrowRight
-                className="size-4 text-ink-8 transition-transform group-hover:translate-x-0.5 group-hover:text-ink-12"
+              <ArrowForwardRoundedIcon
+                style={{ fontSize: 16 }}
+                className="text-ink-8 transition-transform group-hover:translate-x-0.5 group-hover:text-ink-12"
                 aria-hidden="true"
               />
             </div>
@@ -176,7 +181,7 @@ export default function AdminOverviewPage() {
         <section aria-labelledby="upcoming-heading" className="lg:col-span-7">
           <div className="flex items-center justify-between gap-4">
             <div className="flex min-w-0 items-center gap-2">
-              <CalendarClock className="size-4 shrink-0 text-ink-10" aria-hidden="true" />
+              <EventAvailableOutlinedIcon style={{ fontSize: 17 }} className="shrink-0 text-ink-10" aria-hidden="true" />
               <h2
                 id="upcoming-heading"
                 className="text-[length:var(--text-section)] leading-[var(--leading-section)] text-ink-12"
@@ -189,7 +194,7 @@ export default function AdminOverviewPage() {
               className="inline-flex h-[var(--control-h-compact)] shrink-0 whitespace-nowrap items-center gap-1.5 rounded-[var(--radius-control)] bg-[var(--raised)] px-3 text-[length:var(--text-meta)] text-ink-12 shadow-[var(--shadow-button)] hover:bg-ink-2"
             >
               <span>Urutkan paling dekat</span>
-              <ArrowRight className="size-3.5 shrink-0 text-ink-10" aria-hidden="true" />
+              <ArrowForwardRoundedIcon style={{ fontSize: 14 }} className="shrink-0 text-ink-10" aria-hidden="true" />
             </Link>
           </div>
 
@@ -313,7 +318,7 @@ export default function AdminOverviewPage() {
             className="inline-flex h-[var(--control-h-compact)] shrink-0 whitespace-nowrap items-center gap-1.5 rounded-[var(--radius-control)] bg-[var(--raised)] px-3 text-[length:var(--text-meta)] text-ink-12 shadow-[var(--shadow-button)] hover:bg-ink-2"
           >
             <span>Lihat semua</span>
-            <ArrowRight className="size-3.5 shrink-0 text-ink-10" aria-hidden="true" />
+            <ArrowForwardRoundedIcon style={{ fontSize: 14 }} className="shrink-0 text-ink-10" aria-hidden="true" />
           </Link>
         </div>
 

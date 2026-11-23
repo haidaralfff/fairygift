@@ -3,7 +3,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { AnimatePresence, motion } from "motion/react";
-import { Check, RotateCcw, Search, ShoppingBag } from "lucide-react";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import RestartAltRoundedIcon from "@mui/icons-material/RestartAltRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { useCart } from "@/components/cart/cart-provider";
 import { ModalSheet } from "@/components/ui/modal-sheet";
 import { PillBadge } from "@/components/ui/pill-badge";
@@ -384,7 +387,7 @@ export function CustomGiftBuilder({
           onClick={() => setResetModalOpen(true)}
           className="inline-flex h-[var(--control-h-compact)] items-center gap-1.5 rounded-[var(--radius-control)] px-2.5 text-[length:var(--text-meta)] text-ink-10 transition-colors hover:bg-ink-2 hover:text-ink-12"
         >
-          <RotateCcw className="size-3.5" aria-hidden="true" />
+          <RestartAltRoundedIcon style={{ fontSize: 15 }} aria-hidden="true" />
           <span>Ulangi dari awal</span>
         </button>
       </div>
@@ -416,7 +419,7 @@ export function CustomGiftBuilder({
                           : "bg-[var(--raised)] text-ink-12 shadow-[var(--shadow-button)]"
                     }`}
                   >
-                    {s.done ? <Check className="size-4" strokeWidth={2.5} /> : s.num}
+                    {s.done ? <CheckRoundedIcon style={{ fontSize: 16 }} aria-hidden="true" /> : s.num}
                   </span>
                   <span
                     className={`text-[length:var(--text-body)] ${
@@ -580,7 +583,7 @@ export function CustomGiftBuilder({
                             >
                               <span>{design}</span>
                               {active ? (
-                                <Check className="size-4 text-[var(--fg-rose)]" aria-hidden="true" />
+                                <CheckRoundedIcon className="text-[var(--fg-rose)]" style={{ fontSize: 17 }} aria-hidden="true" />
                               ) : null}
                             </button>
                           );
@@ -643,8 +646,9 @@ export function CustomGiftBuilder({
 
                   {components.length > 8 ? (
                     <div className="relative sm:w-56">
-                      <Search
-                        className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-ink-10"
+                      <SearchRoundedIcon
+                        className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-10"
+                        style={{ fontSize: 15 }}
                         aria-hidden="true"
                       />
                       <input
@@ -709,7 +713,7 @@ export function CustomGiftBuilder({
                                 : "border-[1.5px] border-ink-6 bg-transparent"
                             }`}
                           >
-                            {checked ? <Check className="size-3" strokeWidth={2.8} /> : null}
+                            {checked ? <CheckRoundedIcon style={{ fontSize: 13 }} aria-hidden="true" /> : null}
                           </span>
                         </button>
                       );
@@ -880,7 +884,7 @@ export function CustomGiftBuilder({
               onClick={handlePrimaryAction}
               className="mt-5 inline-flex h-11 w-full items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-4 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors duration-[var(--dur-hover)] ease-[var(--ease-out)] hover:bg-[var(--fg-rose-hover)] active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-45 disabled:shadow-none"
             >
-              {step === 3 ? <ShoppingBag className="size-4" aria-hidden="true" /> : null}
+              {step === 3 ? <ShoppingBagOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" /> : null}
               <span>{primaryLabel}</span>
             </button>
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { ShoppingBag } from "lucide-react";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
 import { useCart } from "@/components/cart/cart-provider";
 import { PillBadge } from "@/components/ui/pill-badge";
 import { QuantityStepper } from "@/components/ui/quantity-stepper";
@@ -72,7 +72,7 @@ export default function KeranjangPage() {
       {items.length === 0 ? (
         <div className="mt-6 flex flex-col items-center justify-center rounded-[20px] border-[0.5px] border-[var(--line)] bg-[var(--panel)] p-11 text-center shadow-[var(--shadow-panel)]">
           <span className="inline-flex size-11 items-center justify-center rounded-full bg-[var(--fg-rose-soft)] text-[var(--fg-rose-text)]">
-            <ShoppingBag className="size-5" strokeWidth={1.8} aria-hidden="true" />
+            <ShoppingBagOutlinedIcon style={{ fontSize: 20 }} aria-hidden="true" />
           </span>
           <p className="mt-3 text-[length:var(--text-title)] text-ink-12">
             Keranjang belanja kosong.

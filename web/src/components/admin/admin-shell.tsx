@@ -3,22 +3,20 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  ChevronDown,
-  CreditCard,
-  LayoutDashboard,
-  LogOut,
-  Menu,
-  Moon,
-  Package,
-  Search,
-  ShoppingCart,
-  Sparkles,
-  Store,
-  Sun,
-  User,
-  X,
-} from "lucide-react";
+import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import CreditCardOutlinedIcon from "@mui/icons-material/CreditCardOutlined";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
+import Inventory2OutlinedIcon from "@mui/icons-material/Inventory2Outlined";
+import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
+import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import StorefrontOutlinedIcon from "@mui/icons-material/StorefrontOutlined";
 import { useAdminAuth } from "@/components/admin/admin-auth-provider";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { ModalSheet } from "@/components/ui/modal-sheet";
@@ -136,16 +134,16 @@ export function AdminShell({ children }: AdminShellProps) {
   const navGroups = [
     {
       label: "Ringkasan",
-      items: [{ href: "/admin", label: "Beranda Admin", icon: LayoutDashboard }],
+      items: [{ href: "/admin", label: "Beranda Admin", icon: DashboardOutlinedIcon }],
     },
     {
       label: "Operasional",
       items: [
-        { href: "/admin/pesanan", label: "Pesanan", icon: ShoppingCart },
+        { href: "/admin/pesanan", label: "Pesanan", icon: ShoppingCartOutlinedIcon },
         {
           href: "/admin/pembayaran",
           label: "Pembayaran",
-          icon: CreditCard,
+          icon: CreditCardOutlinedIcon,
           badge: pendingCount > 0 ? pendingCount : undefined,
         },
       ],
@@ -153,8 +151,8 @@ export function AdminShell({ children }: AdminShellProps) {
     {
       label: "Katalog",
       items: [
-        { href: "/admin/produk", label: "Produk", icon: Package },
-        { href: "/admin/kustomisasi", label: "Kemasan & Isi Kado", icon: Sparkles },
+        { href: "/admin/produk", label: "Produk", icon: Inventory2OutlinedIcon },
+        { href: "/admin/kustomisasi", label: "Kemasan & Isi Kado", icon: AutoAwesomeOutlinedIcon },
       ],
     },
   ];
@@ -224,8 +222,8 @@ export function AdminShell({ children }: AdminShellProps) {
                       >
                         <span className="inline-flex min-w-0 items-center gap-2.5">
                           <Icon
-                            className={`size-[17px] shrink-0 ${active ? "text-ink-12" : "text-ink-9"}`}
-                            strokeWidth={1.9}
+                            style={{ fontSize: 18 }}
+                            className={`shrink-0 ${active ? "text-ink-12" : "text-ink-9"}`}
                             aria-hidden="true"
                           />
                           <span className="truncate">{item.label}</span>
@@ -251,7 +249,7 @@ export function AdminShell({ children }: AdminShellProps) {
             className="inline-flex h-9 w-full items-center justify-between rounded-[10px] px-2.5 text-[length:var(--text-body)] text-ink-11 transition-colors duration-[var(--dur-hover)] hover:bg-ink-2 hover:text-ink-12"
           >
             <span className="inline-flex items-center gap-2.5">
-              <Store className="size-[17px] shrink-0 text-ink-9" strokeWidth={1.9} aria-hidden="true" />
+              <StorefrontOutlinedIcon style={{ fontSize: 18 }} className="shrink-0 text-ink-9" aria-hidden="true" />
               <span>Lihat Toko</span>
             </span>
           </Link>
@@ -264,9 +262,9 @@ export function AdminShell({ children }: AdminShellProps) {
           >
             <span className="inline-flex items-center gap-2.5">
               {theme === "dark" ? (
-                <Sun className="size-[17px] shrink-0 text-ink-9" strokeWidth={1.9} aria-hidden="true" />
+                <LightModeOutlinedIcon style={{ fontSize: 18 }} className="shrink-0 text-ink-9" aria-hidden="true" />
               ) : (
-                <Moon className="size-[17px] shrink-0 text-ink-9" strokeWidth={1.9} aria-hidden="true" />
+                <DarkModeOutlinedIcon style={{ fontSize: 18 }} className="shrink-0 text-ink-9" aria-hidden="true" />
               )}
               <span>{theme === "dark" ? "Mode Terang" : "Mode Gelap"}</span>
             </span>
@@ -295,7 +293,7 @@ export function AdminShell({ children }: AdminShellProps) {
                       }}
                       className="inline-flex h-9 w-full items-center gap-2 rounded-[8px] px-2.5 text-[13px] text-[var(--red-11)] transition-colors hover:bg-[var(--red-3)]"
                     >
-                      <LogOut className="size-4 shrink-0" strokeWidth={1.9} aria-hidden="true" />
+                      <LogoutRoundedIcon style={{ fontSize: 17 }} className="shrink-0" aria-hidden="true" />
                       <span>Keluar dari Admin</span>
                     </button>
                   </>
@@ -315,7 +313,7 @@ export function AdminShell({ children }: AdminShellProps) {
             >
               <span className="flex min-w-0 items-center gap-2.5">
                 <span className="relative inline-flex size-8 shrink-0 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--raised)] text-ink-11">
-                  <User className="size-4" strokeWidth={1.9} aria-hidden="true" />
+                  <PersonOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" />
                   <span
                     aria-hidden="true"
                     className={`absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full ring-2 ring-[var(--ground)] ${
@@ -332,8 +330,9 @@ export function AdminShell({ children }: AdminShellProps) {
                   </span>
                 </span>
               </span>
-              <ChevronDown
-                className={`size-4 shrink-0 text-ink-9 transition-transform duration-150 ${
+              <KeyboardArrowDownRoundedIcon
+                style={{ fontSize: 18 }}
+                className={`shrink-0 text-ink-9 transition-transform duration-150 ${
                   accountMenuOpen ? "rotate-180 text-ink-12" : ""
                 }`}
                 aria-hidden="true"
@@ -361,7 +360,7 @@ export function AdminShell({ children }: AdminShellProps) {
             aria-label="Cari pesanan cepat"
             className="touch-target inline-flex size-10 items-center justify-center rounded-[var(--radius-control)] bg-[var(--raised)] text-ink-11 shadow-[var(--shadow-button)] hover:text-ink-12"
           >
-            <Search className="size-4" aria-hidden="true" />
+            <SearchRoundedIcon style={{ fontSize: 18 }} aria-hidden="true" />
           </button>
           <ThemeToggle />
           <button
@@ -370,7 +369,11 @@ export function AdminShell({ children }: AdminShellProps) {
             aria-label={mobileMenuOpen ? "Tutup menu admin" : "Buka menu admin"}
             className="touch-target inline-flex size-10 items-center justify-center rounded-[var(--radius-control)] bg-[var(--raised)] text-ink-12 shadow-[var(--shadow-button)]"
           >
-            {mobileMenuOpen ? <X className="size-4" /> : <Menu className="size-4" />}
+            {mobileMenuOpen ? (
+              <CloseRoundedIcon style={{ fontSize: 18 }} aria-hidden="true" />
+            ) : (
+              <MenuRoundedIcon style={{ fontSize: 18 }} aria-hidden="true" />
+            )}
           </button>
         </div>
       </header>
@@ -400,8 +403,8 @@ export function AdminShell({ children }: AdminShellProps) {
                       >
                         <span className="inline-flex items-center gap-2.5">
                           <Icon
-                            className={`size-[17px] ${active ? "text-ink-12" : "text-ink-9"}`}
-                            strokeWidth={1.9}
+                            style={{ fontSize: 18 }}
+                            className={active ? "text-ink-12" : "text-ink-9"}
                             aria-hidden="true"
                           />
                           <span>{item.label}</span>
@@ -425,14 +428,14 @@ export function AdminShell({ children }: AdminShellProps) {
               onClick={() => setMobileMenuOpen(false)}
               className="inline-flex h-10 w-full items-center gap-2.5 rounded-[10px] px-3 text-[length:var(--text-body)] text-ink-11 hover:bg-ink-2 hover:text-ink-12"
             >
-              <Store className="size-[17px] text-ink-9" strokeWidth={1.9} aria-hidden="true" />
+              <StorefrontOutlinedIcon style={{ fontSize: 18 }} className="text-ink-9" aria-hidden="true" />
               <span>Lihat Toko</span>
             </Link>
 
             <div className="flex items-center justify-between gap-3 rounded-[12px] bg-ink-2 px-3 py-2.5">
               <div className="flex min-w-0 items-center gap-2.5">
                 <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-full border border-[var(--line)] bg-[var(--raised)] text-ink-11">
-                  <User className="size-4" strokeWidth={1.9} aria-hidden="true" />
+                  <PersonOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" />
                 </span>
                 <div className="min-w-0">
                   <p className="truncate text-[13px] font-medium leading-tight text-ink-12">
@@ -454,7 +457,7 @@ export function AdminShell({ children }: AdminShellProps) {
                   aria-label="Keluar dari admin"
                   className="touch-target inline-flex h-[var(--control-h-compact)] shrink-0 items-center gap-1.5 rounded-[var(--radius-control)] bg-[var(--raised)] px-3 text-[length:var(--text-meta)] text-[var(--red-11)] shadow-[var(--shadow-button)]"
                 >
-                  <LogOut className="size-3.5" aria-hidden="true" />
+                  <LogoutRoundedIcon style={{ fontSize: 15 }} aria-hidden="true" />
                   <span>Keluar</span>
                 </button>
               ) : null}
@@ -481,7 +484,7 @@ export function AdminShell({ children }: AdminShellProps) {
               className="inline-flex h-[var(--control-h-compact)] w-64 items-center justify-between rounded-[var(--radius-control)] bg-ink-2 px-3 text-[length:var(--text-meta)] text-ink-10 shadow-[var(--shadow-button)] transition-colors hover:bg-ink-3 hover:text-ink-12"
             >
               <span className="inline-flex items-center gap-2 truncate">
-                <Search className="size-3.5 shrink-0 text-ink-9" aria-hidden="true" />
+                <SearchRoundedIcon style={{ fontSize: 15 }} className="shrink-0 text-ink-9" aria-hidden="true" />
                 <span className="truncate">Cari pesanan / pelanggan…</span>
               </span>
               <kbd className="rounded-[var(--radius-xs)] bg-[var(--raised)] px-1.5 py-0.5 font-mono text-[11px] text-ink-10 shadow-[var(--shadow-button)]">
@@ -522,8 +525,9 @@ export function AdminShell({ children }: AdminShellProps) {
       >
         <form onSubmit={handleSearchSubmit} className="space-y-4">
           <div className="relative">
-            <Search
-              className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-ink-9"
+            <SearchRoundedIcon
+              style={{ fontSize: 17 }}
+              className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-9"
               aria-hidden="true"
             />
             <input

@@ -2,15 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  ArrowLeft,
-  Check,
-  CheckCircle2,
-  Clock,
-  MessageCircle,
-  ShoppingBag,
-  Sparkles,
-} from "lucide-react";
+import ArrowBackRoundedIcon from "@mui/icons-material/ArrowBackRounded";
+import CheckRoundedIcon from "@mui/icons-material/CheckRounded";
+import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
+import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
+import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
+import ShoppingBagOutlinedIcon from "@mui/icons-material/ShoppingBagOutlined";
+import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
 import { useCart } from "@/components/cart/cart-provider";
 import { PillBadge } from "@/components/ui/pill-badge";
 import { QuantityStepper } from "@/components/ui/quantity-stepper";
@@ -41,7 +39,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
         href="/katalog"
         className="inline-flex h-[var(--control-h-compact)] items-center gap-1.5 rounded-full bg-[var(--raised)] px-3 text-[length:var(--text-meta)] text-ink-11 shadow-[var(--shadow-button)] transition-colors hover:bg-ink-2 hover:text-ink-12"
       >
-        <ArrowLeft className="size-3.5" aria-hidden="true" />
+        <ArrowBackRoundedIcon style={{ fontSize: 15 }} aria-hidden="true" />
         <span>Kembali ke katalog</span>
       </Link>
 
@@ -91,9 +89,10 @@ export function ProductDetailClient({ product }: { product: Product }) {
                   <ul className="mt-2.5 space-y-2 text-[length:var(--text-body)] text-ink-12">
                     {product.contents.map((item, idx) => (
                       <li key={idx} className="flex items-start gap-2">
-                        <CheckCircle2
+                        <CheckCircleOutlineRoundedIcon
                           aria-hidden="true"
-                          className="mt-0.5 size-4 shrink-0 text-[var(--green-11)]"
+                          className="mt-0.5 shrink-0 text-[var(--green-11)]"
+                          style={{ fontSize: 17 }}
                         />
                         <span>{item}</span>
                       </li>
@@ -120,12 +119,12 @@ export function ProductDetailClient({ product }: { product: Product }) {
               >
                 {justAdded ? (
                   <>
-                    <Check className="size-4" aria-hidden="true" />
+                    <CheckRoundedIcon style={{ fontSize: 17 }} aria-hidden="true" />
                     <span>Ditambahkan ke keranjang</span>
                   </>
                 ) : (
                   <>
-                    <ShoppingBag className="size-4" aria-hidden="true" />
+                    <ShoppingBagOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" />
                     <span>Tambah ke keranjang</span>
                   </>
                 )}
@@ -141,11 +140,11 @@ export function ProductDetailClient({ product }: { product: Product }) {
             {/* Assurance & Cross-sell */}
             <div className="hairline-t grid grid-cols-1 gap-2 pt-3 text-[length:var(--text-meta)] text-ink-11 sm:grid-cols-2">
               <span className="inline-flex items-center gap-1.5">
-                <Clock className="size-3.5 shrink-0 text-[var(--fg-rose)]" aria-hidden="true" />
+                <AccessTimeOutlinedIcon className="shrink-0 text-[var(--fg-rose)]" style={{ fontSize: 15 }} aria-hidden="true" />
                 <span>Disiapkan khusus min. {MAKE_TO_ORDER_LEAD_DAYS} hari sebelumnya</span>
               </span>
               <span className="inline-flex items-center gap-1.5">
-                <MessageCircle className="size-3.5 shrink-0 text-[var(--fg-rose)]" aria-hidden="true" />
+                <ChatOutlinedIcon className="shrink-0 text-[var(--fg-rose)]" style={{ fontSize: 15 }} aria-hidden="true" />
                 <span>Konfirmasi &amp; layanan via WhatsApp</span>
               </span>
             </div>
@@ -155,7 +154,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
               className="flex items-center justify-between gap-2 rounded-[var(--radius-container)] border-[0.5px] border-[var(--fg-rose-border)] bg-[var(--fg-rose-soft)] px-3.5 py-2.5 text-[length:var(--text-meta)] text-[var(--fg-rose-text)] transition-colors hover:bg-[var(--fg-rose-tint)]"
             >
               <span className="inline-flex items-center gap-1.5">
-                <Sparkles className="size-3.5 shrink-0" aria-hidden="true" />
+                <AutoAwesomeOutlinedIcon className="shrink-0" style={{ fontSize: 15 }} aria-hidden="true" />
                 <span>Ingin komposisi atau warna berbeda? Rangkai sendiri</span>
               </span>
               <span aria-hidden="true">→</span>

@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Moon, Sun } from "lucide-react";
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
+import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 
 type ThemeMode = "light" | "dark";
 
@@ -37,9 +38,9 @@ export function ThemeToggle() {
       className="touch-target inline-flex h-[var(--control-h-pill)] items-center gap-1.5 rounded-full bg-[var(--raised)] px-3 text-[length:var(--text-meta)] text-ink-11 shadow-[var(--shadow-toggle)] transition-colors duration-[var(--dur-hover)] ease-[var(--ease-out)] hover:bg-ink-3 hover:text-ink-12 active:scale-[0.97]"
     >
       {theme === "dark" ? (
-        <Sun className="size-3.5" strokeWidth={2.2} aria-hidden="true" />
+        <LightModeOutlinedIcon style={{ fontSize: 15 }} aria-hidden="true" />
       ) : (
-        <Moon className="size-3.5" strokeWidth={2.2} aria-hidden="true" />
+        <DarkModeOutlinedIcon style={{ fontSize: 15 }} aria-hidden="true" />
       )}
       <span className="hidden sm:inline">{theme === "dark" ? "Terang" : "Gelap"}</span>
     </button>

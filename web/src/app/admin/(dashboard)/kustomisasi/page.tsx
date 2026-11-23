@@ -1,7 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { Pencil, Plus, Search, Trash2, Upload, X } from "lucide-react";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import DeleteOutlineRoundedIcon from "@mui/icons-material/DeleteOutlineRounded";
+import FileUploadOutlinedIcon from "@mui/icons-material/FileUploadOutlined";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import { useAdminAuth } from "@/components/admin/admin-auth-provider";
 import { ModalSheet } from "@/components/ui/modal-sheet";
 import { ResilientImage } from "@/components/ui/resilient-image";
@@ -529,15 +534,16 @@ export default function AdminCustomizationsPage() {
             disabled={!configured || !user}
             className="touch-target inline-flex h-[var(--control-h)] items-center gap-2 rounded-[var(--radius-control)] bg-[var(--primary-bg)] px-4 text-[length:var(--text-body)] text-[var(--primary-fg)] shadow-[var(--shadow-primary)] transition-colors hover:bg-[var(--primary-hover)] disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <Plus className="size-4" aria-hidden="true" />
+            <AddRoundedIcon style={{ fontSize: 17 }} aria-hidden="true" />
             {addButtonLabel}
           </button>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">
           <div className="relative min-w-[200px] flex-1 sm:max-w-[280px]">
-            <Search
-              className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-ink-9"
+            <SearchRoundedIcon
+              className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-9"
+              style={{ fontSize: 16 }}
               aria-hidden="true"
             />
             <input
@@ -1027,7 +1033,7 @@ export default function AdminCustomizationsPage() {
                     onClick={addColorRow}
                     className="inline-flex h-[var(--control-h-inline)] items-center gap-1 rounded-full bg-[var(--raised)] px-2.5 text-[length:var(--text-meta)] text-ink-12 shadow-[var(--shadow-button)] hover:bg-ink-3"
                   >
-                    <Plus className="size-3.5" aria-hidden="true" />
+                    <AddRoundedIcon style={{ fontSize: 15 }} aria-hidden="true" />
                     Tambah warna
                   </button>
                 </div>
@@ -1064,7 +1070,7 @@ export default function AdminCustomizationsPage() {
                         aria-label={`Hapus warna ${col.name}`}
                         className="touch-target inline-flex size-8 items-center justify-center rounded-[var(--radius-control)] bg-ink-3 text-ink-10 hover:text-[var(--red-11)] disabled:opacity-40"
                       >
-                        <X className="size-4" aria-hidden="true" />
+                        <CloseRoundedIcon style={{ fontSize: 16 }} aria-hidden="true" />
                       </button>
                     </div>
                   ))}
@@ -1116,7 +1122,7 @@ export default function AdminCustomizationsPage() {
                           aria-label={`Hapus varian ${design}`}
                           className="text-ink-10 hover:text-[var(--red-11)]"
                         >
-                          <X className="size-3.5" aria-hidden="true" />
+                          <CloseRoundedIcon style={{ fontSize: 14 }} aria-hidden="true" />
                         </button>
                       ) : null}
                     </span>
@@ -1137,7 +1143,7 @@ export default function AdminCustomizationsPage() {
               />
               <div className="flex-1 space-y-1.5">
                 <label className="touch-target inline-flex h-[var(--control-h)] cursor-pointer items-center gap-2 rounded-[var(--radius-control)] bg-[var(--raised)] px-3 text-[length:var(--text-body)] text-ink-12 shadow-[var(--shadow-button)] hover:bg-ink-3">
-                  <Upload className="size-4" aria-hidden="true" />
+                  <FileUploadOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" />
                   <span>{uploading ? "Mengunggah…" : "Unggah JPG/PNG/WebP"}</span>
                   <input
                     type="file"
@@ -1248,7 +1254,7 @@ function RowActions({
         aria-label={`Ubah ${name}`}
         className="touch-target inline-flex size-8 items-center justify-center rounded-[var(--radius-control)] bg-[var(--raised)] text-ink-11 shadow-[var(--shadow-button)] hover:bg-ink-3 hover:text-ink-12"
       >
-        <Pencil className="size-4" aria-hidden="true" />
+        <EditOutlinedIcon style={{ fontSize: 16 }} aria-hidden="true" />
       </button>
       <button
         type="button"
@@ -1256,7 +1262,7 @@ function RowActions({
         aria-label={`Hapus ${name}`}
         className="touch-target inline-flex size-8 items-center justify-center rounded-[var(--radius-control)] bg-[var(--raised)] text-[var(--red-11)] shadow-[var(--shadow-button)] hover:bg-[var(--red-3)]"
       >
-        <Trash2 className="size-4" aria-hidden="true" />
+        <DeleteOutlineRoundedIcon style={{ fontSize: 16 }} aria-hidden="true" />
       </button>
     </div>
   );

@@ -12,10 +12,13 @@
     "setup:check": "node scripts/setup-integration.mjs --check"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/icons-material": "^9.6.0",
+    "@mui/material": "^9.6.0",
     "cloudinary": "^2.5.1",
     "firebase": "^11.4.0",
     "firebase-admin": "^13.2.0",
-    "lucide-react": "^0.475.0",
     "motion": "^12.4.7",
     "next": "^15.2.0",
     "react": "^19.0.0",

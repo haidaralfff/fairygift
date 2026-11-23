@@ -2,7 +2,9 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { Gift, Search, Sparkles } from "lucide-react";
+import CardGiftcardOutlinedIcon from "@mui/icons-material/CardGiftcardOutlined";
+import SearchRoundedIcon from "@mui/icons-material/SearchRounded";
+import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
 import { ProductCard } from "@/components/storefront/product-card";
 import { SegmentedToggle } from "@/components/ui/segmented-toggle";
 import type { Category, Product } from "@/types/domain";
@@ -62,7 +64,7 @@ export function CatalogClient({
           href="/custom-gift"
           className="inline-flex h-11 shrink-0 items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-4 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors hover:bg-[var(--fg-rose-hover)] active:scale-[0.98]"
         >
-          <Sparkles className="size-4" aria-hidden="true" />
+          <AutoAwesomeOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" />
           <span>Rangkai kado custom</span>
         </Link>
       </div>
@@ -113,8 +115,9 @@ export function CatalogClient({
           />
 
           <div className="relative flex-1 sm:w-64 sm:flex-none">
-            <Search
-              className="pointer-events-none absolute top-1/2 left-3 size-3.5 -translate-y-1/2 text-ink-10"
+            <SearchRoundedIcon
+              className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-10"
+              style={{ fontSize: 15 }}
               aria-hidden="true"
             />
             <input
@@ -137,7 +140,7 @@ export function CatalogClient({
       {filtered.length === 0 ? (
         <div className="mt-4 flex flex-col items-center justify-center rounded-[var(--radius-feature)] border-[0.5px] border-[var(--line)] bg-[var(--panel)] p-11 text-center">
           <span className="inline-flex size-10 items-center justify-center rounded-full bg-[var(--fg-rose-soft)] text-[var(--fg-rose-text)]">
-            <Gift className="size-5" strokeWidth={1.8} aria-hidden="true" />
+            <CardGiftcardOutlinedIcon style={{ fontSize: 20 }} aria-hidden="true" />
           </span>
           <p className="mt-3 text-[length:var(--text-title)] text-ink-12">
             Tidak ada produk yang cocok dengan pencarian Anda.
@@ -161,7 +164,7 @@ export function CatalogClient({
               href="/custom-gift"
               className="inline-flex h-[var(--control-h)] items-center gap-1.5 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-4 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] hover:bg-[var(--fg-rose-hover)]"
             >
-              <Sparkles className="size-4" aria-hidden="true" />
+              <AutoAwesomeOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" />
               <span>Rangkai kado custom</span>
             </Link>
           </div>
