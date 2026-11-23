@@ -15,7 +15,7 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
   return (
     <Link
       href={`/produk/${product.slug}`}
-      className={`surface-raised group flex flex-col overflow-hidden rounded-[var(--radius-feature)] bg-[var(--raised)] p-2.5 shadow-[var(--shadow-card)] transition-[transform,box-shadow,background-color] duration-200 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-16px_rgb(var(--shadow-ink)/0.22),0_0_0_1px_var(--fg-rose-border)] active:scale-[0.99] motion-reduce:hover:translate-y-0 ${
+      className={`surface-raised group flex h-full flex-col overflow-hidden rounded-[var(--radius-feature)] bg-[var(--raised)] p-2.5 shadow-[var(--shadow-card)] transition-[transform,box-shadow,background-color] duration-200 ease-[var(--ease-out)] hover:-translate-y-0.5 hover:shadow-[0_14px_28px_-16px_rgb(var(--shadow-ink)/0.22),0_0_0_1px_var(--fg-rose-border)] active:scale-[0.99] motion-reduce:hover:translate-y-0 ${
         product.isAvailable ? "" : "opacity-65"
       }`}
     >

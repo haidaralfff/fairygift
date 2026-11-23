@@ -86,7 +86,7 @@ web/
     │       └── dev-order-store.ts # Penyimpanan pesanan sementara di memori saat mode uji coba lokal
     ├── components/
     │   ├── layout/
-    │   │   ├── storefront-header.tsx # Value strip, logo, navigasi utama, theme toggle, & keranjang
+    │   │   ├── storefront-header.tsx # Logo, navigasi utama, theme toggle, & tombol keranjang
     │   │   └── storefront-footer.tsx # Ringkasan brand, tautan belanja, dan komitmen layanan
     │   ├── storefront/
     │   │   ├── product-card.tsx      # Kartu produk katalog dengan badge kategori, status, & harga
@@ -105,6 +105,7 @@ web/
     │       ├── pill-badge.tsx        # Badge status & identitas kategori (plum, green, amber, red)
     │       ├── quantity-stepper.tsx  # Kontrol ubah jumlah item (- / +)
     │       ├── resilient-image.tsx   # Wrapper gambar dengan placeholder/fallback otomatis jika gagal muat
+    │       ├── scroll-reveal.tsx     # Animasi masuk bertahap per section saat di-scroll (Motion)
     │       ├── segmented-toggle.tsx  # Kontrol pilihan segmen taktil (Diantar/Ambil, Semua/Tersedia)
     │       ├── status-dot.tsx        # Indikator status titik berwarna + animasi ping opsional
     │       ├── tactile-switch.tsx    # Sakelar toggle aksesibel untuk status ketersediaan

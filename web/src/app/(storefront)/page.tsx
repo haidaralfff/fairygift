@@ -13,6 +13,7 @@ import PaletteOutlinedIcon from "@mui/icons-material/PaletteOutlined";
 import AutoAwesomeOutlinedIcon from "@mui/icons-material/AutoAwesomeOutlined";
 import { ProductCard } from "@/components/storefront/product-card";
 import { ResilientImage } from "@/components/ui/resilient-image";
+import { ScrollReveal } from "@/components/ui/scroll-reveal";
 import { MAKE_TO_ORDER_LEAD_DAYS } from "@/lib/constants";
 import {
   getBuilderCatalog,
@@ -140,7 +141,7 @@ export default async function HomePage() {
       {/* 1. Full-Bleed Editorial Hero (open canvas, zero outer card box) */}
       <section className="fg-hero-surface hairline-b">
         <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-10 px-4 py-10 md:px-6 md:py-16 lg:grid-cols-12 lg:gap-12">
-          <div className="lg:col-span-7">
+          <ScrollReveal immediate y={16} duration={0.5} className="lg:col-span-7">
             <h1 className="font-display max-w-[17ch] text-[clamp(2.15rem,4vw,3.35rem)] font-semibold leading-[1.1] tracking-[-0.025em] text-ink-12 [text-wrap:balance]">
               Hadiah personal yang{" "}
               <span className="font-medium italic text-[var(--fg-rose-text)]">
@@ -172,10 +173,10 @@ export default async function HomePage() {
                 <ArrowForwardRoundedIcon className="text-ink-10" style={{ fontSize: 17 }} aria-hidden="true" />
               </Link>
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Asymmetric Editorial Showcase (no nested card stacks) */}
-          <div className="lg:col-span-5">
+          <ScrollReveal immediate delay={0.1} y={20} duration={0.55} className="lg:col-span-5">
             <div className="relative aspect-[4/3] overflow-hidden rounded-[20px] border-[0.5px] border-[var(--line)] bg-ink-2 shadow-[var(--shadow-panel)]">
               <ResilientImage
                 src="/images/paketgift/wadahgift/floral-ribbon-hardbox-bag.jpg"
@@ -194,7 +195,7 @@ export default async function HomePage() {
                 </span>
               </div>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -202,10 +203,15 @@ export default async function HomePage() {
       <section aria-label="Keunggulan FairyGift">
         <div className="mx-auto max-w-[1200px] px-4 md:px-6">
           <div className="hairline-b grid grid-cols-1 gap-x-8 gap-y-7 py-10 sm:grid-cols-2 lg:grid-cols-4">
-            {VALUE_PILLARS.map((pillar) => {
+            {VALUE_PILLARS.map((pillar, idx) => {
               const Icon = pillar.icon;
               return (
-                <div key={pillar.title} className="flex flex-col items-start">
+                <ScrollReveal
+                  key={pillar.title}
+                  delay={idx * 0.06}
+                  y={18}
+                  className="flex flex-col items-start"
+                >
                   <span className="inline-flex size-9 items-center justify-center rounded-full bg-[var(--fg-rose-soft)] text-[var(--fg-rose-text)]">
                     <Icon style={{ fontSize: 18 }} aria-hidden="true" />
                   </span>
@@ -215,7 +221,7 @@ export default async function HomePage() {
                   <p className="mt-1.5 text-[length:var(--text-body)] font-normal leading-[var(--leading-body)] text-ink-11">
                     {pillar.description}
                   </p>
-                </div>
+                </ScrollReveal>
               );
             })}
           </div>
@@ -228,7 +234,7 @@ export default async function HomePage() {
         className="mx-auto max-w-[1200px] px-4 pt-12 md:px-6 md:pt-14"
       >
         <div className="hairline-b grid grid-cols-1 items-center gap-6 pb-12 lg:grid-cols-12">
-          <div className="lg:col-span-5">
+          <ScrollReveal y={18} className="lg:col-span-5">
             <h2
               id="categories-heading"
               className="font-display text-[24px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12 md:text-[28px]"
@@ -245,14 +251,14 @@ export default async function HomePage() {
               <span>Lihat semua kategori</span>
               <ArrowForwardRoundedIcon style={{ fontSize: 17 }} aria-hidden="true" />
             </Link>
-          </div>
+          </ScrollReveal>
 
           <ul className="flex flex-wrap items-center gap-2.5 lg:col-span-7 lg:justify-end">
-            {categories.map((cat) => {
+            {categories.map((cat, idx) => {
               const Icon = getCategoryIcon(cat.slug);
               const count = categoryCounts.get(cat.id) ?? 0;
               return (
-                <li key={cat.id}>
+                <ScrollReveal key={cat.id} as="li" delay={idx * 0.045} y={14}>
                   <Link
                     href={`/katalog?kategori=${encodeURIComponent(cat.slug)}`}
                     className="group inline-flex items-center gap-2.5 rounded-full border-[0.5px] border-[var(--line)] bg-[var(--raised)] py-1.5 pr-3.5 pl-1.5 shadow-[var(--shadow-button)] transition-[border-color,background-color,transform] duration-150 hover:-translate-y-0.5 hover:border-[var(--fg-rose-border)] hover:bg-[var(--fg-rose-soft)] motion-reduce:hover:translate-y-0"
@@ -267,7 +273,7 @@ export default async function HomePage() {
                       {count} paket
                     </span>
                   </Link>
-                </li>
+                </ScrollReveal>
               );
             })}
           </ul>
@@ -279,7 +285,7 @@ export default async function HomePage() {
         aria-labelledby="featured-heading"
         className="mx-auto max-w-[1200px] px-4 py-12 md:px-6 md:py-16"
       >
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <ScrollReveal y={18} className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <h2
               id="featured-heading"
@@ -299,15 +305,16 @@ export default async function HomePage() {
             <span>Lihat semua paket</span>
             <ArrowForwardRoundedIcon className="text-ink-10" style={{ fontSize: 15 }} aria-hidden="true" />
           </Link>
-        </div>
+        </ScrollReveal>
 
         <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {displayProducts.map((product, idx) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              priority={idx < 3}
-            />
+            <ScrollReveal key={product.id} delay={(idx % 3) * 0.07} y={22} className="h-full">
+              <ProductCard
+                product={product}
+                priority={idx < 3}
+              />
+            </ScrollReveal>
           ))}
         </div>
       </section>
@@ -318,7 +325,7 @@ export default async function HomePage() {
         className="border-y-[0.5px] border-[var(--fg-rose-border)] bg-[var(--fg-rose-soft)] py-12 md:py-16"
       >
         <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-10 px-4 md:px-6 lg:grid-cols-12">
-          <div className="lg:col-span-6">
+          <ScrollReveal y={20} className="lg:col-span-6">
             <h2
               id="custom-spotlight-heading"
               className="font-display max-w-[20ch] text-[26px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink-12 md:text-[32px]"
@@ -378,10 +385,10 @@ export default async function HomePage() {
                 </p>
               ) : null}
             </div>
-          </div>
+          </ScrollReveal>
 
           {/* Staggered Unboxed Editorial Diptych */}
-          <div className="grid grid-cols-2 items-start gap-4 lg:col-span-6">
+          <ScrollReveal delay={0.1} y={24} className="grid grid-cols-2 items-start gap-4 lg:col-span-6">
             <figure>
               <div className="aspect-square overflow-hidden rounded-[16px] border-[0.5px] border-[var(--fg-rose-border)] bg-[var(--panel)]">
                 <ResilientImage
@@ -406,7 +413,7 @@ export default async function HomePage() {
                 Kemasan &amp; Hardbox Eksklusif
               </figcaption>
             </figure>
-          </div>
+          </ScrollReveal>
         </div>
       </section>
 
@@ -416,16 +423,18 @@ export default async function HomePage() {
         className="mx-auto grid max-w-[1200px] grid-cols-1 gap-12 px-4 py-12 md:px-6 md:py-16 lg:grid-cols-12"
       >
         <div className="lg:col-span-6">
-          <h2
-            id="how-it-works-heading"
-            className="font-display text-[24px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12 md:text-[28px]"
-          >
-            Dari memilih hingga terkirim rapi
-          </h2>
+          <ScrollReveal y={18}>
+            <h2
+              id="how-it-works-heading"
+              className="font-display text-[24px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12 md:text-[28px]"
+            >
+              Dari memilih hingga terkirim rapi
+            </h2>
+          </ScrollReveal>
 
           <ol className="relative mt-7 ml-3 space-y-7 border-l-[0.5px] border-[var(--fg-rose-border)] pl-7">
-            {HOW_IT_WORKS.map((item) => (
-              <li key={item.step} className="relative">
+            {HOW_IT_WORKS.map((item, idx) => (
+              <ScrollReveal key={item.step} as="li" delay={idx * 0.08} y={16} className="relative">
                 <span
                   aria-hidden="true"
                   className="tabular-nums absolute -left-[41px] top-0.5 inline-flex size-7 items-center justify-center rounded-full border-[0.5px] border-[var(--fg-rose-border)] bg-[var(--fg-rose-soft)] text-[length:var(--text-meta)] font-semibold text-[var(--fg-rose-text)]"
@@ -438,12 +447,12 @@ export default async function HomePage() {
                 <p className="mt-1.5 max-w-[48ch] text-[length:var(--text-body)] font-normal leading-[var(--leading-body)] text-ink-11">
                   {item.description}
                 </p>
-              </li>
+              </ScrollReveal>
             ))}
           </ol>
         </div>
 
-        <div className="lg:col-span-6">
+        <ScrollReveal delay={0.08} y={20} className="lg:col-span-6">
           <h2 className="font-display text-[24px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12 md:text-[28px]">
             Pertanyaan yang sering diajukan
           </h2>
@@ -465,12 +474,12 @@ export default async function HomePage() {
               </details>
             ))}
           </div>
-        </div>
+        </ScrollReveal>
       </section>
 
       {/* 7. Open Typographic Closing CTA (zero outer box) */}
       <section className="hairline-t fg-hero-surface">
-        <div className="mx-auto max-w-[1200px] px-4 py-14 text-center md:px-6 md:py-20">
+        <ScrollReveal y={20} duration={0.55} className="mx-auto max-w-[1200px] px-4 py-14 text-center md:px-6 md:py-20">
           <h2 className="font-display mx-auto max-w-[22ch] text-[26px] font-semibold leading-[1.16] tracking-[-0.02em] text-ink-12 md:text-[32px]">
             Siap merangkai hadiah yang paling berkesan untuk orang terdekat?
           </h2>
@@ -495,7 +504,7 @@ export default async function HomePage() {
               <span>Lihat katalog paket</span>
             </Link>
           </div>
-        </div>
+        </ScrollReveal>
       </section>
     </div>
   );
