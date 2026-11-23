@@ -53,22 +53,27 @@ Status selalu mengalahkan identitas jika terjadi tabrakan warna.
 
 ## 1.2 Tipografi & Aturan *Copy* Bahasa Indonesia
 
-- **Font utama:** `"Inter", system-ui, sans-serif` dengan `font-size-adjust: 0.546`.
-- **Bobot tunggal:** Seluruh UI dirender pada **Medium (`500`)**. *Bold* (`700`) hampir tidak pernah dipakai.
-- **Font Monospace:** Hanya untuk ID mesin dan kode yang disalin tepat, seperti nomor pesanan (`FG-2026-0001`), nomor WhatsApp admin, dan *key chip* (`⌘K`). **Jangan gunakan mono di dalam sel tabel.**
+- **Kombinasi Font (Tri-Stack):**
+  - **Display / Editorial Serif (`--font-display`):** `"Playfair Display", Georgia, serif` (`500`, `600`, `700`, normal & italic) — dipakai pada judul utama (*hero*), judul seksi editorial beranda, judul halaman storefront, pratinjau pesan kartu ucapan, dan judul halaman login.
+  - **Primary UI & Body Sans (`--font-sans`):** `"Plus Jakarta Sans", system-ui, sans-serif` (`400`, `500`, `600`, `700`) — dipakai untuk seluruh teks isi, kontrol UI, navigasi, form, kartu produk, dan operasional admin.
+  - **Font Monospace (`--font-mono`):** `"JetBrains Mono", ui-monospace, monospace` (`400`, `500`, `600`) — khusus ID mesin/kode yang disalin tepat seperti nomor pesanan (`FG-2026-0001`), kode warna hex di admin, dan *key chip* (`⌘K`).
+- **Hierarki Bobot:**
+  - `400` (*Regular*): Teks deskripsi, paragraf isi, catatan bantu, jawaban FAQ.
+  - `500` (*Medium*): Label form, tautan navigasi, tombol sekunder, pill kategori, baris tabel.
+  - `600` (*SemiBold*): Judul seksi/kartu, harga produk & total pembayaran, nilai metrik KPI, CTA utama.
 - **Angka:** Wajib `font-variant-numeric: tabular-nums` (`tabular-nums`) pada seluruh harga (`Rp185.000`), kuantitas, metrik dashboard, dan tanggal.
 
 ### Skala Tipografi
 
 | Peran | Token | Desktop | Phone (`< 768px`) | Ink | Contoh di FairyGift |
 |---|---|---|---|---|---|
-| Display | `--text-display` | `32/40`, `-0.02em` | `32/40` (atau `24/32` jika >2 baris) | `ink-11` pembuka + `ink-12` kata kunci | `"Rangkai hadiah "` (`ink-11`) + `"personal"` (`ink-12`) |
+| Display | `--text-display` | `34/42` (Hero `clamp(2.15rem, 4vw, 3.35rem)`), `-0.02em` | `34/42` (atau `24/32` jika >2 baris) | `ink-12` + `fg-rose-text` italic | `"Hadiah personal yang "` + *`"dirangkai khusus"`* |
 | Figure | `--text-figure` | `24/32` | `24/32` | `ink-12` | `128` (Total pesanan), `Rp245.000` (Total builder) |
-| Section / Page Title | `--text-section` | `20/28` | `20/28` | `ink-12` | `"Custom gift builder"`, `"Pesanan masuk"` |
+| Section / Page Title | `--text-section` | `20/28` | `20/28` | `ink-12` | `"Rangkai kado custom"`, `"Pesanan masuk"` |
 | Card / Step / Dialog Title | `--text-title` | `16/24` | `16/24` | `ink-12` | `"Tahap 1. Pilih kemasan"`, `"Verifikasi pembayaran"` |
-| Body & Controls | `--text-body` | `13/20` | `15/24` (`14/20` untuk sub-keterangan) | `ink-12` nilai / `ink-11` deskripsi | Label tombol, deskripsi paket, teks kartu ucapan |
+| Body & Controls | `--text-body` | `14/21` | `15/24` (`14/20` untuk sub-keterangan) | `ink-12` nilai / `ink-11` deskripsi | Label tombol, deskripsi paket, teks kartu ucapan |
 | Meta & Badge | `--text-meta` | `12/16` (badge `12/20`) | `15/20` (badge `14/22`) | `ink-10` (atau `ink-11` jika penting) | `"(opsional)"`, timestamp verifikasi, teks badge |
-| Field Input | `--text-field` | `13/20` | **`16/24`** (wajib di `pointer: coarse`) | `ink-12` | Input nama, nomor WhatsApp, pesan kartu ucapan |
+| Field Input | `--text-field` | `14/21` | **`16/24`** (wajib di `pointer: coarse`) | `ink-12` | Input nama, nomor WhatsApp, pesan kartu ucapan |
 
 ### Aturan *Copy* UI (Wajib)
 

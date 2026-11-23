@@ -141,15 +141,15 @@ export default async function HomePage() {
       <section className="fg-hero-surface hairline-b">
         <div className="mx-auto grid max-w-[1200px] grid-cols-1 items-center gap-10 px-4 py-10 md:px-6 md:py-16 lg:grid-cols-12 lg:gap-12">
           <div className="lg:col-span-7">
-            <h1 className="max-w-[18ch] text-[clamp(2rem,3.8vw,3.1rem)] leading-[1.1] tracking-[-0.03em] text-ink-12 [text-wrap:balance]">
+            <h1 className="font-display max-w-[17ch] text-[clamp(2.15rem,4vw,3.35rem)] font-semibold leading-[1.1] tracking-[-0.025em] text-ink-12 [text-wrap:balance]">
               Hadiah personal yang{" "}
-              <span className="text-[var(--fg-rose-text)]">
+              <span className="font-medium italic text-[var(--fg-rose-text)]">
                 dirangkai khusus
               </span>{" "}
               untuk setiap momen
             </h1>
 
-            <p className="mt-5 max-w-[54ch] text-[15px] leading-[1.65] text-ink-11 md:text-[16px]">
+            <p className="mt-5 max-w-[54ch] text-[15px] font-normal leading-[1.65] text-ink-11 md:text-[16px]">
               Temukan hampers pilihan siap kirim atau rangkai sendiri kado impian
               Anda—mulai dari kemasan, isi hadiah, hingga kartu ucapan—dengan
               rincian harga yang jelas sejak awal.
@@ -209,10 +209,10 @@ export default async function HomePage() {
                   <span className="inline-flex size-9 items-center justify-center rounded-full bg-[var(--fg-rose-soft)] text-[var(--fg-rose-text)]">
                     <Icon style={{ fontSize: 18 }} aria-hidden="true" />
                   </span>
-                  <h2 className="mt-3.5 text-[length:var(--text-title)] leading-[var(--leading-title)] text-ink-12">
+                  <h2 className="mt-3.5 text-[length:var(--text-title)] font-semibold leading-[var(--leading-title)] text-ink-12">
                     {pillar.title}
                   </h2>
-                  <p className="mt-1.5 text-[length:var(--text-body)] leading-[var(--leading-body)] text-ink-11">
+                  <p className="mt-1.5 text-[length:var(--text-body)] font-normal leading-[var(--leading-body)] text-ink-11">
                     {pillar.description}
                   </p>
                 </div>
@@ -231,16 +231,16 @@ export default async function HomePage() {
           <div className="lg:col-span-5">
             <h2
               id="categories-heading"
-              className="text-[length:var(--text-figure)] leading-[var(--leading-figure)] tracking-[-0.02em] text-ink-12 md:text-[26px]"
+              className="font-display text-[24px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12 md:text-[28px]"
             >
               Temukan hadiah sesuai perayaan
             </h2>
-            <p className="mt-1.5 max-w-[42ch] text-[length:var(--text-body)] leading-[var(--leading-body)] text-ink-11">
+            <p className="mt-2 max-w-[42ch] text-[length:var(--text-body)] font-normal leading-[var(--leading-body)] text-ink-11">
               Telusuri kurasi hampers berdasarkan momen spesial orang terdekat.
             </p>
             <Link
               href="/katalog"
-              className="mt-3.5 inline-flex items-center gap-1.5 text-[length:var(--text-body)] text-[var(--fg-rose-text)] transition-colors hover:text-[var(--fg-rose)]"
+              className="mt-3.5 inline-flex items-center gap-1.5 text-[length:var(--text-body)] font-medium text-[var(--fg-rose-text)] transition-colors hover:text-[var(--fg-rose)]"
             >
               <span>Lihat semua kategori</span>
               <ArrowForwardRoundedIcon style={{ fontSize: 17 }} aria-hidden="true" />
@@ -260,10 +260,10 @@ export default async function HomePage() {
                     <span className="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-[var(--fg-rose-soft)] text-[var(--fg-rose-text)] transition-colors group-hover:bg-[var(--fg-rose)] group-hover:text-[var(--fg-rose-fg)]">
                       <Icon style={{ fontSize: 17 }} aria-hidden="true" />
                     </span>
-                    <span className="text-[length:var(--text-body)] text-ink-12 transition-colors group-hover:text-[var(--fg-rose-text)]">
+                    <span className="text-[length:var(--text-body)] font-medium text-ink-12 transition-colors group-hover:text-[var(--fg-rose-text)]">
                       {cat.name}
                     </span>
-                    <span className="tabular-nums rounded-full bg-ink-2 px-2 py-0.5 text-[11px] text-ink-10 transition-colors group-hover:bg-[var(--panel)] group-hover:text-[var(--fg-rose-text)]">
+                    <span className="tabular-nums rounded-full bg-ink-2 px-2 py-0.5 text-[11px] font-medium text-ink-10 transition-colors group-hover:bg-[var(--panel)] group-hover:text-[var(--fg-rose-text)]">
                       {count} paket
                     </span>
                   </Link>
@@ -283,11 +283,11 @@ export default async function HomePage() {
           <div>
             <h2
               id="featured-heading"
-              className="text-[length:var(--text-figure)] leading-[var(--leading-figure)] tracking-[-0.02em] text-ink-12 md:text-[26px]"
+              className="font-display text-[24px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12 md:text-[28px]"
             >
               Paket hadiah pilihan
             </h2>
-            <p className="mt-1.5 text-[length:var(--text-body)] text-ink-11">
+            <p className="mt-1.5 text-[length:var(--text-body)] font-normal text-ink-11">
               Rangkaian hampers siap pesan yang paling sering dipilih pelanggan kami.
             </p>
           </div>
@@ -321,11 +321,11 @@ export default async function HomePage() {
           <div className="lg:col-span-6">
             <h2
               id="custom-spotlight-heading"
-              className="max-w-[22ch] text-[length:var(--text-figure)] leading-[1.18] tracking-[-0.02em] text-ink-12 md:text-[30px]"
+              className="font-display max-w-[20ch] text-[26px] font-semibold leading-[1.15] tracking-[-0.02em] text-ink-12 md:text-[32px]"
             >
               Rangkai kado custom sesuai karakter penerima
             </h2>
-            <p className="mt-3 max-w-[54ch] text-[length:var(--text-body)] leading-[var(--leading-body)] text-[var(--fg-rose-text)]">
+            <p className="mt-3 max-w-[54ch] text-[length:var(--text-body)] font-normal leading-[var(--leading-body)] text-[var(--fg-rose-text)]">
               Padukan {builderCatalog.packagings.length} pilihan kemasan eksklusif,{" "}
               {builderCatalog.components.length} isi hadiah kurasi (bunga,
               cokelat, boneka, parfum, tumbler, aksesori), serta{" "}
@@ -335,26 +335,26 @@ export default async function HomePage() {
             {/* Open 3-step typographic row without box/card containers */}
             <dl className="mt-7 grid grid-cols-1 gap-4 border-t-[0.5px] border-[var(--fg-rose-border)] pt-5 sm:grid-cols-3">
               <div>
-                <dt className="text-[11px] uppercase tracking-wider text-[var(--fg-rose-text)]">
+                <dt className="text-[11px] font-semibold uppercase tracking-wider text-[var(--fg-rose-text)]">
                   Kemasan &amp; Warna
                 </dt>
-                <dd className="mt-1 text-[length:var(--text-body)] text-ink-12">
+                <dd className="mt-1 text-[length:var(--text-body)] font-medium text-ink-12">
                   Pilih kotak atau buket
                 </dd>
               </div>
               <div>
-                <dt className="text-[11px] uppercase tracking-wider text-[var(--fg-rose-text)]">
+                <dt className="text-[11px] font-semibold uppercase tracking-wider text-[var(--fg-rose-text)]">
                   Isi Hadiah
                 </dt>
-                <dd className="mt-1 text-[length:var(--text-body)] text-ink-12">
+                <dd className="mt-1 text-[length:var(--text-body)] font-medium text-ink-12">
                   Kombinasi favorit penerima
                 </dd>
               </div>
               <div>
-                <dt className="text-[11px] uppercase tracking-wider text-[var(--fg-rose-text)]">
+                <dt className="text-[11px] font-semibold uppercase tracking-wider text-[var(--fg-rose-text)]">
                   Kartu Ucapan
                 </dt>
-                <dd className="mt-1 text-[length:var(--text-body)] text-ink-12">
+                <dd className="mt-1 text-[length:var(--text-body)] font-medium text-ink-12">
                   Tulis pesan hangat Anda
                 </dd>
               </div>
@@ -363,16 +363,16 @@ export default async function HomePage() {
             <div className="mt-7 flex flex-wrap items-center gap-4">
               <Link
                 href="/custom-gift"
-                className="inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-5 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors hover:bg-[var(--fg-rose-hover)] active:scale-[0.98]"
+                className="inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-5 text-[length:var(--text-body)] font-semibold text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors hover:bg-[var(--fg-rose-hover)] active:scale-[0.98]"
               >
                 <AutoAwesomeOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" />
                 <span>Mulai rangkai hadiah</span>
               </Link>
 
               {customStartPrice > 0 ? (
-                <p className="text-[length:var(--text-meta)] text-[var(--fg-rose-text)]">
+                <p className="text-[length:var(--text-meta)] font-normal text-[var(--fg-rose-text)]">
                   Estimasi mulai dari{" "}
-                  <span className="tabular-nums text-ink-12">
+                  <span className="tabular-nums font-semibold text-ink-12">
                     {formatRupiah(customStartPrice)}
                   </span>
                 </p>
@@ -390,7 +390,7 @@ export default async function HomePage() {
                   className="size-full"
                 />
               </div>
-              <figcaption className="mt-2.5 text-[length:var(--text-meta)] text-[var(--fg-rose-text)]">
+              <figcaption className="mt-2.5 text-[length:var(--text-meta)] font-medium text-[var(--fg-rose-text)]">
                 Buket &amp; Isi Kurasi
               </figcaption>
             </figure>
@@ -402,7 +402,7 @@ export default async function HomePage() {
                   className="size-full"
                 />
               </div>
-              <figcaption className="mt-2.5 text-[length:var(--text-meta)] text-[var(--fg-rose-text)]">
+              <figcaption className="mt-2.5 text-[length:var(--text-meta)] font-medium text-[var(--fg-rose-text)]">
                 Kemasan &amp; Hardbox Eksklusif
               </figcaption>
             </figure>
@@ -418,7 +418,7 @@ export default async function HomePage() {
         <div className="lg:col-span-6">
           <h2
             id="how-it-works-heading"
-            className="text-[length:var(--text-figure)] leading-[var(--leading-figure)] tracking-[-0.02em] text-ink-12 md:text-[26px]"
+            className="font-display text-[24px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12 md:text-[28px]"
           >
             Dari memilih hingga terkirim rapi
           </h2>
@@ -428,14 +428,14 @@ export default async function HomePage() {
               <li key={item.step} className="relative">
                 <span
                   aria-hidden="true"
-                  className="tabular-nums absolute -left-[41px] top-0.5 inline-flex size-7 items-center justify-center rounded-full border-[0.5px] border-[var(--fg-rose-border)] bg-[var(--fg-rose-soft)] text-[length:var(--text-meta)] text-[var(--fg-rose-text)]"
+                  className="tabular-nums absolute -left-[41px] top-0.5 inline-flex size-7 items-center justify-center rounded-full border-[0.5px] border-[var(--fg-rose-border)] bg-[var(--fg-rose-soft)] text-[length:var(--text-meta)] font-semibold text-[var(--fg-rose-text)]"
                 >
                   {item.step}
                 </span>
-                <h3 className="text-[length:var(--text-title)] leading-[var(--leading-title)] text-ink-12">
+                <h3 className="text-[length:var(--text-title)] font-semibold leading-[var(--leading-title)] text-ink-12">
                   {item.title}
                 </h3>
-                <p className="mt-1.5 max-w-[48ch] text-[length:var(--text-body)] leading-[var(--leading-body)] text-ink-11">
+                <p className="mt-1.5 max-w-[48ch] text-[length:var(--text-body)] font-normal leading-[var(--leading-body)] text-ink-11">
                   {item.description}
                 </p>
               </li>
@@ -444,14 +444,14 @@ export default async function HomePage() {
         </div>
 
         <div className="lg:col-span-6">
-          <h2 className="text-[length:var(--text-figure)] leading-[var(--leading-figure)] tracking-[-0.02em] text-ink-12 md:text-[26px]">
+          <h2 className="font-display text-[24px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12 md:text-[28px]">
             Pertanyaan yang sering diajukan
           </h2>
 
           <div className="mt-6 divide-y-[0.5px] divide-[var(--line)] border-y-[0.5px] border-[var(--line)]">
             {FAQ_ITEMS.map((faq) => (
               <details key={faq.question} className="fg-faq-item group">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[length:var(--text-body)] text-ink-12 transition-colors hover:text-[var(--fg-rose-text)]">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 py-4 text-[length:var(--text-body)] font-medium text-ink-12 transition-colors hover:text-[var(--fg-rose-text)]">
                   <span>{faq.question}</span>
                   <KeyboardArrowDownRoundedIcon
                     className="fg-faq-chevron shrink-0 text-ink-10 transition-transform duration-200"
@@ -459,7 +459,7 @@ export default async function HomePage() {
                     aria-hidden="true"
                   />
                 </summary>
-                <div className="pb-4 pr-6 text-[length:var(--text-body)] leading-[var(--leading-body)] text-ink-11">
+                <div className="pb-4 pr-6 text-[length:var(--text-body)] font-normal leading-[var(--leading-body)] text-ink-11">
                   {faq.answer}
                 </div>
               </details>
@@ -471,10 +471,10 @@ export default async function HomePage() {
       {/* 7. Open Typographic Closing CTA (zero outer box) */}
       <section className="hairline-t fg-hero-surface">
         <div className="mx-auto max-w-[1200px] px-4 py-14 text-center md:px-6 md:py-20">
-          <h2 className="mx-auto max-w-[24ch] text-[length:var(--text-figure)] leading-[1.18] tracking-[-0.02em] text-ink-12 md:text-[30px]">
+          <h2 className="font-display mx-auto max-w-[22ch] text-[26px] font-semibold leading-[1.16] tracking-[-0.02em] text-ink-12 md:text-[32px]">
             Siap merangkai hadiah yang paling berkesan untuk orang terdekat?
           </h2>
-          <p className="mx-auto mt-3 max-w-[50ch] text-[length:var(--text-body)] leading-[var(--leading-body)] text-ink-11">
+          <p className="mx-auto mt-3 max-w-[50ch] text-[length:var(--text-body)] font-normal leading-[var(--leading-body)] text-ink-11">
             Mulai dari paket kurasi siap pesan atau sesuaikan setiap detail
             hadiah Anda melalui layanan kado custom kami.
           </p>
@@ -482,7 +482,7 @@ export default async function HomePage() {
           <div className="mobile-stack-reverse mt-7 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/custom-gift"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-5 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors hover:bg-[var(--fg-rose-hover)] active:scale-[0.98]"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--fg-rose)] px-5 text-[length:var(--text-body)] font-semibold text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors hover:bg-[var(--fg-rose-hover)] active:scale-[0.98]"
             >
               <AutoAwesomeOutlinedIcon style={{ fontSize: 17 }} aria-hidden="true" />
               <span>Rangkai kado sekarang</span>
@@ -490,7 +490,7 @@ export default async function HomePage() {
 
             <Link
               href="/katalog"
-              className="inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--raised)] px-5 text-[length:var(--text-body)] text-ink-12 shadow-[var(--shadow-button)] transition-colors hover:bg-ink-2"
+              className="inline-flex h-11 items-center justify-center gap-2 rounded-[var(--radius-container)] bg-[var(--raised)] px-5 text-[length:var(--text-body)] font-medium text-ink-12 shadow-[var(--shadow-button)] transition-colors hover:bg-ink-2"
             >
               <span>Lihat katalog paket</span>
             </Link>

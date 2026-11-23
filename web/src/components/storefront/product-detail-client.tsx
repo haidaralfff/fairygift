@@ -68,16 +68,16 @@ export function ProductDetailClient({ product }: { product: Product }) {
               />
             </div>
 
-            <h1 className="mt-3 text-[length:var(--text-figure)] leading-[var(--leading-figure)] tracking-[-0.02em] text-ink-12 md:text-[28px] md:leading-[1.2]">
+            <h1 className="font-display mt-3 text-[26px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12 md:text-[32px] md:leading-[1.16]">
               {product.name}
             </h1>
 
-            <p className="tabular-nums mt-2 text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-[var(--fg-rose-text)]">
+            <p className="tabular-nums mt-2 text-[length:var(--text-figure)] font-semibold leading-[var(--leading-figure)] text-[var(--fg-rose-text)]">
               {formatRupiah(product.price)}
             </p>
 
             <div className="hairline-t mt-4 pt-4">
-              <p className="text-[length:var(--text-body)] leading-[var(--leading-body)] text-ink-11">
+              <p className="text-[length:var(--text-body)] font-normal leading-[var(--leading-body)] text-ink-11">
                 {product.description}
               </p>
 

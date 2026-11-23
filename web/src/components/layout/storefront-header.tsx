@@ -45,7 +45,7 @@ export function StorefrontHeader() {
     <>
       {/* Value Proposition Strip */}
       <div className="border-b-[0.5px] border-[var(--fg-rose-border)] bg-[var(--fg-rose-soft)] text-[var(--fg-rose-text)]">
-        <div className="mx-auto flex max-w-[1200px] items-center justify-center gap-x-5 gap-y-1 px-4 py-1.5 text-[11px] leading-tight sm:text-[length:var(--text-meta)] md:justify-between md:px-6">
+        <div className="mx-auto flex max-w-[1200px] items-center justify-center gap-x-5 gap-y-1 px-4 py-1.5 text-[11px] leading-tight sm:text-[length:var(--text-meta)] md:px-6">
           <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-1">
             <span className="inline-flex items-center gap-1.5">
               <AutoAwesomeOutlinedIcon className="shrink-0" style={{ fontSize: 13 }} aria-hidden="true" />
@@ -60,14 +60,6 @@ export function StorefrontHeader() {
               <span>Konsultasi &amp; Konfirmasi Cepat via WhatsApp</span>
             </span>
           </div>
-
-          <Link
-            href="/custom-gift"
-            className="hidden items-center gap-1 underline-offset-4 hover:underline lg:inline-flex"
-          >
-            <span>Rangkai sekarang</span>
-            <span aria-hidden="true">→</span>
-          </Link>
         </div>
       </div>
 
@@ -97,7 +89,7 @@ export function StorefrontHeader() {
                   <Link
                     key={item.href}
                     href={item.href}
-                    className={`inline-flex h-[var(--control-h-compact)] shrink-0 items-center whitespace-nowrap rounded-full px-3 text-[length:var(--text-body)] transition-colors duration-[var(--dur-hover)] ease-[var(--ease-out)] ${
+                    className={`inline-flex h-[var(--control-h-compact)] shrink-0 items-center whitespace-nowrap rounded-full px-3 text-[length:var(--text-body)] font-medium transition-colors duration-[var(--dur-hover)] ease-[var(--ease-out)] ${
                       active
                         ? "bg-[var(--fg-rose-soft)] text-[var(--fg-rose-text)] shadow-[0_0_0_0.5px_var(--fg-rose-border)]"
                         : "text-ink-11 hover:bg-ink-2 hover:text-ink-12"
@@ -116,7 +108,7 @@ export function StorefrontHeader() {
             <Link
               href="/keranjang"
               aria-label={`Keranjang belanja, ${activeItemsCount} item`}
-              className={`touch-target inline-flex h-[var(--control-h-pill)] items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 text-[length:var(--text-meta)] transition-colors duration-[var(--dur-hover)] ease-[var(--ease-out)] active:scale-[0.97] sm:px-3 ${
+              className={`touch-target inline-flex h-[var(--control-h-pill)] items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 text-[length:var(--text-meta)] font-medium transition-colors duration-[var(--dur-hover)] ease-[var(--ease-out)] active:scale-[0.97] sm:px-3 ${
                 activeItemsCount > 0
                   ? "bg-[var(--fg-rose-soft)] text-[var(--fg-rose-text)] shadow-[0_0_0_0.5px_var(--fg-rose-border)] hover:bg-[var(--fg-rose-tint)]"
                   : "bg-[var(--raised)] text-ink-12 shadow-[var(--shadow-toggle)] hover:bg-ink-3"
@@ -126,16 +118,6 @@ export function StorefrontHeader() {
               <span className="hidden sm:inline">Keranjang</span>
               <span className="tabular-nums">· {activeItemsCount}</span>
             </Link>
-
-            {pathname !== "/custom-gift" ? (
-              <Link
-                href="/custom-gift"
-                className="hidden h-[var(--control-h-pill)] items-center gap-1.5 whitespace-nowrap rounded-full bg-[var(--fg-rose)] px-3.5 text-[length:var(--text-meta)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)] transition-colors duration-[var(--dur-hover)] hover:bg-[var(--fg-rose-hover)] active:scale-[0.97] lg:inline-flex"
-              >
-                <AutoAwesomeOutlinedIcon style={{ fontSize: 15 }} aria-hidden="true" />
-                <span>Rangkai Hadiah</span>
-              </Link>
-            ) : null}
 
             <button
               type="button"
@@ -178,16 +160,6 @@ export function StorefrontHeader() {
                   </Link>
                 );
               })}
-              {pathname !== "/custom-gift" ? (
-                <Link
-                  href="/custom-gift"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="mt-1 inline-flex h-10 items-center justify-center gap-1.5 rounded-[var(--radius-control)] bg-[var(--fg-rose)] px-3.5 text-[length:var(--text-body)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)]"
-                >
-                  <AutoAwesomeOutlinedIcon style={{ fontSize: 15 }} aria-hidden="true" />
-                  <span>Rangkai Hadiah</span>
-                </Link>
-              ) : null}
             </div>
           </nav>
         ) : null}

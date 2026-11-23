@@ -1,6 +1,7 @@
 /* ==========================================================================
    FairyGift Tactile Design System — Tokens & Surface Rules
-   Neutral: Radix Sand | Sans: Inter (500) | Base: 13px desktop / 15px phone
+   Neutral: Radix Sand | Display: Playfair Display | Sans: Plus Jakarta Sans
+   Mono: JetBrains Mono | Base: 14px desktop / 15px phone
    ========================================================================== */
 
 :root {
@@ -114,19 +115,22 @@
   --row-h: 38px;
 
   /* 8. Typography */
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
-  --font-mono: ui-monospace, "SF Mono", Menlo, monospace;
+  --font-sans: var(--font-sans-loaded), "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-display: var(--font-display-loaded), "Playfair Display", Georgia, Cambria, serif;
+  --font-serif: var(--font-display);
+  --font-mono: var(--font-mono-loaded), "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --font-weight-body: 400;
   --font-weight-ui: 500;
+  --font-weight-heading: 600;
   --text-meta: 12px;    --leading-meta: 16px;
-  --text-body: 13px;    --leading-body: 20px;
+  --text-body: 14px;    --leading-body: 21px;
   --text-title: 16px;   --leading-title: 24px;
   --text-section: 20px; --leading-section: 28px;
   --text-figure: 24px;  --leading-figure: 32px;
-  --text-display: 32px; --leading-display: 40px;
+  --text-display: 34px; --leading-display: 42px;
   --text-field: var(--text-body);
   --tracking-label: -0.01em;
   --tracking-display: -0.02em;
-  font-size-adjust: 0.546;
 
   /* 9. Durations & Z-index */
   --dur-hover: 150ms;
@@ -388,9 +392,14 @@
   --text-xl: var(--text-section);  --text-xl--line-height: var(--leading-section);
   --text-2xl: var(--text-figure);  --text-2xl--line-height: var(--leading-figure);
   --text-3xl: var(--text-display); --text-3xl--line-height: var(--leading-display);
-  --font-weight-normal: var(--font-weight-ui);
-  --font-weight-medium: var(--font-weight-ui);
-  --font-weight-semibold: var(--font-weight-ui);
+  --font-sans: var(--font-sans);
+  --font-display: var(--font-display);
+  --font-serif: var(--font-serif);
+  --font-mono: var(--font-mono);
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
   --breakpoint-md: 48rem;
 }
 
@@ -401,9 +410,22 @@ html, body {
   background-color: var(--ground);
   color: var(--ink-12);
   font-family: var(--font-sans);
-  font-weight: var(--font-weight-ui);
+  font-weight: var(--font-weight-body);
   overscroll-behavior: none;
   -webkit-tap-highlight-color: transparent;
+}
+
+h1, h2, h3, h4 {
+  font-weight: var(--font-weight-heading);
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+button, label, th, [role="button"] {
+  font-weight: var(--font-weight-ui);
 }
 
 ::selection {

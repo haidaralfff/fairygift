@@ -52,10 +52,10 @@ export function CatalogClient({
       {/* Merchandising Header */}
       <div className="hairline-b flex flex-col justify-between gap-5 pb-6 md:flex-row md:items-end">
         <div>
-          <h1 className="text-[length:var(--text-figure)] leading-[var(--leading-figure)] tracking-[-0.02em] text-ink-12 md:text-[28px]">
+          <h1 className="font-display text-[26px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12 md:text-[30px]">
             Katalog paket hadiah
           </h1>
-          <p className="mt-1.5 max-w-[54ch] text-[length:var(--text-body)] leading-[var(--leading-body)] text-ink-11">
+          <p className="mt-1.5 max-w-[54ch] text-[length:var(--text-body)] font-normal leading-[var(--leading-body)] text-ink-11">
             Paket hadiah siap pesan dengan rincian isi terkurasi untuk ulang tahun, wisuda, anniversary, dan momen spesial lainnya.
           </p>
         </div>

@@ -43,19 +43,19 @@ export function ProductCard({ product, priority = false }: ProductCardProps) {
 
       <div className="flex flex-1 flex-col justify-between gap-3 px-2 pt-3.5 pb-1.5">
         <div>
-          <h3 className="line-clamp-2 text-[length:var(--text-title)] leading-[var(--leading-title)] text-ink-12 transition-colors group-hover:text-[var(--fg-rose-text)]">
+          <h3 className="line-clamp-2 text-[length:var(--text-title)] font-semibold leading-[var(--leading-title)] text-ink-12 transition-colors group-hover:text-[var(--fg-rose-text)]">
             {product.name}
           </h3>
 
-          <p className="mt-1.5 line-clamp-2 text-[length:var(--text-body)] leading-[var(--leading-body)] text-ink-11">
+          <p className="mt-1.5 line-clamp-2 text-[length:var(--text-body)] font-normal leading-[var(--leading-body)] text-ink-11">
             {product.description}
           </p>
         </div>
 
         <div className="hairline-t flex items-center justify-between gap-2 pt-2.5">
           <div>
-            <p className="text-[11px] leading-none text-ink-10">Mulai dari</p>
-            <p className="tabular-nums mt-1 text-[length:var(--text-title)] leading-none text-ink-12">
+            <p className="text-[11px] font-medium leading-none text-ink-10">Mulai dari</p>
+            <p className="tabular-nums mt-1 text-[length:var(--text-title)] font-semibold leading-none text-ink-12">
               {formatRupiah(product.price)}
             </p>
           </div>

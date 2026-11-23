@@ -372,12 +372,12 @@ export function CustomGiftBuilder({
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <div className="flex flex-wrap items-center gap-2.5">
-            <h1 className="text-[length:var(--text-section)] leading-[var(--leading-section)] text-ink-12">
+            <h1 className="font-display text-[24px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12 md:text-[28px]">
               Rangkai kado custom
             </h1>
             <PillBadge tone="plum">Langkah {step} dari 3</PillBadge>
           </div>
-          <p className="mt-1 text-[length:var(--text-body)] text-ink-11">
+          <p className="mt-1 text-[length:var(--text-body)] font-normal text-ink-11">
             Sesuaikan kemasan, isi hadiah, dan kartu ucapan dengan estimasi harga langsung.
           </p>
         </div>
@@ -833,12 +833,18 @@ export function CustomGiftBuilder({
 
                 {/* Preview Ringkasan Kartu */}
                 <div className="surface-raised rounded-[var(--radius-feature)] border-[0.5px] border-[var(--fg-rose-border)] bg-[var(--fg-rose-soft)] p-4 shadow-[var(--shadow-card)]">
-                  <p className="text-[length:var(--text-meta)] text-[var(--fg-rose-text)]">
+                  <p className="text-[length:var(--text-meta)] font-medium text-[var(--fg-rose-text)]">
                     Pratinjau kartu ({activeCardDesign?.name ?? "Kartu Ucapan"})
                   </p>
-                  <p className="mt-2 break-words text-[length:var(--text-body)] leading-[var(--leading-body)] text-ink-12">
+                  <p
+                    className={`mt-2 break-words leading-[1.55] ${
+                      greetingMessage.trim()
+                        ? "font-display text-[17px] italic text-ink-12"
+                        : "text-[length:var(--text-body)] font-normal text-ink-11"
+                    }`}
+                  >
                     {greetingMessage.trim()
-                      ? greetingMessage.trim()
+                      ? `“${greetingMessage.trim()}”`
                       : "Belum ada pesan tertulis. Kartu akan disertakan kosong bila dibiarkan."}
                   </p>
                 </div>
@@ -860,19 +866,19 @@ export function CustomGiftBuilder({
         {/* Desktop Sticky Summary Card */}
         <aside className="hidden lg:col-span-4 lg:block">
           <div className="surface-raised sticky top-20 rounded-[var(--radius-feature)] border-[0.5px] border-[var(--line)] bg-[var(--raised)] p-6 shadow-[var(--shadow-card)]">
-            <h2 className="text-[length:var(--text-title)] leading-[var(--leading-title)] text-ink-12">
+            <h2 className="text-[length:var(--text-title)] font-semibold leading-[var(--leading-title)] text-ink-12">
               Ringkasan kado custom
             </h2>
 
             <div className="mt-4">{summaryRows}</div>
 
             <div className="hairline-t mt-4 flex items-baseline justify-between pt-4">
-              <span className="text-[length:var(--text-body)] text-ink-11">
+              <span className="text-[length:var(--text-body)] font-medium text-ink-11">
                 Total harga
               </span>
               <span
                 aria-live="polite"
-                className="tabular-nums text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-[var(--fg-rose-text)]"
+                className="tabular-nums text-[length:var(--text-figure)] font-semibold leading-[var(--leading-figure)] text-[var(--fg-rose-text)]"
               >
                 {formatRupiah(totalPrice)}
               </span>
@@ -905,7 +911,7 @@ export function CustomGiftBuilder({
               <p className="text-[length:var(--text-meta)] text-ink-11">Total harga</p>
               <p
                 aria-live="polite"
-                className="tabular-nums text-[length:var(--text-section)] leading-[var(--leading-section)] text-[var(--fg-rose-text)]"
+                className="tabular-nums text-[length:var(--text-section)] font-semibold leading-[var(--leading-section)] text-[var(--fg-rose-text)]"
               >
                 {formatRupiah(totalPrice)}
               </p>

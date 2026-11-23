@@ -7,22 +7,23 @@ Platform web e-commerce untuk **FairyGift** yang menyediakan katalog hadiah siap
 ## Fitur Utama
 
 ### Storefront Pembeli
-- **Beranda & Katalog (`/`, `/katalog`)**: Etalase paket hadiah dengan filter kategori, pencarian cepat (`Ctrl/⌘ + K`), dan pengurutan harga.
+- **Beranda & Katalog (`/`, `/katalog`)**: Etalase paket hadiah dengan filter kategori, filter ketersediaan, dan pencarian produk langsung.
 - **Detail Produk (`/produk/[slug]`)**: Informasi detail paket hadiah beserta ketersediaan stok langsung.
-- **Rangkai Kado Custom (`/custom-gift`)**: Alur bertahap (**Langkah 1–3**) untuk memilih **Kemasan** (beserta pilihan warna dan varian desain), **Isi Hadiah**, dan **Kartu Ucapan** dengan ringkasan harga real-time.
+- **Rangkai Kado Custom (`/custom-gift`)**: Alur bertahap (**Langkah 1–3**) untuk memilih **Kemasan** (beserta pilihan warna dan varian desain), **Isi Hadiah**, dan **Kartu Ucapan** dengan pratinjau langsung dan ringkasan harga real-time.
 - **Keranjang & Pemesanan (`/keranjang`, `/checkout`)**:
-  - Validasi ketersediaan produk/komponen sebelum checkout.
-  - Form **Data pemesanan & pengiriman** dengan validasi aksesibel (ringkasan error fokus otomatis di atas form, pesan error per kolom, serta panduan format WhatsApp dan jadwal kirim minimal 2 hari).
+  - Validasi ketersediaan produk/komponen sebelum checkout serta aksi ubah/hapus item dengan modal konfirmasi.
+  - Form **Data pemesanan & pengiriman** yang informatif dengan panduan jelas per kolom, ringkasan error fokus otomatis, dan jadwal kirim/ambil minimal 2 hari.
   - Proteksi *idempotency key* untuk mencegah pesanan ganda saat klik berulang.
-- **Struk & Konfirmasi WhatsApp (`/pesanan/[orderNumber]`)**: Halaman ringkasan transaksi lengkap dengan tautan langsung untuk konfirmasi pembayaran ke WhatsApp admin.
-- **Tema Terang & Gelap**: Mendukung pergantian tema di storefront maupun admin.
+- **Struk & Konfirmasi WhatsApp (`/pesanan/[orderNumber]`)**: Halaman ringkasan transaksi lengkap dengan nomor pesanan monospace dan tautan langsung konfirmasi pembayaran ke WhatsApp admin.
+- **Tema Terang & Gelap**: Mendukung pergantian tema di storefront, halaman login, maupun admin.
 
-### Dashboard Admin (`/admin`)
+### Autentikasi & Dashboard Admin (`/login`, `/admin`)
+- **Halaman Masuk Admin (`/login`)**: Autentikasi Firebase Auth Email/Password dengan logo terpusat dan tombol ikon lihat/sembunyikan kata sandi.
 - **Workspace Sidebar & Top Bar**:
   - Sidebar terkelompok (**Ringkasan**, **Operasional**, **Katalog**) dengan indikator antrean pembayaran tertunda.
   - Utilitas cepat **Lihat Toko**, pengalih **Mode Gelap / Terang**, serta menu akun di bagian bawah sidebar (info akun + tombol **Keluar dari Admin**).
   - Pencarian cepat pesanan/pelanggan (`Ctrl/⌘ + K`) dan indikator status koneksi toko (**Toko Aktif** / **Mode Uji Coba**) berada di top bar utama.
-- **Beranda Admin (`/admin`)**: Metrik ringkasan, jadwal kirim terdekat, distribusi status pesanan, dan daftar pesanan terbaru.
+- **Beranda Admin (`/admin`)**: Metrik ringkasan KPI, jadwal kirim terdekat, distribusi status pesanan, dan daftar pesanan terbaru.
 - **Pesanan (`/admin/pesanan`)**: Filter status pesanan & status pembayaran, pencarian nomor pesanan/nama/WhatsApp, panel detail pesanan lengkap (termasuk tautan struk & tombol chat WhatsApp), serta pembaruan status pesanan.
 - **Pembayaran (`/admin/pembayaran`)**: Antrean verifikasi pembayaran manual beserta modal konfirmasi dan riwayat log perubahan status pembayaran.
 - **Produk (`/admin/produk`)**: Tambah, edit, ubah ketersediaan, dan hapus produk siap pesan beserta unggah gambar ke Cloudinary.
@@ -30,10 +31,52 @@ Platform web e-commerce untuk **FairyGift** yang menyediakan katalog hadiah siap
 
 ---
 
+## Struktur Direktori Aplikasi (`web/`)
+
+```text
+web/
+├── .env.example                  # Template variabel environment
+├── eslint.config.mjs             # Konfigurasi ESLint Next.js & TypeScript
+├── next.config.ts                # Konfigurasi Next.js (whitelist host res.cloudinary.com)
+├── postcss.config.mjs            # Plugin PostCSS untuk Tailwind CSS v4
+├── tsconfig.json                 # Konfigurasi TypeScript (@/* -> ./src/*)
+├── firebase.json                 # Target rules & indexes Cloud Firestore
+├── firestore.rules               # Aturan keamanan database Firestore
+├── firestore.indexes.json        # Composite index query Firestore
+├── scripts/
+│   └── setup-integration.mjs     # CLI wizard setup .env, akun admin, & seed awal
+├── public/images/                # Aset statis publik (logo SVG, ilustrasi fallback, foto produk)
+└── src/
+    ├── types/domain.ts           # Definisi tipe data Product, Category, CustomGift, & Order
+    ├── lib/
+    │   ├── constants.ts          # Konstanta bisnis (lead time 2 hari, batas karakter, kategori)
+    │   ├── format.ts             # Formatter Rupiah, tanggal Indonesia, & builder URL WhatsApp
+    │   ├── storage.ts            # Helper upload gambar ke Cloudinary & validasi ukuran/format
+    │   ├── validators.ts         # Skema validasi Zod API & form
+    │   ├── firebase/             # Konfigurasi Firebase Client SDK & Firebase Admin SDK
+    │   └── data/                 # Layanan katalog Firestore, demo seed, & dev order store
+    ├── components/
+    │   ├── layout/               # Header & footer storefront
+    │   ├── storefront/           # Kartu produk, filter katalog, detail produk, & custom gift builder
+    │   ├── cart/                 # Context & provider keranjang belanja
+    │   ├── admin/                # Provider autentikasi admin & shell workspace dashboard
+    │   └── ui/                   # Primitif UI (BrandLogo, ModalSheet, PillBadge, StatusDot, dll.)
+    └── app/
+        ├── layout.tsx            # Root layout (Playfair Display, Plus Jakarta Sans, JetBrains Mono)
+        ├── globals.css           # Entry Tailwind v4, .font-display, & token rose storefront
+        ├── tokens.css            # Design tokens Radix Sand, radius, shadow, & skala tipografi
+        ├── login/                # Halaman autentikasi admin (/login)
+        ├── (storefront)/         # Halaman publik pembeli (/, /katalog, /produk, /custom-gift, /keranjang, /checkout, /pesanan)
+        ├── admin/(dashboard)/    # Halaman terproteksi admin (/admin, pesanan, pembayaran, produk, kustomisasi)
+        └── api/                  # Route Handlers publik (/api/products, /api/checkout, dll.) & admin (/api/admin/*)
+```
+
+---
+
 ## Stack Teknologi
 
 - **Frontend & API Server**: Next.js 15 (App Router) + React 19 + TypeScript + Tailwind CSS v4
-- **Validasi & UI**: Zod, Lucide Icons, Motion
+- **Tipografi, Ikon, Validasi & Animasi**: `Playfair Display` + `Plus Jakarta Sans` + `JetBrains Mono`, `@mui/icons-material`, Zod, Motion
 - **Database & Autentikasi Admin**: Firebase Spark (Cloud Firestore + Firebase Auth Email/Password)
 - **Penyimpanan Gambar**: Cloudinary Free Tier (`JPG`/`PNG`/`WebP`, maksimal `2 MB`)
 - **Hosting**: Vercel Hobby
@@ -69,8 +112,8 @@ Nilai kode internal di Firestore/API tetap dipertahankan untuk kompatibilitas da
   - `/keranjang` — Keranjang belanja
   - `/checkout` — Data pemesanan & pengiriman
   - `/pesanan/[orderNumber]` — Struk pesanan & kirim konfirmasi WhatsApp
-- **Admin**:
-  - `/admin/login` — Halaman masuk admin
+- **Autentikasi & Admin**:
+  - `/login` — Halaman masuk admin
   - `/admin` — Beranda Admin (ringkasan operasional)
   - `/admin/pesanan` — Daftar & detail pesanan
   - `/admin/pembayaran` — Verifikasi pembayaran manual
@@ -154,7 +197,7 @@ npm run dev
 ### 1. Firebase Spark (Auth & Firestore)
 1. Buka [Firebase Console](https://console.firebase.google.com/) dan buat project baru.
 2. Aktifkan **Authentication -> Sign-in method -> Email/Password**.
-3. Tambahkan domain deploy Anda di **Authentication -> Settings -> Authorized domains** agar login `/admin/login` berjalan di production:
+3. Tambahkan domain deploy Anda di **Authentication -> Settings -> Authorized domains** agar login `/login` berjalan di production:
    - `faiirygift.vercel.app` (atau domain produksi Vercel Anda)
    - `localhost` (sudah tersedia secara default)
 4. Aktifkan **Cloud Firestore** (pilih region terdekat, misalnya `asia-southeast2` Jakarta), lalu terapkan aturan dari `firestore.rules` dan indeks dari `firestore.indexes.json`.

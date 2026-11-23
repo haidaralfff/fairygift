@@ -88,7 +88,7 @@ export function AdminShell({ children }: AdminShellProps) {
 
   useEffect(() => {
     if (!loading && configured && !user) {
-      router.replace("/admin/login");
+      router.replace("/login");
     }
   }, [loading, configured, user, router]);
 

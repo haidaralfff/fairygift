@@ -104,11 +104,11 @@ export default function KeranjangPage() {
     <div className="mx-auto max-w-[1040px] px-4 py-8 md:px-6">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
-          <h1 className="text-[length:var(--text-figure)] leading-[var(--leading-figure)] tracking-[-0.02em] text-ink-12">
+          <h1 className="font-display text-[26px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12 md:text-[30px]">
             Keranjang belanja
           </h1>
           {items.length > 0 ? (
-            <p className="tabular-nums mt-0.5 text-[length:var(--text-meta)] text-ink-10">
+            <p className="tabular-nums mt-1 text-[length:var(--text-meta)] font-medium text-ink-10">
               {items.length} jenis hadiah · {totalItems} paket total
             </p>
           ) : null}
@@ -206,12 +206,12 @@ export default function KeranjangPage() {
                         {item.type === "ready_made" ? (
                           <Link
                             href={`/produk/${encodeURIComponent(item.slug)}`}
-                            className="mt-1.5 inline-block text-[length:var(--text-title)] leading-[var(--leading-title)] text-ink-12 underline-offset-4 hover:underline"
+                            className="mt-1.5 inline-block text-[length:var(--text-title)] font-semibold leading-[var(--leading-title)] text-ink-12 underline-offset-4 hover:underline"
                           >
                             {item.name}
                           </Link>
                         ) : (
-                          <h2 className="mt-1.5 text-[length:var(--text-title)] leading-[var(--leading-title)] text-ink-12">
+                          <h2 className="mt-1.5 text-[length:var(--text-title)] font-semibold leading-[var(--leading-title)] text-ink-12">
                             {item.name}
                           </h2>
                         )}
@@ -304,7 +304,7 @@ export default function KeranjangPage() {
                         Subtotal
                       </span>
                       <div>
-                        <p className="tabular-nums text-[length:var(--text-title)] text-ink-12">
+                        <p className="tabular-nums text-[length:var(--text-title)] font-semibold text-ink-12">
                           {formatRupiah(lineTotal)}
                         </p>
                         {item.quantity > 1 ? (
@@ -337,14 +337,14 @@ export default function KeranjangPage() {
           {/* Sticky Summary Sidebar */}
           <aside className="lg:col-span-4">
             <div className="surface-raised sticky top-20 rounded-[var(--radius-feature)] border-[0.5px] border-[var(--line)] bg-[var(--raised)] p-5 shadow-[var(--shadow-card)] sm:p-6">
-              <h2 className="text-[length:var(--text-title)] text-ink-12">
+              <h2 className="text-[length:var(--text-title)] font-semibold text-ink-12">
                 Ringkasan keranjang
               </h2>
 
               <dl className="mt-4 space-y-2.5 text-[length:var(--text-body)]">
                 <div className="flex items-center justify-between gap-2">
                   <dt className="text-ink-11">Jumlah paket</dt>
-                  <dd className="tabular-nums text-ink-12">{totalItems} paket</dd>
+                  <dd className="tabular-nums font-medium text-ink-12">{totalItems} paket</dd>
                 </div>
                 <div className="flex items-center justify-between gap-2">
                   <dt className="inline-flex items-center gap-1.5 text-ink-11">
@@ -362,10 +362,10 @@ export default function KeranjangPage() {
               </dl>
 
               <div className="hairline-t mt-4 flex items-baseline justify-between gap-4 pt-4">
-                <span className="text-[length:var(--text-body)] text-ink-11">
+                <span className="text-[length:var(--text-body)] font-medium text-ink-11">
                   Total harga
                 </span>
-                <span className="tabular-nums text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-[var(--fg-rose-text)]">
+                <span className="tabular-nums text-[length:var(--text-figure)] font-semibold leading-[var(--leading-figure)] text-[var(--fg-rose-text)]">
                   {formatRupiah(totalPrice)}
                 </span>
               </div>

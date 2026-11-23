@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
+import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import { BrandLogo } from "@/components/ui/brand-logo";
 import { getClientAuth, isFirebaseClientConfigured } from "@/lib/firebase/client";
@@ -51,13 +53,13 @@ export default function AdminLoginPage() {
       className="flex min-h-dvh items-center justify-center bg-[var(--ground)] px-4 py-10"
     >
       <div className="surface-raised w-full max-w-[464px] rounded-[var(--radius-container)] bg-[var(--raised)] p-8 shadow-[var(--shadow-card)]">
-        <div className="flex flex-col items-start gap-3">
-          <BrandLogo height={26} />
+        <div className="flex flex-col items-center gap-3 text-center">
+          <BrandLogo height={28} />
           <div>
-            <h1 className="text-[length:var(--text-section)] leading-[var(--leading-section)] text-ink-12">
+            <h1 className="font-display text-[24px] font-semibold leading-[1.2] tracking-[-0.02em] text-ink-12">
               FairyGift Admin
             </h1>
-            <p className="mt-1 text-[length:var(--text-body)] text-ink-11">
+            <p className="mt-1 text-[length:var(--text-body)] font-normal text-ink-11">
               Masuk untuk mengelola katalog, pesanan, dan pembayaran.
             </p>
           </div>
@@ -100,16 +102,23 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Masukkan kata sandi"
-                className={`h-[var(--control-h)] w-full rounded-[var(--radius-control)] border-0 bg-ink-3 pr-24 pl-3 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10 focus:bg-ink-4 focus:outline-none ${
+                className={`h-[var(--control-h)] w-full rounded-[var(--radius-control)] border-0 bg-ink-3 pr-11 pl-3 text-[length:var(--text-field)] text-ink-12 placeholder:text-ink-10 focus:bg-ink-4 focus:outline-none ${
                   error ? "shadow-[0_0_0_1px_var(--red-11)]" : ""
                 }`}
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((prev) => !prev)}
-                className="touch-target absolute right-1.5 inline-flex h-[var(--control-h-inline)] items-center rounded-[var(--radius-control)] bg-[var(--raised)] px-2.5 text-[length:var(--text-meta)] text-ink-11 shadow-[var(--shadow-button)] hover:text-ink-12"
+                aria-label={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+                aria-pressed={showPassword}
+                title={showPassword ? "Sembunyikan kata sandi" : "Tampilkan kata sandi"}
+                className="touch-target absolute right-1.5 inline-flex size-[var(--control-h-pill)] items-center justify-center rounded-[var(--radius-sm)] text-ink-10 transition-colors duration-[var(--dur-hover)] hover:bg-ink-4 hover:text-ink-12 active:scale-[0.96]"
               >
-                {showPassword ? "Sembunyikan" : "Tampilkan"}
+                {showPassword ? (
+                  <VisibilityOffOutlinedIcon style={{ fontSize: 18 }} aria-hidden="true" />
+                ) : (
+                  <VisibilityOutlinedIcon style={{ fontSize: 18 }} aria-hidden="true" />
+                )}
               </button>
             </div>
           </div>

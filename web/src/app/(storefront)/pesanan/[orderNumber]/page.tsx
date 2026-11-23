@@ -139,7 +139,7 @@ export default function OrderConfirmationPage() {
             <p className="text-[length:var(--text-meta)] text-ink-11">
               Nomor pesanan
             </p>
-            <h1 className="tabular-nums font-mono text-[length:var(--text-section)] leading-[var(--leading-section)] text-ink-12">
+            <h1 className="tabular-nums font-mono text-[length:var(--text-section)] font-semibold leading-[var(--leading-section)] text-ink-12">
               {order.orderNumber}
             </h1>
           </div>
@@ -221,7 +221,7 @@ export default function OrderConfirmationPage() {
             <span className="text-[length:var(--text-body)] text-ink-11">
               Total harga
             </span>
-            <span className="tabular-nums text-[length:var(--text-title)] text-[var(--fg-rose-text)]">
+            <span className="tabular-nums text-[length:var(--text-title)] font-semibold text-[var(--fg-rose-text)]">
               {formatRupiah(order.totalPrice)}
             </span>
           </div>

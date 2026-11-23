@@ -33,10 +33,10 @@ export function StorefrontFooter() {
 
           {/* Navigation */}
           <div className="space-y-3 md:col-span-3">
-            <p className="text-[length:var(--text-meta)] uppercase tracking-wider text-ink-10">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-10">
               Belanja
             </p>
-            <ul className="space-y-2 text-[length:var(--text-body)] text-ink-11">
+            <ul className="space-y-2 text-[length:var(--text-body)] font-normal text-ink-11">
               <li>
                 <Link href="/katalog" className="transition-colors hover:text-ink-12">
                   Katalog paket siap pesan
@@ -62,7 +62,7 @@ export function StorefrontFooter() {
 
           {/* Service guarantees */}
           <div className="space-y-3 md:col-span-4">
-            <p className="text-[length:var(--text-meta)] uppercase tracking-wider text-ink-10">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-10">
               Komitmen Layanan
             </p>
             <ul className="space-y-2.5 text-[length:var(--text-body)] text-ink-11">

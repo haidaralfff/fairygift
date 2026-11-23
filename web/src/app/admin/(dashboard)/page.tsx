@@ -90,7 +90,7 @@ export default function AdminOverviewPage() {
             className="surface-raised group rounded-[var(--radius-container)] bg-[var(--raised)] p-4 shadow-[var(--shadow-card)] transition-colors hover:bg-ink-2"
           >
             <div className="flex items-start justify-between gap-2">
-              <p className="tabular-nums text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-ink-12">
+              <p className="tabular-nums font-semibold text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-ink-12">
                 {loading ? <span className="text-ink-10">-</span> : metrics.totalOrders}
               </p>
               <ArrowForwardRoundedIcon
@@ -109,7 +109,7 @@ export default function AdminOverviewPage() {
             className="surface-raised group rounded-[var(--radius-container)] bg-[var(--raised)] p-4 shadow-[var(--shadow-card)] transition-colors hover:bg-ink-2"
           >
             <div className="flex items-start justify-between gap-2">
-              <p className="tabular-nums text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-ink-12">
+              <p className="tabular-nums font-semibold text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-ink-12">
                 {loading ? <span className="text-ink-10">-</span> : metrics.pendingPayments}
               </p>
               <ArrowForwardRoundedIcon
@@ -132,7 +132,7 @@ export default function AdminOverviewPage() {
             className="surface-raised group rounded-[var(--radius-container)] bg-[var(--raised)] p-4 shadow-[var(--shadow-card)] transition-colors hover:bg-ink-2"
           >
             <div className="flex items-start justify-between gap-2">
-              <p className="tabular-nums text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-ink-12">
+              <p className="tabular-nums font-semibold text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-ink-12">
                 {loading ? <span className="text-ink-10">-</span> : metrics.processingOrders}
               </p>
               <ArrowForwardRoundedIcon
@@ -156,7 +156,7 @@ export default function AdminOverviewPage() {
             className="surface-raised group rounded-[var(--radius-container)] bg-[var(--raised)] p-4 shadow-[var(--shadow-card)] transition-colors hover:bg-ink-2"
           >
             <div className="flex items-start justify-between gap-2">
-              <p className="tabular-nums text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-ink-12">
+              <p className="tabular-nums font-semibold text-[length:var(--text-figure)] leading-[var(--leading-figure)] text-ink-12">
                 {loading ? (
                   <span className="text-ink-10">-</span>
                 ) : (

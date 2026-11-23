@@ -1,15 +1,30 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { JetBrains_Mono, Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import { MotionConfig } from "motion/react";
 import { CartProvider } from "@/components/cart/cart-provider";
 import { ToastProvider } from "@/components/ui/toast";
 import "./globals.css";
 
-const inter = Inter({
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["500"],
+  weight: ["400", "500", "600", "700"],
   display: "swap",
-  variable: "--font-inter",
+  variable: "--font-sans-loaded",
+});
+
+const playfairDisplay = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  style: ["normal", "italic"],
+  display: "swap",
+  variable: "--font-display-loaded",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+  variable: "--font-mono-loaded",
 });
 
 export const metadata: Metadata = {
@@ -35,7 +50,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className={inter.variable} suppressHydrationWarning>
+    <html
+      lang="id"
+      className={`${plusJakartaSans.variable} ${playfairDisplay.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
+    >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
       </head>
