@@ -3,7 +3,6 @@ import ArrowForwardRoundedIcon from "@mui/icons-material/ArrowForwardRounded";
 import WorkspacePremiumOutlinedIcon from "@mui/icons-material/WorkspacePremiumOutlined";
 import CakeOutlinedIcon from "@mui/icons-material/CakeOutlined";
 import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
-import CheckCircleOutlineRoundedIcon from "@mui/icons-material/CheckCircleOutlineRounded";
 import KeyboardArrowDownRoundedIcon from "@mui/icons-material/KeyboardArrowDownRounded";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import CardGiftcardOutlinedIcon from "@mui/icons-material/CardGiftcardOutlined";
@@ -116,9 +115,6 @@ export default async function HomePage() {
   const displayProducts =
     featuredProducts.length > 0 ? featuredProducts : products.slice(0, 6);
 
-  const heroHighlight =
-    displayProducts.find((p) => p.isAvailable) ?? displayProducts[0] ?? null;
-
   const availableProductsCount = products.filter((p) => p.isAvailable).length;
 
   const minPackPrice =
@@ -176,33 +172,6 @@ export default async function HomePage() {
                 <ArrowForwardRoundedIcon className="text-ink-10" style={{ fontSize: 17 }} aria-hidden="true" />
               </Link>
             </div>
-
-            <ul className="hairline-t mt-8 flex flex-wrap items-center gap-x-6 gap-y-2.5 pt-5 text-[length:var(--text-meta)] text-ink-11">
-              <li className="inline-flex items-center gap-1.5">
-                <CheckCircleOutlineRoundedIcon
-                  className="shrink-0 text-[var(--green-11)]"
-                  style={{ fontSize: 17 }}
-                  aria-hidden="true"
-                />
-                <span>Harga jelas sejak awal</span>
-              </li>
-              <li className="inline-flex items-center gap-1.5">
-                <CheckCircleOutlineRoundedIcon
-                  className="shrink-0 text-[var(--green-11)]"
-                  style={{ fontSize: 17 }}
-                  aria-hidden="true"
-                />
-                <span>Kartu ucapan personal</span>
-              </li>
-              <li className="inline-flex items-center gap-1.5">
-                <CheckCircleOutlineRoundedIcon
-                  className="shrink-0 text-[var(--green-11)]"
-                  style={{ fontSize: 17 }}
-                  aria-hidden="true"
-                />
-                <span>Bisa kirim atau ambil sendiri</span>
-              </li>
-            </ul>
           </div>
 
           {/* Asymmetric Editorial Showcase (no nested card stacks) */}
@@ -224,47 +193,6 @@ export default async function HomePage() {
                   {availableProductsCount} paket siap pesan
                 </span>
               </div>
-            </div>
-
-            <div className="mt-4 grid grid-cols-1 gap-4 border-t-[0.5px] border-[var(--line)] pt-4 sm:grid-cols-2">
-              <Link
-                href="/custom-gift"
-                className="group flex items-start justify-between gap-2 transition-colors"
-              >
-                <div>
-                  <p className="text-[length:var(--text-meta)] text-[var(--fg-rose-text)]">
-                    Kado Custom
-                  </p>
-                  <p className="tabular-nums mt-0.5 text-[length:var(--text-body)] text-ink-12">
-                    {builderCatalog.packagings.length} kemasan ·{" "}
-                    {builderCatalog.components.length} pilihan isi
-                  </p>
-                </div>
-                <ArrowForwardRoundedIcon
-                  className="mt-1 shrink-0 text-[var(--fg-rose-text)] transition-transform group-hover:translate-x-0.5"
-                  style={{ fontSize: 17 }}
-                  aria-hidden="true"
-                />
-              </Link>
-
-              {heroHighlight ? (
-                <Link
-                  href={`/produk/${heroHighlight.slug}`}
-                  className="group flex items-start justify-between gap-2 border-t-[0.5px] border-[var(--line)] pt-3 sm:border-t-0 sm:border-l-[0.5px] sm:pt-0 sm:pl-4"
-                >
-                  <div className="min-w-0">
-                    <p className="text-[length:var(--text-meta)] text-ink-10">
-                      Paket Unggulan
-                    </p>
-                    <p className="mt-0.5 truncate text-[length:var(--text-body)] text-ink-12 group-hover:text-[var(--fg-rose-text)]">
-                      {heroHighlight.name}
-                    </p>
-                  </div>
-                  <span className="tabular-nums shrink-0 text-[length:var(--text-meta)] text-[var(--fg-rose-text)]">
-                    {formatRupiah(heroHighlight.price)}
-                  </span>
-                </Link>
-              ) : null}
             </div>
           </div>
         </div>
