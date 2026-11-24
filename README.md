@@ -43,6 +43,7 @@ Platform e-commerce untuk **FairyGift** yang memudahkan pelanggan memilih paket 
 ├── prd/                          # Product Requirements Document, user flow, & aturan bisnis
 ├── broilerplate/                 # Template/referensi awal struktur Next.js sebelum pengembangan
 ├── .gitignore                    # Aturan pengecualian Git di tingkat repositori
+├── LICENSE                       # Lisensi resmi proyek (MIT License)
 └── README.md                     # Dokumentasi utama repositori
 ```
 
@@ -231,3 +232,9 @@ npm run dev
 2. Masukkan seluruh variabel dari [`web/.env.example`](./web/.env.example) pada **Project Settings → Environment Variables** di Vercel, dengan `NEXT_PUBLIC_APP_URL` diarahkan ke domain produksi (contoh: `https://faiirygift.vercel.app`).
 3. Pada **Firebase Console → Authentication → Settings → Authorized domains**, pastikan domain produksi Vercel Anda sudah terdaftar agar login admin berjalan normal di production.
 4. Setiap push atau pull request ke branch `main` otomatis menjalankan workflow CI (`lint`, `typecheck`, dan `build`) serta memicu deployment Vercel.
+
+---
+
+## Lisensi
+
+Proyek ini menggunakan **MIT License**. Lihat berkas [`LICENSE`](./LICENSE) untuk rincian lengkapnya.
