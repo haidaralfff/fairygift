@@ -471,13 +471,15 @@ input, textarea, select {
   }
 }
 
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 @media screen and (width < 48rem) {
-  .no-scrollbar {
-    scrollbar-width: none;
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
   .mobile-stack:not(:root)         { flex-direction: column;         align-items: stretch; }
   .mobile-stack-reverse:not(:root) { flex-direction: column-reverse; align-items: stretch; }
   :is(.mobile-stack, .mobile-stack-reverse) > * { width: 100%; justify-content: center; }

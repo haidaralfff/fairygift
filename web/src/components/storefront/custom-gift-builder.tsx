@@ -172,8 +172,24 @@ export function CustomGiftBuilder({
     [cardDesigns, cardDesignId]
   );
 
+  const showComponentSearch = components.length >= 15;
+
+  const availableCategories = useMemo(() => {
+    const present = new Set(components.map((c) => c.category));
+    const ordered = COMPONENT_CATEGORIES.filter(
+      (cat) => cat === "Semua" || present.has(cat)
+    );
+    const extras = Array.from(present).filter(
+      (cat) =>
+        !COMPONENT_CATEGORIES.includes(
+          cat as (typeof COMPONENT_CATEGORIES)[number]
+        )
+    );
+    return [...ordered, ...extras];
+  }, [components]);
+
   const filteredComponents = useMemo(() => {
-    const q = componentQuery.trim().toLowerCase();
+    const q = showComponentSearch ? componentQuery.trim().toLowerCase() : "";
     return components.filter((c) => {
       if (componentCategory !== "Semua" && c.category !== componentCategory) {
         return false;
@@ -183,7 +199,7 @@ export function CustomGiftBuilder({
       }
       return true;
     });
-  }, [components, componentCategory, componentQuery]);
+  }, [components, componentCategory, componentQuery, showComponentSearch]);
 
   const totalPrice = useMemo(() => {
     const packPrice = activePackaging?.price ?? 0;
@@ -622,17 +638,17 @@ export function CustomGiftBuilder({
                   </PillBadge>
                 </div>
 
-                {/* Filter kategori & pencarian */}
-                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                  <div className="no-scrollbar edge-fade-x flex items-center gap-1.5 overflow-x-auto py-1 pr-6">
-                    {COMPONENT_CATEGORIES.map((cat) => {
+                {/* Filter kategori (& pencarian bila item >= 15) */}
+                <div className="flex flex-col gap-3">
+                  <div className="no-scrollbar edge-fade-x flex items-center gap-1.5 overflow-x-auto py-1 pr-6 sm:flex-wrap sm:overflow-visible sm:pr-0 sm:[mask-image:none]">
+                    {availableCategories.map((cat) => {
                       const active = componentCategory === cat;
                       return (
                         <button
                           key={cat}
                           type="button"
                           onClick={() => setComponentCategory(cat)}
-                          className={`inline-flex h-[var(--control-h-pill)] shrink-0 items-center rounded-full px-3 text-[length:var(--text-meta)] transition-colors ${
+                          className={`inline-flex h-[var(--control-h-pill)] shrink-0 items-center rounded-full px-3.5 text-[length:var(--text-meta)] transition-colors ${
                             active
                               ? "bg-[var(--fg-rose)] text-[var(--fg-rose-fg)] shadow-[var(--fg-cta-glow)]"
                               : "bg-[var(--raised)] text-ink-11 shadow-[var(--shadow-toggle)] hover:text-ink-12"
@@ -644,8 +660,8 @@ export function CustomGiftBuilder({
                     })}
                   </div>
 
-                  {components.length > 8 ? (
-                    <div className="relative sm:w-56">
+                  {showComponentSearch ? (
+                    <div className="relative sm:max-w-xs">
                       <SearchRoundedIcon
                         className="pointer-events-none absolute top-1/2 left-3 -translate-y-1/2 text-ink-10"
                         style={{ fontSize: 15 }}

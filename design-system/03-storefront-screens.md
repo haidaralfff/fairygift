@@ -63,7 +63,7 @@ Seluruh halaman pelanggan dapat diakses **tanpa login** (PRD §4.1 & §12.2 gues
 - **Pilihan Desain Kemasan:** *Choice Tiles* 2 kolom untuk varian desain/pita yang tersedia.
 
 ### Tahap 2. Pemilihan isi hadiah (Multi-Select)
-- **Pencarian & Filter:** Filter kategori komponen (`Semua`, `Bunga`, `Cokelat`, `Boneka`, `Parfum`, `Tumbler`) + input pencarian cepat bila komponen berjumlah `> 8` agar terhindar dari *wall of options*, disertai jumlah terpilih (`"3 dipilih"`).
+- **Pencarian & Filter:** Filter kategori komponen dinamis (hanya kategori yang memiliki item) + input pencarian cepat bila komponen berjumlah `>= 15` agar terhindar dari *wall of options*, disertai jumlah terpilih (`"3 dipilih"`).
 - Grid 2 kolom (1 kolom phone) *Choice Tile* dengan gambar mini `40×40px` (`0.5px` frame), nama komponen, harga satuan (`+Rp35.000`, `tabular-nums`), dan checkbox kotak `--radius-sm`.
 - Hanya komponen dengan `is_available = true` (dan stok tersedia) yang ditampilkan. Minimal `1` komponen dipilih sebelum lanjut ke Tahap 3.
 
